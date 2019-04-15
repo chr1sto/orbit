@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Orbit.Application\Orbit.Application.csproj" />
+    <ProjectReference Include="..\Orbit.Domain\Orbit.Domain.csproj" />
+    <ProjectReference Include="..\Orbit.Infra.CrossCutting.Bus\Orbit.Infra.CrossCutting.Bus.csproj" />
+    <ProjectReference Include="..\Orbit.Infra.CrossCutting.Identity\Orbit.Infra.CrossCutting.Identity.csproj" />
+    <ProjectReference Include="..\Orbit.Infra.Persistence\Orbit.Infra.Persistence.csproj" />
+  </ItemGroup>
+
+</Project>
