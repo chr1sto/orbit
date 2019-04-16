@@ -45,7 +45,7 @@ namespace Orbit.Application.Services
         public IEnumerable<ServiceStatusViewModel> GetRecent()
         {
             var serviceStates = from r in _repository.GetAll() group r by r.Service into g select g.OrderByDescending(e => e.TimeStamp).FirstOrDefault();
-            var serviceStatusViewModels = serviceStates.ProjectTo<ServiceStatusViewModel>();
+            var serviceStatusViewModels = _mapper.ProjectTo<ServiceStatusViewModel>(serviceStates);
             return serviceStatusViewModels.AsEnumerable();
         }
 
