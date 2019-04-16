@@ -18,6 +18,7 @@ namespace Orbit.Infra.Persistence.Context
 
         public DbSet<NewsPost> NewsPosts { get; set; }
         public DbSet<GameAccount> GameAccounts { get; set; }
+        public DbSet<ServiceStatus> ServiceStates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

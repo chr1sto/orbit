@@ -17,6 +17,10 @@ using Orbit.Domain.News.CommandHandlers;
 using Orbit.Domain.News.Commands;
 using Orbit.Domain.News.EventHandlers;
 using Orbit.Domain.News.Events;
+using Orbit.Domain.ServiceStatus.CommandHandlers;
+using Orbit.Domain.ServiceStatus.Commands;
+using Orbit.Domain.ServiceStatus.EventHandlers;
+using Orbit.Domain.ServiceStatus.Events;
 using Orbit.Infra.CrossCutting.Bus;
 using Orbit.Infra.CrossCutting.Identity.Authorization;
 using Orbit.Infra.CrossCutting.Identity.Models;
@@ -48,6 +52,7 @@ namespace Orbit.Infra.CrossCutting.IoC
             services.AddScoped<INewsAppService, NewsAppService>();
             services.AddScoped<IGameAccountAppService, GameAccountAppService>();
             services.AddScoped<IGameEventAppService, GameEventAppService>();
+            services.AddScoped<IServiceStatusAppService, ServiceStatusAppService>();
 
             // Domain - Events
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
@@ -56,6 +61,9 @@ namespace Orbit.Infra.CrossCutting.IoC
             services.AddScoped<INotificationHandler<NewsPostRemovedEvent>, NewsPostEventHandler>();
             services.AddScoped<INotificationHandler<GameAccountCreatedEvent>, GameAccountEventHandler>();
             services.AddScoped<INotificationHandler<GameAccountUpdatedEvent>, GameAccountEventHandler>();
+            services.AddScoped<INotificationHandler<ServiceStatusCreatedEvent>, ServiceStatusEventHandler>();
+            services.AddScoped<INotificationHandler<ServiceStatusUpdatedEvent>, ServiceStatusEventHandler>();
+            services.AddScoped<INotificationHandler<ServiceStatusRemovedEvent>, ServiceStatusEventHandler>();
 
             // Domain - Commands
             services.AddScoped<IRequestHandler<CreateNewsPostCommand, bool>, NewsPostCommandHandler>();
@@ -63,10 +71,14 @@ namespace Orbit.Infra.CrossCutting.IoC
             services.AddScoped<IRequestHandler<RemoveNewsPostCommand, bool>, NewsPostCommandHandler>();
             services.AddScoped<IRequestHandler<CreateGameAccountCommand, bool>, GameAccountCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateGameAccountCommand, bool>, GameAccountCommandHandler>();
+            services.AddScoped<IRequestHandler<CreateServiceStatusCommand, bool>, ServiceStatusCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateServiceStatusCommand, bool>, ServiceStatusCommandHandler>();
+            services.AddScoped<IRequestHandler<RemoveServiceStatusCommand, bool>, ServiceStatusCommandHandler>();
 
             // Infra - Data
             services.AddScoped<IRepository<NewsPost>,Repository<NewsPost>>();
             services.AddScoped<IRepository<Orbit.Domain.Game.Models.GameAccount>, Repository<Orbit.Domain.Game.Models.GameAccount>>();
+            services.AddScoped<IRepository<Orbit.Domain.Game.Models.ServiceStatus>, Repository<Orbit.Domain.Game.Models.ServiceStatus>>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<OrbitContext>();
 

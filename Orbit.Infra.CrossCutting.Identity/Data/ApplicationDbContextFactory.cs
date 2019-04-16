@@ -12,7 +12,7 @@ namespace Orbit.Infra.CrossCutting.Identity.Data
         {
             var h = new HostingEnvironment
             {
-                ContentRootPath = @"C:\Users\Christo\source\repos\Orbit\Orbit.Api"
+                ContentRootPath = @"C:\Projekte\orbit\Orbit.Api"
             };
             var x = new ApplicationDbContext(h);
             return x;

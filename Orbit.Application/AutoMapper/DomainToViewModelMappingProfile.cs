@@ -13,6 +13,7 @@ namespace Orbit.Application.AutoMapper
         {
             CreateMap<NewsPost, NewsPostViewModel>();
             CreateMap<Domain.Game.Models.GameAccount, GameAccountViewModel>();
+            CreateMap<Domain.Game.Models.ServiceStatus, ServiceStatusViewModel>();
         }
     }
 }
