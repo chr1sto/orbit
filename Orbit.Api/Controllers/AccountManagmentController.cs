@@ -75,6 +75,25 @@ namespace Orbit.Api.Controllers
             return Response("Verification Mail sent.");
         }
 
+        [HttpPost("verify-mail")]
+        public async Task<IActionResult> VerifyMail([FromQuery] string code)
+        {
+            var user = await GetCurrenUser();
+
+            if (user == null)
+            {
+                NotifyError("User not found", "Could not resolve current user.");
+                return Response();
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if(!result.Succeeded)
+            {
+                AddIdentityErrors(result);
+            }
+            return Response(true);
+        }
+
         [HttpPost("change-password")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordViewModel model)
         {
@@ -95,10 +114,7 @@ namespace Orbit.Api.Controllers
             var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
             if(!changePasswordResult.Succeeded)
             {
-                foreach(var item in changePasswordResult.Errors)
-                {
-                    NotifyError(item.Code,item.Description);
-                }
+                AddIdentityErrors(changePasswordResult);
             }
 
             return Response(model);
