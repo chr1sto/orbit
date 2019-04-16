@@ -21,6 +21,8 @@ using Orbit.Infra.CrossCutting.Bus;
 using Orbit.Infra.CrossCutting.Identity.Authorization;
 using Orbit.Infra.CrossCutting.Identity.Models;
 using Orbit.Infra.CrossCutting.Identity.Services;
+using Orbit.Infra.FileUpload.Interfaces;
+using Orbit.Infra.FileUpload.Services;
 using Orbit.Infra.Persistence.Context;
 using Orbit.Infra.Persistence.EventSourcing;
 using Orbit.Infra.Persistence.Repository;
@@ -78,6 +80,9 @@ namespace Orbit.Infra.CrossCutting.IoC
 
             // Infra - Identity
             services.AddScoped<IUser, AspNetUser>();
+
+            // Infra - FileUpload
+            services.AddSingleton<IFileUploadService, FileUploadService>();
         }
 
     }
