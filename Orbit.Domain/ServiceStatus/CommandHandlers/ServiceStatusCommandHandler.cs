@@ -34,7 +34,7 @@ namespace Orbit.Domain.ServiceStatus.CommandHandlers
                 return Task.FromResult(false);
             }
 
-            var serviceStatus = new Orbit.Domain.Game.Models.ServiceStatus(message.Id,message.State,message.TimeStamp,message.Service);
+            var serviceStatus = new Orbit.Domain.Game.Models.ServiceStatus(message.Id,message.State,DateTime.Now,message.Service);
 
             _repository.Add(serviceStatus);
 

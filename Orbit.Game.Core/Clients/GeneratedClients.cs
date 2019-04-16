@@ -1778,42 +1778,27 @@ namespace Orbit.Game.Core
 
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task ServiceStatusPostAsync(System.Guid? id, string service, System.DateTime? timeStamp, State? state)
+        public System.Threading.Tasks.Task ServiceStatusPostAsync(ServiceStatusViewModel model)
         {
-            return ServiceStatusPostAsync(id, service, timeStamp, state, System.Threading.CancellationToken.None);
+            return ServiceStatusPostAsync(model, System.Threading.CancellationToken.None);
         }
 
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task ServiceStatusPostAsync(System.Guid? id, string service, System.DateTime? timeStamp, State? state, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task ServiceStatusPostAsync(ServiceStatusViewModel model, System.Threading.CancellationToken cancellationToken)
         {
-            if (service == null)
-                throw new System.ArgumentNullException("service");
-
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/v1/service-status?");
-            if (id != null)
-            {
-                urlBuilder_.Append("Id=").Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Append("Service=").Append(System.Uri.EscapeDataString(ConvertToString(service, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            if (timeStamp != null)
-            {
-                urlBuilder_.Append("TimeStamp=").Append(System.Uri.EscapeDataString(timeStamp.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (state != null)
-            {
-                urlBuilder_.Append("State=").Append(System.Uri.EscapeDataString(ConvertToString(state, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/v1/service-status");
 
             var client_ = _httpClient;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(model, _settings.Value));
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -1927,42 +1912,27 @@ namespace Orbit.Game.Core
 
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task ServiceStatusPatchAsync(System.Guid? id, string service, System.DateTime? timeStamp, State2? state)
+        public System.Threading.Tasks.Task ServiceStatusPatchAsync(ServiceStatusViewModel model)
         {
-            return ServiceStatusPatchAsync(id, service, timeStamp, state, System.Threading.CancellationToken.None);
+            return ServiceStatusPatchAsync(model, System.Threading.CancellationToken.None);
         }
 
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task ServiceStatusPatchAsync(System.Guid? id, string service, System.DateTime? timeStamp, State2? state, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task ServiceStatusPatchAsync(ServiceStatusViewModel model, System.Threading.CancellationToken cancellationToken)
         {
-            if (service == null)
-                throw new System.ArgumentNullException("service");
-
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/v1/service-status?");
-            if (id != null)
-            {
-                urlBuilder_.Append("Id=").Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Append("Service=").Append(System.Uri.EscapeDataString(ConvertToString(service, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            if (timeStamp != null)
-            {
-                urlBuilder_.Append("TimeStamp=").Append(System.Uri.EscapeDataString(timeStamp.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (state != null)
-            {
-                urlBuilder_.Append("State=").Append(System.Uri.EscapeDataString(ConvertToString(state, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/v1/service-status");
 
             var client_ = _httpClient;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(model, _settings.Value));
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("PATCH");
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -2225,32 +2195,30 @@ namespace Orbit.Game.Core
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.13.28.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum State
+    public partial class ServiceStatusViewModel
     {
-        _0 = 0,
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid? Id { get; set; }
 
-        _1 = 1,
+        [Newtonsoft.Json.JsonProperty("service", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Service { get; set; }
 
-        _2 = 2,
+        [Newtonsoft.Json.JsonProperty("timeStamp", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTime? TimeStamp { get; set; }
 
-        _3 = 3,
+        [Newtonsoft.Json.JsonProperty("state", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? State { get; set; }
 
-        _4 = 4,
+        public string ToJson()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
 
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.13.28.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum State2
-    {
-        _0 = 0,
-
-        _1 = 1,
-
-        _2 = 2,
-
-        _3 = 3,
-
-        _4 = 4,
+        public static ServiceStatusViewModel FromJson(string data)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<ServiceStatusViewModel>(data);
+        }
 
     }
 

@@ -43,7 +43,10 @@ namespace Orbit.Game.Core.Services
         {
             var client = new ServiceStatusClient(_configuration["BASE_API_PATH"], _httpClient);
 
-            client.ServiceStatusPostAsync(null, "GameService", null, (State)EServiceState.Online);
+            client.ServiceStatusPostAsync(new ServiceStatusViewModel() {
+                Service = "GameService",
+                State = (int)EServiceState.Online
+            }).Wait();
 
             foreach(var monitorProcessInfo in _monitorProcessInfos)
             {
@@ -62,7 +65,10 @@ namespace Orbit.Game.Core.Services
                     }
                 }
 
-                client.ServiceStatusPostAsync(null, monitorProcessInfo.ServiceName, null, (State)state);
+                client.ServiceStatusPostAsync(new ServiceStatusViewModel() {
+                    Service = monitorProcessInfo.ServiceName,
+                    State = (int)state
+                }).Wait();
             }
         }
     }

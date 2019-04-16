@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Orbit.Application.ViewModels;
+using Orbit.Domain.Game.Enums;
 using Orbit.Domain.GameAccount.Commands;
 using Orbit.Domain.News.Commands;
 using Orbit.Domain.ServiceStatus.Commands;
@@ -51,9 +52,9 @@ namespace Orbit.Application.AutoMapper
 
             //ServiceStatus
             CreateMap<ServiceStatusViewModel, CreateServiceStatusCommand>()
-                .ConstructUsing(c => new CreateServiceStatusCommand(c.Service, c.State));
+                .ConstructUsing(c => new CreateServiceStatusCommand(c.Service, (EServiceState)c.State));
             CreateMap<ServiceStatusViewModel, UpdateServiceStatusCommand>()
-                .ConstructUsing(c => new UpdateServiceStatusCommand(c.Id,c.Service, c.State));
+                .ConstructUsing(c => new UpdateServiceStatusCommand(c.Id,c.Service, (EServiceState)c.State));
             CreateMap<ServiceStatusViewModel, RemoveServiceStatusCommand>()
                 .ConstructUsing(c => new RemoveServiceStatusCommand(c.Id));
         }

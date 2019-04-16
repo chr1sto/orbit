@@ -32,7 +32,7 @@ namespace Orbit.Api.Controllers
 
         [Authorize(Roles = "GameService")]
         [HttpPost]
-        public IActionResult Post(ServiceStatusViewModel model)
+        public IActionResult Post([FromBody]ServiceStatusViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -46,7 +46,7 @@ namespace Orbit.Api.Controllers
 
         [Authorize(Roles = "GameService")]
         [HttpPatch]
-        public IActionResult Patch(ServiceStatusViewModel model)
+        public IActionResult Patch([FromBody]ServiceStatusViewModel model)
         {
             if (!ModelState.IsValid)
             {
