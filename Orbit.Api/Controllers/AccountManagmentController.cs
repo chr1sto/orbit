@@ -15,9 +15,12 @@ using Orbit.Infra.CrossCutting.Identity.Models;
 using Orbit.Infra.CrossCutting.Identity.Extensions;
 using Orbit.Infra.CrossCutting.Identity.Services;
 using Orbit.Infra.CrossCutting.Identity.Models.ManageViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Orbit.Api.Controllers
 {
+    [Authorize]
     [Route("account-managment")]
     public class AccountManagmentController : ApiController
     {

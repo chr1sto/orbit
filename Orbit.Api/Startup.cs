@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Orbit.Infra.CrossCutting.Identity.Data;
 using Orbit.Infra.CrossCutting.Identity.Models;
 using MediatR;
@@ -59,6 +54,7 @@ namespace Orbit.Api
             services.AddMvc(options =>
             {
                 options.OutputFormatters.Remove(new XmlDataContractSerializerOutputFormatter());
+                options.UseCentralRoutePrefix(new RouteAttribute("api/v{version}"));
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -104,7 +100,7 @@ namespace Orbit.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -131,12 +127,29 @@ namespace Orbit.Api
             {
                 s.SwaggerEndpoint("/swagger/v1/swagger.json", "Orbit");
             });
+
+            EnsureRolesCreated(serviceProvider).Wait();
         }
 
         private static void RegisterServices(IServiceCollection services)
         {
             // Adding dependencies from another layers (isolated from Presentation)
             NativeInjectionBootstrapper.RegisterServices(services);
+        }
+
+        private async Task EnsureRolesCreated(IServiceProvider services)
+        {
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+            string[] roles = new string[] { "Developer", "Administrator", "Gamemaster", "User", "GameService" };
+            IdentityResult result;
+            foreach (var role in roles)
+            {
+                var roleExists = await roleManager.RoleExistsAsync(role);
+                if (!roleExists)
+                {
+                    result = await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Orbit.Application.Interfaces;
 using Orbit.Application.ViewModels;
@@ -15,6 +16,7 @@ using Orbit.Infra.Persistence.Repository.EventSourcing;
 namespace Orbit.Api.Controllers
 {
     [Route("game-account")]
+    [Authorize]
     public class GameAccountController : ApiController
     {
         private readonly IGameAccountAppService _gameAccountAppService;

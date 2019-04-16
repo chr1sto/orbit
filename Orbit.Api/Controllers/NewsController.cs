@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Orbit.Application.Interfaces;
 using Orbit.Application.ViewModels;
@@ -30,6 +31,7 @@ namespace Orbit.Api.Controllers
             return Response(result);
         }
 
+        [Authorize(Roles = "Administrator,Developer,Gamemaster")]
         [HttpPost("")]
         public IActionResult Post([FromBody]NewsPostViewModel newsViewModel)
         {
@@ -44,6 +46,7 @@ namespace Orbit.Api.Controllers
             return Response(newsViewModel);
         }
 
+        [Authorize(Roles = "Administrator,Developer,Gamemaster")]
         [HttpPatch("")]
         public IActionResult Patch([FromBody] NewsPostViewModel newsViewModel)
         {
@@ -58,6 +61,7 @@ namespace Orbit.Api.Controllers
             return Response(newsViewModel);
         }
 
+        [Authorize(Roles = "Administrator,Developer,Gamemaster")]
         [HttpDelete("")]
         public IActionResult Delete(Guid id)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Orbit.Api.Misc;
 using Orbit.Application.Interfaces;
@@ -12,6 +13,7 @@ using Orbit.Domain.Core.Notifications;
 
 namespace Orbit.Api.Controllers
 {
+    [Authorize(Roles = "Developer,GameService")]
     [Route("game-events")]
     public class GameEventController : ApiController
     {
