@@ -15,6 +15,7 @@
     <ProjectReference Include="..\Orbit.Domain\Orbit.Domain.csproj" />
     <ProjectReference Include="..\Orbit.Infra.CrossCutting.Bus\Orbit.Infra.CrossCutting.Bus.csproj" />
     <ProjectReference Include="..\Orbit.Infra.CrossCutting.Identity\Orbit.Infra.CrossCutting.Identity.csproj" />
+    <ProjectReference Include="..\Orbit.Infra.FileUpload\Orbit.Infra.FileUpload.csproj" />
     <ProjectReference Include="..\Orbit.Infra.Persistence\Orbit.Infra.Persistence.csproj" />
   </ItemGroup>
 

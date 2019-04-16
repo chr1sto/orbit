@@ -28,11 +28,15 @@ namespace Orbit.Infra.CrossCutting.Identity.Services
             .Build();
 
             _mailFrom = new MailAddress(config["IDENTITY_MAIL"]);
-            _smtpClient = new SmtpClient(config["IDENTITY_SMTP_SERVER"])
+            _smtpClient = new SmtpClient(config["IDENTITY_SMTP_HOST"],int.Parse(config["IDENTITY_SMTP_PORT"]))
             {
+#if DEBUG
+                UseDefaultCredentials = true
+#else
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(config["IDENTITY_SMTP_USER"], config["IDENTITY_SMTP_PASSWORD"])
-            };
+#endif
+        };
         }
 
         public Task SendEmailAsync(string email, string subject, string message)
