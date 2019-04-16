@@ -21,6 +21,7 @@ namespace Orbit.Api
 {
     public class Startup
     {
+        private const string VERSION = "1";
         public IConfiguration Configuration { get; }
 
         public Startup(IHostingEnvironment env)
@@ -48,13 +49,12 @@ namespace Orbit.Api
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                //TODO Jwt Bearer
                 .AddDefaultTokenProviders();
 
             services.AddMvc(options =>
             {
                 options.OutputFormatters.Remove(new XmlDataContractSerializerOutputFormatter());
-                options.UseCentralRoutePrefix(new RouteAttribute("api/v{version}"));
+                options.UseCentralRoutePrefix(new RouteAttribute($"api/v{VERSION}"));
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
