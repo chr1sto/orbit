@@ -42,7 +42,7 @@ namespace Orbit.Domain.ServiceStatus.CommandHandlers
             {
                 _bus.RaiseEvent(new ServiceStatusCreatedEvent(serviceStatus.Id,serviceStatus.State,serviceStatus.TimeStamp,serviceStatus.Service));
             }
-            Task.FromResult(true);
+            return Task.FromResult(true);
         }
 
         public Task<bool> Handle(UpdateServiceStatusCommand message, CancellationToken cancellationToken)

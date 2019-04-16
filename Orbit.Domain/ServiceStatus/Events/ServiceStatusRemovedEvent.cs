@@ -1,4 +1,5 @@
 ﻿using Orbit.Domain.Core.Events;
+using Orbit.Domain.Game.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,12 +8,12 @@ namespace Orbit.Domain.ServiceStatus.Events
 {
     public class ServiceStatusRemovedEvent : Event
     {
-        public ServiceStatusRemovedEvent(Guid id, Guid userID, string account, string alias)
+        public ServiceStatusRemovedEvent(Guid id, EServiceState state, DateTime timeStamp, string service)
         {
             Id = id;
-            UserID = userID;
-            Account = account;
-            Alias = alias;
+            State = state;
+            TimeStamp = timeStamp;
+            Service = service;
         }
 
         public Guid Id { get; set; }

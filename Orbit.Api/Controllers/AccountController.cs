@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Orbit.Api.Misc;
 using Orbit.Domain.Core.Bus;
 using Orbit.Domain.Core.Notifications;
 using Orbit.Infra.CrossCutting.Identity.Models;
@@ -41,6 +42,8 @@ namespace Orbit.Api.Controllers
             _configuration = configuration;
         }
 
+        [ProducesResponseType(typeof(ApiResult), 200)]
+        [ProducesResponseType(typeof(ApiResult), 400)]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginViewModel loginViewModel)
         {
