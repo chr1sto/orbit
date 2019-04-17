@@ -13,7 +13,7 @@ using Orbit.Domain.Core.Notifications;
 
 namespace Orbit.Api.Controllers
 {
-    [Authorize(Roles = "Developer,GameService")]
+    [Authorize(Roles = "Developer,GameService,Administrator")]
     [Route("game-events")]
     public class GameEventController : ApiController
     {

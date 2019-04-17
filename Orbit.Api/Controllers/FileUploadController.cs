@@ -64,6 +64,7 @@ namespace Orbit.Api.Controllers
             return Response(id);
         }
 
+        /*
         [ProducesResponseType(typeof(ApiResult<object>), 200)]
         [ProducesResponseType(typeof(ApiResult<object>), 400)]
         [HttpDelete("")]
@@ -76,5 +77,6 @@ namespace Orbit.Api.Controllers
             }
             return Response<object>(null);
         }
+        */
     }
 }

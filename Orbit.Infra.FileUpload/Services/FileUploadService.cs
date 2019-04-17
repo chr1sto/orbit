@@ -127,7 +127,7 @@ namespace Orbit.Infra.FileUpload.Services
 
         private bool IsTypeValid(string type)
         {
-            return _supportedFileTypes.Contains(type);
+            return _supportedFileTypes.Contains(type.ToLower());
         }
     }
 }

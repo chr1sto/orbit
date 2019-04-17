@@ -16,6 +16,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.FileProviders;
 
 namespace Orbit.Api
 {
@@ -126,6 +127,16 @@ namespace Orbit.Api
             app.UseSwaggerUI(s =>
             {
                 s.SwaggerEndpoint("/swagger/v1/swagger.json", "Orbit");
+            });
+
+            app.MapWhen(r => !r.Request.Path.Value.StartsWith("/swagger") && !r.Request.Path.Value.StartsWith("/api"), b =>
+            {
+                b.UseStaticFiles(new StaticFileOptions
+                {
+                    FileProvider = new PhysicalFileProvider(Configuration["FILE_UPLOAD_ROOT_PATH"]),
+                    RequestPath = new Microsoft.AspNetCore.Http.PathString("/static")
+                }
+                );
             });
 
             EnsureRolesCreated(serviceProvider).Wait();

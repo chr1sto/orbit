@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Orbit.Api.Misc;
 using Orbit.Application.Interfaces;
 using Orbit.Application.ViewModels;
 using Orbit.Domain.Core.Bus;
@@ -23,7 +24,7 @@ namespace Orbit.Api.Controllers
             _serviceStatusAppService = serviceStatusAppService;
         }
 
-        [ProducesResponseType(typeof(IEnumerable<ServiceStatusViewModel>), 200)]
+        [ProducesResponseType(typeof(ApiResult<IEnumerable<ServiceStatusViewModel>>), 200)]
         [Authorize(Roles = "Administrator,Gamemaster,Developer,GameService")]
         [HttpGet("recent-hidden")]
         public IActionResult GetRecent()
@@ -31,8 +32,8 @@ namespace Orbit.Api.Controllers
             return Response(_serviceStatusAppService.GetRecent());
         }
 
-        [ProducesResponseType(typeof(ServiceStatusViewModel), 200)]
-        [ProducesResponseType(typeof(ServiceStatusViewModel), 400)]
+        [ProducesResponseType(typeof(ApiResult<ServiceStatusViewModel>), 200)]
+        [ProducesResponseType(typeof(ApiResult<ServiceStatusViewModel>), 400)]
         [Authorize(Roles = "GameService")]
         [HttpPost]
         public IActionResult Post([FromBody]ServiceStatusViewModel model)
@@ -47,8 +48,8 @@ namespace Orbit.Api.Controllers
             return Response(model);
         }
 
-        [ProducesResponseType(typeof(ServiceStatusViewModel), 200)]
-        [ProducesResponseType(typeof(ServiceStatusViewModel), 400)]
+        [ProducesResponseType(typeof(ApiResult<ServiceStatusViewModel>), 200)]
+        [ProducesResponseType(typeof(ApiResult<ServiceStatusViewModel>), 400)]
         [Authorize(Roles = "GameService")]
         [HttpPatch]
         public IActionResult Patch([FromBody]ServiceStatusViewModel model)
