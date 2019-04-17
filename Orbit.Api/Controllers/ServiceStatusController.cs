@@ -23,6 +23,7 @@ namespace Orbit.Api.Controllers
             _serviceStatusAppService = serviceStatusAppService;
         }
 
+        [ProducesResponseType(typeof(IEnumerable<ServiceStatusViewModel>), 200)]
         [Authorize(Roles = "Administrator,Gamemaster,Developer,GameService")]
         [HttpGet("recent-hidden")]
         public IActionResult GetRecent()
@@ -30,6 +31,8 @@ namespace Orbit.Api.Controllers
             return Response(_serviceStatusAppService.GetRecent());
         }
 
+        [ProducesResponseType(typeof(ServiceStatusViewModel), 200)]
+        [ProducesResponseType(typeof(ServiceStatusViewModel), 400)]
         [Authorize(Roles = "GameService")]
         [HttpPost]
         public IActionResult Post([FromBody]ServiceStatusViewModel model)
@@ -44,6 +47,8 @@ namespace Orbit.Api.Controllers
             return Response(model);
         }
 
+        [ProducesResponseType(typeof(ServiceStatusViewModel), 200)]
+        [ProducesResponseType(typeof(ServiceStatusViewModel), 400)]
         [Authorize(Roles = "GameService")]
         [HttpPatch]
         public IActionResult Patch([FromBody]ServiceStatusViewModel model)
@@ -58,6 +63,7 @@ namespace Orbit.Api.Controllers
             return Response(model);
         }
 
+        [ProducesResponseType(typeof(Guid), 200)]
         [Authorize(Roles = "GameService")]
         [HttpDelete]
         public IActionResult Delete(Guid id)

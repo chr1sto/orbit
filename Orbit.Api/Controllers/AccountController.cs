@@ -42,8 +42,8 @@ namespace Orbit.Api.Controllers
             _configuration = configuration;
         }
 
-        [ProducesResponseType(typeof(ApiResult), 200)]
-        [ProducesResponseType(typeof(ApiResult), 400)]
+        [ProducesResponseType(typeof(ApiResult<string>), 200)]
+        [ProducesResponseType(typeof(ApiResult<LoginViewModel>), 400)]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginViewModel loginViewModel)
         {
@@ -66,6 +66,8 @@ namespace Orbit.Api.Controllers
             return await GetJwtToken(user);
         }
 
+        [ProducesResponseType(typeof(ApiResult<RegisterViewModel>), 200)]
+        [ProducesResponseType(typeof(ApiResult<RegisterViewModel>), 400)]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterViewModel registerViewModel)
         {

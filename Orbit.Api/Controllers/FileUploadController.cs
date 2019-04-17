@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Orbit.Api.Misc;
 using Orbit.Domain.Core.Bus;
 using Orbit.Domain.Core.Notifications;
 using Orbit.Infra.FileUpload.Interfaces;
@@ -23,6 +24,8 @@ namespace Orbit.Api.Controllers
             _fileUploadService = fileUploadService;
         }
 
+        [ProducesResponseType(typeof(ApiResult<IEnumerable<string>>), 200)]
+        [ProducesResponseType(typeof(ApiResult<IEnumerable<string>>), 400)]
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
@@ -34,6 +37,8 @@ namespace Orbit.Api.Controllers
             return Response(result);
         }
 
+        [ProducesResponseType(typeof(ApiResult<IFormFile>), 200)]
+        [ProducesResponseType(typeof(ApiResult<IFormFile>), 400)]
         [HttpPost("")]
         public async Task<IActionResult> Post([FromForm] IFormFile files)
         {
@@ -43,9 +48,11 @@ namespace Orbit.Api.Controllers
             {
                 NotifyError("", "Could not upload File. For more information see Server logs.");
             }
-            return Response(result);
+            return Response(file);
         }
 
+        [ProducesResponseType(typeof(ApiResult<string>), 200)]
+        [ProducesResponseType(typeof(ApiResult<string>), 400)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
@@ -57,6 +64,8 @@ namespace Orbit.Api.Controllers
             return Response(id);
         }
 
+        [ProducesResponseType(typeof(ApiResult<object>), 200)]
+        [ProducesResponseType(typeof(ApiResult<object>), 400)]
         [HttpDelete("")]
         public async Task<IActionResult> DeleteAll()
         {
@@ -65,7 +74,7 @@ namespace Orbit.Api.Controllers
             {
                 NotifyError("", "Could not delete all Files. For more information see Server logs.");
             }
-            return Response(result);
+            return Response<object>(null);
         }
     }
 }

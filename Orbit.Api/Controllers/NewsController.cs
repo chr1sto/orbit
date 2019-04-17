@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace Orbit.Api.Controllers
 {
@@ -22,6 +23,7 @@ namespace Orbit.Api.Controllers
             _newsAppService = newsAppService;
         }
 
+        [ProducesResponseType(typeof(IPagedList<NewsPostViewModel>), 200)]
         [HttpGet("")]
         public IActionResult Get()
         {
@@ -31,6 +33,8 @@ namespace Orbit.Api.Controllers
             return Response(result);
         }
 
+        [ProducesResponseType(typeof(IPagedList<NewsPostViewModel>), 200)]
+        [ProducesResponseType(typeof(IPagedList<NewsPostViewModel>), 400)]
         [Authorize(Roles = "Administrator,Developer,Gamemaster")]
         [HttpPost("")]
         public IActionResult Post([FromBody]NewsPostViewModel newsViewModel)
@@ -46,6 +50,8 @@ namespace Orbit.Api.Controllers
             return Response(newsViewModel);
         }
 
+        [ProducesResponseType(typeof(IPagedList<NewsPostViewModel>), 200)]
+        [ProducesResponseType(typeof(IPagedList<NewsPostViewModel>), 400)]
         [Authorize(Roles = "Administrator,Developer,Gamemaster")]
         [HttpPatch("")]
         public IActionResult Patch([FromBody] NewsPostViewModel newsViewModel)
@@ -61,13 +67,15 @@ namespace Orbit.Api.Controllers
             return Response(newsViewModel);
         }
 
+        [ProducesResponseType(typeof(IPagedList<NewsPostViewModel>), 200)]
+        [ProducesResponseType(typeof(IPagedList<NewsPostViewModel>), 400)]
         [Authorize(Roles = "Administrator,Developer,Gamemaster")]
         [HttpDelete("")]
         public IActionResult Delete(Guid id)
         {
             _newsAppService.Remove(id);
 
-            return Response();
+            return Response(id);
         }
     }
 }

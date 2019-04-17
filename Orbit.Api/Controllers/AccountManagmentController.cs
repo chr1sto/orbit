@@ -17,6 +17,7 @@ using Orbit.Infra.CrossCutting.Identity.Services;
 using Orbit.Infra.CrossCutting.Identity.Models.ManageViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
+using Orbit.Api.Misc;
 
 namespace Orbit.Api.Controllers
 {
@@ -57,6 +58,8 @@ namespace Orbit.Api.Controllers
             _emailVerificationCallbackUrl = config["EMAIL_VERIFICATION_CALLBACK_URL"];
         }
 
+        [ProducesResponseType(typeof(ApiResult<string>), 200)]
+        [ProducesResponseType(typeof(ApiResult<string>), 400)]
         [HttpPost("resend-verification-mail")]
         public async Task<IActionResult> ResendVerificationMail()
         {
@@ -65,7 +68,7 @@ namespace Orbit.Api.Controllers
             if(user == null)
             {
                 NotifyError("User not found", "Could not resolve current user.");
-                return Response();
+                return Response<object>(null);
             }
 
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -75,6 +78,8 @@ namespace Orbit.Api.Controllers
             return Response("Verification Mail sent.");
         }
 
+        [ProducesResponseType(typeof(ApiResult<string>), 200)]
+        [ProducesResponseType(typeof(ApiResult<string>), 400)]
         [HttpPost("verify-mail")]
         public async Task<IActionResult> VerifyMail([FromQuery] string code)
         {
@@ -83,7 +88,7 @@ namespace Orbit.Api.Controllers
             if (user == null)
             {
                 NotifyError("User not found", "Could not resolve current user.");
-                return Response();
+                return Response<object>(null);
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
@@ -91,9 +96,11 @@ namespace Orbit.Api.Controllers
             {
                 AddIdentityErrors(result);
             }
-            return Response(true);
+            return Response("Email verified");
         }
 
+        [ProducesResponseType(typeof(ApiResult<ChangePasswordViewModel>), 200)]
+        [ProducesResponseType(typeof(ApiResult<ChangePasswordViewModel>), 400)]
         [HttpPost("change-password")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordViewModel model)
         {

@@ -30,14 +30,24 @@ namespace Orbit.Api.Controllers
             return (!_notifications.HasNotifications());
         }
 
-        protected new IActionResult Response(object result = null)
+        protected new IActionResult Response<T>(in T result, bool b = false) where T : struct
         {
             if (IsValidOperation())
             {
-                return Ok(new ApiResult(result,true));
+                return Ok(new ApiResult<T>(result, true));
             }
 
-            return BadRequest(new ApiResult(null, false, _notifications.GetNotifications().Select(n => n.Value)));
+            return BadRequest(new ApiResult<T>(result, false, _notifications.GetNotifications().Select(n => n.Value)));
+        }
+
+        protected new IActionResult Response<T>(in T result = null) where T : class
+        {
+            if (IsValidOperation())
+            {
+                return Ok(new ApiResult<T>(result, true));
+            }
+
+            return BadRequest(new ApiResult<T>(result, false, _notifications.GetNotifications().Select(n => n.Value)));
         }
 
         protected void NotifyModelStateErrors()

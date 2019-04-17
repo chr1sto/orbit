@@ -25,13 +25,13 @@ namespace Orbit.Api.Controllers
         }
 
         [HttpGet("")]
-        [ProducesResponseType(typeof(ApiResult), 200)]
-        [ProducesResponseType(typeof(ApiResult), 400)]
+        [ProducesResponseType(typeof(ApiResult<object>), 200)]
         public IActionResult Get()
         {
             return Response(_gameEventAppService.GetUnhandled());
         }
 
+        [ProducesResponseType(typeof(ApiResult<Guid>), 200)]
         [HttpPatch("")]
         public IActionResult Patch([FromBody] Guid id)
         {
