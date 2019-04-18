@@ -46,9 +46,9 @@ namespace Orbit.Infra.Persistence.Repository
             DbSet.Remove(DbSet.Find(id));
         }
 
-        public async virtual Task<bool> Exists(Guid id)
+        public virtual bool Exists(Guid id)
         {
-            return await DbSet.AnyAsync(c => c.Id == id);
+            return DbSet.Any(c => c.Id == id);
         }
 
         public int SaveChanges()

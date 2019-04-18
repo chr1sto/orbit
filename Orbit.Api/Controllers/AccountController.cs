@@ -99,24 +99,25 @@ namespace Orbit.Api.Controllers
             return Response(registerViewModel);
         }
 
-        [ProducesResponseType(typeof(ApiResult<PagedResultData<IPagedList<ApplicationUser>>>), 200)]
-        [ProducesResponseType(typeof(ApiResult<PagedResultData<IPagedList<ApplicationUser>>>), 400)]
+        [ProducesResponseType(typeof(ApiResult<PagedResultData<IEnumerable<ApplicationUser>>>), 200)]
+        [ProducesResponseType(typeof(ApiResult<PagedResultData<IEnumerable<ApplicationUser>>>), 400)]
         [Authorize(Roles="Administrator,Gamemaster,Developer")]
         [HttpGet("")]
-        public async Task<IActionResult> GetAll([FromQuery] int index, [FromQuery] int count, [FromQuery] string searchText)
+        public async Task<IActionResult> GetAll([FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] string searchText = "")
         {
             IList<ApplicationUser> users;
-            if(string.IsNullOrWhiteSpace(searchText))
+            int recCount = 0;
+            if (string.IsNullOrWhiteSpace(searchText))
             {
-                users = await _userManager.Users.ToListAsync();
+                users = await _userManager.Users.OrderBy(o => o.Email).Skip(index * count).Take(count).ToListAsync();
+                recCount = _userManager.Users.Count();
             }
             else
             {
-                users = await _userManager.Users.Where(u => u.Email.Contains(searchText)).ToListAsync();
+                users = await _userManager.Users.Where(u => u.Email.Contains(searchText)).OrderBy(o => o.Email).Skip(index * count).Take(count).ToListAsync();
+                recCount = _userManager.Users.Where(u => u.Email.Contains(searchText)).Count();
             }
-            int recCount = users.Count();
-            var usersPaged = new StaticPagedList<ApplicationUser>(users, index + 1, count, recCount);
-            var pagedApiResult = new PagedResultData<IPagedList<ApplicationUser>>(usersPaged, recCount, index, count);
+            var pagedApiResult = new PagedResultData<IEnumerable<ApplicationUser>>(users, recCount, index, count);
             return Response(pagedApiResult);
         }
 

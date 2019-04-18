@@ -24,24 +24,25 @@ namespace Orbit.Api.Controllers
             _newsAppService = newsAppService;
         }
 
-        [ProducesResponseType(typeof(ApiResult<PagedResultData<IPagedList<NewsPostViewModel>>>), 200)]
+        [ProducesResponseType(typeof(ApiResult<PagedResultData<IEnumerable<NewsPostViewModel>>>), 200)]
         [Authorize(Roles = "Administrator,Gamemaster,Developer")]
         [HttpGet("unpublished")]
         public IActionResult GetAll([FromQuery] int index = 0,[FromQuery] int count = 10)
         {
             var result = _newsAppService.GetAll(false, out int recCount, index, count);
-            var pagedResultData = new PagedResultData<IPagedList<NewsPostViewModel>>(result, recCount, index, count);
+            var pagedResultData = new PagedResultData<IEnumerable<NewsPostViewModel>>(result, recCount, index, count);
             return Response(pagedResultData);
         }
 
-        [ProducesResponseType(typeof(ApiResult<PagedResultData<IPagedList<NewsPostViewModel>>>), 200)]
+        [ProducesResponseType(typeof(ApiResult<PagedResultData<IEnumerable<NewsPostViewModel>>>), 200)]
         [HttpGet("")]
         public IActionResult Get([FromQuery] int index = 0, [FromQuery] int count = 10)
         {
             //TODO: Async
             //TODO: Send paging info
-            var result = _newsAppService.GetAll(true, out int recCount);
-            var pagedResultData = new PagedResultData<IPagedList<NewsPostViewModel>>(result, recCount, index, count);
+            var result = _newsAppService.GetAll(true, out int recCount,index,count);
+            var pagedResultData = new PagedResultData<IEnumerable<NewsPostViewModel>>(result, recCount, index, count);
+
             return Response(pagedResultData);
         }
 

@@ -14,6 +14,6 @@ namespace Orbit.Domain.Core.Interfaces
         void Update(TEntity obj);
         void Remove(Guid id);
         int SaveChanges();
-        Task<bool> Exists(Guid id);
+        bool Exists(Guid id);
     }
 }

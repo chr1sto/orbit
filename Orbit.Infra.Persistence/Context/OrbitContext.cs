@@ -4,16 +4,24 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore.Design;
 using Orbit.Domain.News;
 using Orbit.Domain.Game.Models;
+using Microsoft.Extensions.Logging;
 
 namespace Orbit.Infra.Persistence.Context
 {
     public class OrbitContext : DbContext
     {
         private readonly IHostingEnvironment _env;
+        private readonly ILoggerFactory _loggerFactory;
 
         public OrbitContext(IHostingEnvironment env)
         {
             _env = env;
+        }
+
+        public OrbitContext(IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
+            _env = env;
+            _loggerFactory = loggerFactory;
         }
 
         public DbSet<NewsPost> NewsPosts { get; set; }
@@ -33,6 +41,10 @@ namespace Orbit.Infra.Persistence.Context
                 .Build();
 
             optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+            if(_loggerFactory != null)
+            {
+                optionsBuilder.UseLoggerFactory(_loggerFactory);
+            }
         }
     }
 }

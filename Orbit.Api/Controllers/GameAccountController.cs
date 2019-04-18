@@ -48,6 +48,14 @@ namespace Orbit.Api.Controllers
             return Response(gameAccountViewModel);
         }
 
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ApiResult<IPagedList<GameAccountViewModel>>), 200)]
+        public IActionResult GetUserGameAccounts(Guid id)
+        {
+            var gameAccounts = _gameAccountAppService.GetAll(id, true, out int recCount);
+            return Response(gameAccounts);
+        }
+
         [ProducesResponseType(typeof(ApiResult<GameAccountViewModel>), 200)]
         [ProducesResponseType(typeof(ApiResult<GameAccountViewModel>), 400)]
         [HttpPatch("")]

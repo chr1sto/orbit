@@ -66,14 +66,16 @@ namespace Orbit.Application.Services
             GC.SuppressFinalize(this);
         }
 
-        public IPagedList<NewsPostViewModel> GetAll(bool @public, out int recordCount, int pageIndex = 0, int recordsPerPage = 10)
+        public IEnumerable<NewsPostViewModel> GetAll(bool @public, out int recordCount, int pageIndex = 0, int recordsPerPage = 10)
         {
-            var newsPosts = _repository.GetAll().Where(e => e.Public == @public).OrderBy(o => o.CreatedOn);
-            var newsPostViewModels = _mapper.ProjectTo<NewsPostViewModel>(newsPosts);
-            recordCount = newsPostViewModels.Count();
-            var newsPostsPaged = new StaticPagedList<NewsPostViewModel>(newsPostViewModels, pageIndex + 1, recordsPerPage, recordCount);
-            return newsPostsPaged;
-            //TODO Implement Queries with MediatR
+            var query = _repository.GetAll();
+            recordCount = query.Where(e => e.Public == @public).Count();
+
+            var newsPostViewModels = query.Where(e => e.Public == @public)
+                .OrderBy(o => o.CreatedOn)
+                .Skip(pageIndex * recordsPerPage)
+                .Take(recordsPerPage);
+            return _mapper.ProjectTo<NewsPostViewModel>(newsPostViewModels).AsEnumerable();
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Orbit.Application.Interfaces;
 using Orbit.Application.Services;
 using Orbit.Domain.Core.Bus;

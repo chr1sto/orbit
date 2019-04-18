@@ -13,7 +13,7 @@ namespace Orbit.Application.Interfaces
         void Create(NewsPostViewModel model);
         void Update(NewsPostViewModel model);
         void Remove(Guid id);
-        IPagedList<NewsPostViewModel> GetAll(bool @public,out int recordCount, int pageIndex = 0, int recordsPerPage = 10);
+        IEnumerable<NewsPostViewModel> GetAll(bool @public,out int recordCount, int pageIndex = 0, int recordsPerPage = 10);
         NewsPostViewModel GetSingle(Guid id);
     }
 }

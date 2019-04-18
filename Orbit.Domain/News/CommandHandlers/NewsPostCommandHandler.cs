@@ -74,7 +74,7 @@ namespace Orbit.Domain.News.CommandHandlers
                 return false;
             }
 
-            var exists = await _repository.Exists(message.Id);
+            var exists =_repository.Exists(message.Id);
 
             if(!exists)
             {
