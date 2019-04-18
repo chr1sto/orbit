@@ -49,6 +49,18 @@ namespace Orbit.Application.Services
             _bus.SendCommand(updateCommand);
         }
 
+        public NewsPostViewModel GetSingle(Guid id)
+        {
+            var newsPost = _repository.GetById(id);
+            if(newsPost == null)
+            {
+                return null;
+            }
+
+            var newsPostViewModel = _mapper.Map<NewsPostViewModel>(newsPost);
+            return newsPostViewModel;
+        }
+
         public void Dispose()
         {
             GC.SuppressFinalize(this);

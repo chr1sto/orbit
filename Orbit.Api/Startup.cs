@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.FileProviders;
+using System.Linq;
 
 namespace Orbit.Api
 {
@@ -89,11 +90,15 @@ namespace Orbit.Api
             //Todo: Policies
             services.AddAuthorization();
 
-            services.AddSwaggerGen(s => s.SwaggerDoc("v1", new Info
+            services.AddSwaggerGen(s =>
             {
-                Version = "v1",
-                Title = "Orbit"
-            }));
+                s.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "Orbit"
+                });
+            }
+            );
 
             services.AddMediatR(typeof(Startup));
 

@@ -1,14 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Orbit.Domain.Core.Interfaces;
+using Orbit.Domain.Core.Models;
 using Orbit.Infra.Persistence.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Orbit.Infra.Persistence.Repository
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
     {
         protected readonly OrbitContext Db;
         protected readonly DbSet<TEntity> DbSet;
@@ -42,6 +44,11 @@ namespace Orbit.Infra.Persistence.Repository
         public virtual void Remove(Guid id)
         {
             DbSet.Remove(DbSet.Find(id));
+        }
+
+        public async virtual Task<bool> Exists(Guid id)
+        {
+            return await DbSet.AnyAsync(c => c.Id == id);
         }
 
         public int SaveChanges()

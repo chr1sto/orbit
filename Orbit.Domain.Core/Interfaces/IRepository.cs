@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Orbit.Domain.Core.Interfaces
 {
@@ -13,5 +14,6 @@ namespace Orbit.Domain.Core.Interfaces
         void Update(TEntity obj);
         void Remove(Guid id);
         int SaveChanges();
+        Task<bool> Exists(Guid id);
     }
 }

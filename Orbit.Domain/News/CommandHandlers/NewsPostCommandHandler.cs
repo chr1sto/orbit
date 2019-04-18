@@ -66,20 +66,19 @@ namespace Orbit.Domain.News.CommandHandlers
             return Task.FromResult(true);
         }
 
-        public Task<bool> Handle(UpdateNewsPostCommand message, CancellationToken cancellationToken)
+        public async Task<bool> Handle(UpdateNewsPostCommand message, CancellationToken cancellationToken)
         {
             if(!message.IsValid())
             {
                 NotifyValidationErrors(message);
-                return Task.FromResult(false);
+                return false;
             }
 
-            var existingNewsPost = _repository.GetById(message.Id);
+            var exists = await _repository.Exists(message.Id);
 
-            if (existingNewsPost == null)
+            if(!exists)
             {
-                _bus.RaiseEvent(new DomainNotification(message.MessageType, "The corresponding NewsPost does not exist anymore!"));
-                return Task.FromResult(false);
+                return false;
             }
 
             var newsPost = new NewsPost(
@@ -91,7 +90,7 @@ namespace Orbit.Domain.News.CommandHandlers
                             message.ImageUrlBanner,
                             message.ForumPostUrl,
                             message.Public,
-                            existingNewsPost.CreatedOn,
+                            DateTime.Now,
                             message.UserId,
                             message.Tags
                         );
@@ -100,7 +99,7 @@ namespace Orbit.Domain.News.CommandHandlers
 
             if(Commit())
             {
-                _bus.RaiseEvent(new NewsPostUpdatedEvent(
+                await _bus.RaiseEvent(new NewsPostUpdatedEvent(
                         newsPost.Id,
                         newsPost.Caption,
                         newsPost.Content,
@@ -113,7 +112,7 @@ namespace Orbit.Domain.News.CommandHandlers
                     ));
             }
 
-            return Task.FromResult(true);
+            return true;
         }
 
         public Task<bool> Handle(RemoveNewsPostCommand message, CancellationToken cancellationToken)

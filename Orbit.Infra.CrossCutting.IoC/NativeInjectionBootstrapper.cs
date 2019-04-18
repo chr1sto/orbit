@@ -39,6 +39,8 @@ namespace Orbit.Infra.CrossCutting.IoC
     {
         public static void RegisterServices(IServiceCollection services)
         {
+            services.AddDbContext<OrbitContext>();
+
             // ASP.NET HttpContext dependency
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -80,7 +82,6 @@ namespace Orbit.Infra.CrossCutting.IoC
             services.AddScoped<IRepository<Orbit.Domain.Game.Models.GameAccount>, Repository<Orbit.Domain.Game.Models.GameAccount>>();
             services.AddScoped<IRepository<Orbit.Domain.Game.Models.ServiceStatus>, Repository<Orbit.Domain.Game.Models.ServiceStatus>>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<OrbitContext>();
 
             // Infra - Data EventSourcing
             services.AddScoped<IEventStoreRepository, EventStoreRepository>();
