@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,7 @@ using Orbit.Domain.Core.Bus;
 using Orbit.Domain.Core.Notifications;
 using Orbit.Infra.CrossCutting.Identity.Models;
 using Orbit.Infra.CrossCutting.Identity.Models.AccountViewModels;
+using X.PagedList;
 
 namespace Orbit.Api.Controllers
 {
@@ -95,6 +97,37 @@ namespace Orbit.Api.Controllers
 
             AddIdentityErrors(result);
             return Response(registerViewModel);
+        }
+
+        [ProducesResponseType(typeof(ApiResult<PagedResultData<IPagedList<ApplicationUser>>>), 200)]
+        [ProducesResponseType(typeof(ApiResult<PagedResultData<IPagedList<ApplicationUser>>>), 400)]
+        [Authorize(Roles="Administrator,Gamemaster,Developer")]
+        [HttpGet("")]
+        public async Task<IActionResult> GetAll([FromQuery] int index, [FromQuery] int count, [FromQuery] string searchText)
+        {
+            IList<ApplicationUser> users;
+            if(string.IsNullOrWhiteSpace(searchText))
+            {
+                users = await _userManager.Users.ToListAsync();
+            }
+            else
+            {
+                users = await _userManager.Users.Where(u => u.Email.Contains(searchText)).ToListAsync();
+            }
+            int recCount = users.Count();
+            var usersPaged = new StaticPagedList<ApplicationUser>(users, index + 1, count, recCount);
+            var pagedApiResult = new PagedResultData<IPagedList<ApplicationUser>>(usersPaged, recCount, index, count);
+            return Response(pagedApiResult);
+        }
+
+        [ProducesResponseType(typeof(ApiResult<ApplicationUser>),200)]
+        [ProducesResponseType(typeof(ApiResult<ApplicationUser>), 400)]
+        [Authorize(Roles = "Administrator,Gamemaster,Developer")]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id)
+        {
+            var result = await _userManager.FindByIdAsync(id);
+            return Response(result);
         }
 
         private async Task<IActionResult> GetJwtToken(ApplicationUser user)
