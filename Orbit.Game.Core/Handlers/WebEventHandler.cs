@@ -4,6 +4,7 @@ using Orbit.Domain.Core.Events;
 using Orbit.Domain.Game.Events;
 using Orbit.Game.Core.Data;
 using Orbit.Game.Core.Interfaces;
+using Orbit.Game.Core.Misc;
 using Orbit.Game.Core.Services;
 using System;
 using System.Threading.Tasks;
@@ -44,21 +45,27 @@ namespace Orbit.Game.Core.Handlers
         private async void HandleEvent(StoredEvent @event)
         {
             bool handled = false;
-            switch(@event.MessageType)
-            {
-                case "GameAccountCreatedEvent":
-                    handled = await this.HandleGameAccountCreatedEvent(@event.Data);
-                    break;
-                default:
-                    _logger.LogWarning("Unrecognized Event Type \"{0}\" in queue",@event.MessageType);
-                    break;
-            }
 
-            if(handled)
+            EventWrapper data = JsonConvert.DeserializeObject<EventWrapper>(@event.Data);
+
+            if(data != null)
             {
-                if(@event.Id != null)
+                switch (data.MessageType)
                 {
-                    await _webEventService.SetHandled((Guid)@event.Id);
+                    case "GameAccountCreatedEvent":
+                        handled = await this.HandleGameAccountCreatedEvent(@event.Data);
+                        break;
+                    default:
+                        _logger.LogWarning("Unrecognized Event Type \"{0}\" in queue", @event.MessageType);
+                        break;
+                }
+
+                if (handled)
+                {
+                    if (@event.Id != null)
+                    {
+                        await _webEventService.SetHandled((Guid)@event.Id);
+                    }
                 }
             }
         }
@@ -66,7 +73,7 @@ namespace Orbit.Game.Core.Handlers
         private async Task<bool> HandleGameAccountCreatedEvent(string serializedData)
         {
             var deserializedData = JsonConvert.DeserializeObject<GameAccountCreatedEvent>(serializedData);
-            var result = await _gameAccountService.CreateAccount(deserializedData.Account);
+            var result = await _gameAccountService.CreateAccount(deserializedData.Account,deserializedData.UserID.ToString());
             return result;
         }
     }

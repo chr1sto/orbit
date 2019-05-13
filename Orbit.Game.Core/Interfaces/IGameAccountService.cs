@@ -9,7 +9,7 @@ namespace Orbit.Game.Core.Interfaces
     public interface IGameAccountService
     {
         Task<bool> BanAccount(string accountId);
-        Task<bool> CreateAccount(string accountId);
+        Task<bool> CreateAccount(string accountId, string userId);
         Task<bool> DeleteAccount(string accountId);
     }
 }

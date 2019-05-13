@@ -25,7 +25,7 @@ namespace Orbit.Api.Controllers
         }
 
         [HttpGet("")]
-        [ProducesResponseType(typeof(ApiResult<object>), 200)]
+        [ProducesResponseType(typeof(ApiResult<IList<StoredEvent>>), 200)]
         public IActionResult Get()
         {
             return Response(_gameEventAppService.GetUnhandled());

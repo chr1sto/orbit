@@ -17,5 +17,6 @@ namespace Orbit.Game.Core.Models
         public string OldPassword { get; set; }
         public string TempPassword { get; set; }
         public int Cash { get; set; }
+        public string UserId { get; set; }
     }
 }

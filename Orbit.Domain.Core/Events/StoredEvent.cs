@@ -17,11 +17,11 @@ namespace Orbit.Domain.Core.Events
         }
 
         // EF Constructor
-        protected StoredEvent() { }
+        public StoredEvent() { }
 
-        public Guid Id { get; private set; }
-        public string Data { get; private set; }
-        public string User { get; private set; }
+        public Guid Id { get; set; }
+        public string Data { get; set; }
+        public string User { get; set; }
         public bool Handled { get; set; }
         public DateTime HandledTimeStamp { get; set; }
     }

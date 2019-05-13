@@ -44,6 +44,9 @@ namespace Orbit.Game.Core.Mappings
             builder.Property(x => x.Cash)
                 .HasColumnType("int")
                 .HasColumnName("cash");
+            builder.Property(x => x.UserId)
+                .HasColumnType("nvarchar(36)")
+                .HasColumnName("userId");
             builder.ToTable("ACCOUNT_TBL");
             builder.HasKey(x => x.AccountId);
         }

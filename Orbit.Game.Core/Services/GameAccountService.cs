@@ -23,7 +23,7 @@ namespace Orbit.Game.Core.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> CreateAccount(string accountId)
+        public Task<bool> CreateAccount(string accountId, string userId)
         {
             var account = new Account()
             {
@@ -34,7 +34,8 @@ namespace Orbit.Game.Core.Services
                 IdNo1 = string.Empty,
                 IdNo2 = string.Empty,
                 RealName = char.MinValue,
-                Cash = 0
+                Cash = 0,
+                UserId = userId
             };
 
             var accountDetail = new AccountDetail()
