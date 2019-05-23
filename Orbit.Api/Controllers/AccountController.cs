@@ -59,11 +59,18 @@ namespace Orbit.Api.Controllers
             if(!result.Succeeded)
             {
                 NotifyError(result.ToString(), "Login failed");
+                return Response(loginViewModel);
             }
 
             _logger.LogInformation(1, "User logged in.");
 
             var user = await _userManager.FindByNameAsync(loginViewModel.Email);
+
+            if(user == null)
+            {
+                NotifyError("USER NOT FOUND", "USER NOT FOUND");
+                return Response(loginViewModel);
+            }
 
             return await GetJwtToken(user);
         }

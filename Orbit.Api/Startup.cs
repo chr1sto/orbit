@@ -114,14 +114,20 @@ namespace Orbit.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseCors(
-                    e => {
-                        e.AllowAnyHeader();
-                        e.AllowAnyMethod();
-                        e.AllowAnyOrigin();
-                    });
+                e => {
+                    e.AllowAnyHeader();
+                    e.AllowAnyMethod();
+                    e.AllowAnyOrigin();
+                });
             }
             else
             {
+                app.UseCors(
+                 e => {
+                     e.AllowAnyHeader();
+                     e.AllowAnyMethod();
+                     e.AllowAnyOrigin();
+                 });
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -130,11 +136,14 @@ namespace Orbit.Api
             app.UseAuthentication();
             app.UseMvc();
 
-            app.UseSwagger();
-            app.UseSwaggerUI(s =>
+            if(env.IsDevelopment())
             {
-                s.SwaggerEndpoint("/swagger/v1/swagger.json", "Orbit");
-            });
+                app.UseSwagger();
+                app.UseSwaggerUI(s =>
+                {
+                    s.SwaggerEndpoint("/swagger/v1/swagger.json", "Orbit");
+                });
+            }
 
             app.MapWhen(r => !r.Request.Path.Value.StartsWith("/swagger") && !r.Request.Path.Value.StartsWith("/api"), b =>
             {

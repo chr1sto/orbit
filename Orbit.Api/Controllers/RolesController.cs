@@ -51,6 +51,7 @@ namespace Orbit.Api.Controllers
                 return Response(rolesViewModel);
             }
 
+            /*
             bool rolesExist = true;
             for (int i = 0; i < rolesViewModel.Roles.Length; i++)
             {
@@ -61,15 +62,15 @@ namespace Orbit.Api.Controllers
                     return Response(rolesViewModel);
                 }
             }
+            */
 
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            var result = await _userManager.RemoveFromRolesAsync(user, userRoles);
-
-            if(!result.Succeeded)
+            IdentityResult result;
+            if (userRoles != null)
             {
-                AddIdentityErrors(result);
-            }
+                result = await _userManager.RemoveFromRolesAsync(user, userRoles);
+            }          
 
             result = await _userManager.AddToRolesAsync(user, rolesViewModel.Roles);
 
