@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Orbit.Application.ViewModels;
 using Orbit.Domain.Game.Enums;
+using Orbit.Domain.Generic;
 using Orbit.Domain.News;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,8 @@ namespace Orbit.Application.AutoMapper
             CreateMap<EServiceState, int>()
                 .ConstructUsing(e => (int)e);
             CreateMap<Domain.Game.Models.ServiceStatus, ServiceStatusViewModel>();
-                //.ConstructUsing(c => new ServiceStatusViewModel(c.Id, c.Service, c.TimeStamp, (int)c.State));
+            //.ConstructUsing(c => new ServiceStatusViewModel(c.Id, c.Service, c.TimeStamp, (int)c.State));
+            CreateMap<GenericObject, GenericObjectViewModel>();
         }
     }
 }

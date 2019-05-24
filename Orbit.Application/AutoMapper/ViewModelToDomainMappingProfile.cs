@@ -2,6 +2,7 @@
 using Orbit.Application.ViewModels;
 using Orbit.Domain.Game.Enums;
 using Orbit.Domain.GameAccount.Commands;
+using Orbit.Domain.Generic.Commands;
 using Orbit.Domain.News.Commands;
 using Orbit.Domain.ServiceStatus.Commands;
 using System;
@@ -57,6 +58,14 @@ namespace Orbit.Application.AutoMapper
                 .ConstructUsing(c => new UpdateServiceStatusCommand(c.Id,c.Service, (EServiceState)c.State));
             CreateMap<ServiceStatusViewModel, RemoveServiceStatusCommand>()
                 .ConstructUsing(c => new RemoveServiceStatusCommand(c.Id));
+
+            //GenericObject
+            CreateMap<GenericObjectViewModel, CreateGenericObjectCommand>()
+                .ConstructUsing(c => new CreateGenericObjectCommand(c.CreatedOn, c.Type, c.ValueType, c.Value, true));
+            CreateMap<GenericObjectViewModel, UpdateGenericObjectCommand>()
+                .ConstructUsing(c => new UpdateGenericObjectCommand(c.Id, c.CreatedOn, c.Type, c.ValueType, c.Value, true);
+            CreateMap<Guid, RemoveGenericObjectCommand>()
+                .ConstructUsing(c => new RemoveGenericObjectCommand(c));
         }
     }
 }
