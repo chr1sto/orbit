@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Orbit.Application.ViewModels;
 using Orbit.Domain.Game.Enums;
+using Orbit.Domain.GameCharacter;
 using Orbit.Domain.Generic;
 using Orbit.Domain.News;
+using Orbit.Domain.Statistics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,6 +24,8 @@ namespace Orbit.Application.AutoMapper
             CreateMap<Domain.Game.Models.ServiceStatus, ServiceStatusViewModel>();
             //.ConstructUsing(c => new ServiceStatusViewModel(c.Id, c.Service, c.TimeStamp, (int)c.State));
             CreateMap<GenericObject, GenericObjectViewModel>();
+            CreateMap<Character, CharacterAdminViewModel>();
+            CreateMap<StatisticsEntry, StatisticsEntryViewModel>();
         }
     }
 }

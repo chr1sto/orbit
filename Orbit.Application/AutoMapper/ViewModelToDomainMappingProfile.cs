@@ -2,9 +2,11 @@
 using Orbit.Application.ViewModels;
 using Orbit.Domain.Game.Enums;
 using Orbit.Domain.GameAccount.Commands;
+using Orbit.Domain.GameCharacter.Commands;
 using Orbit.Domain.Generic.Commands;
 using Orbit.Domain.News.Commands;
 using Orbit.Domain.ServiceStatus.Commands;
+using Orbit.Domain.Statistics.Commands;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -63,9 +65,43 @@ namespace Orbit.Application.AutoMapper
             CreateMap<GenericObjectViewModel, CreateGenericObjectCommand>()
                 .ConstructUsing(c => new CreateGenericObjectCommand(c.CreatedOn, c.Type, c.ValueType, c.Value, true));
             CreateMap<GenericObjectViewModel, UpdateGenericObjectCommand>()
-                .ConstructUsing(c => new UpdateGenericObjectCommand(c.Id, c.CreatedOn, c.Type, c.ValueType, c.Value, true);
+                .ConstructUsing(c => new UpdateGenericObjectCommand(c.Id, c.CreatedOn, c.Type, c.ValueType, c.Value, true));
             CreateMap<Guid, RemoveGenericObjectCommand>()
                 .ConstructUsing(c => new RemoveGenericObjectCommand(c));
+
+            //Character
+            CreateMap<CharacterAdminViewModel, CreateCharacterCommand>()
+                .ConstructUsing(c => new CreateCharacterCommand(
+                                    c.UpdatedOn,
+                                    c.UpdateId,
+                                    c.IsStaff,
+                                    c.PlayerId,
+                                    c.Account,
+                                    c.Name,
+                                    c.Class,
+                                    c.GearScore,
+                                    c.Level,
+                                    c.PlayTime,
+                                    c.CreatedOn,
+                                    c.Strength,
+                                    c.Dexterity,
+                                    c.Stamina,
+                                    c.Intelligence,
+                                    c.Perin,
+                                    c.RedChips,
+                                    c.EuphresiaCoins,
+                                    c.VotePoints,
+                                    c.DonateCoins,
+                                    c.BossKills
+                            ));
+
+            CreateMap<Guid, RemoveCharacterCommand>()
+                .ConstructUsing(c => new RemoveCharacterCommand(c));
+
+            //Statistics
+            CreateMap<StatisticsEntryViewModel, CreateStatisticsEntryCommand>()
+                .ConstructUsing(c => new CreateStatisticsEntryCommand(c.Start, c.End, c.StatGroup, c.StatName, c.ValueType, c.Value));
+
         }
     }
 }
