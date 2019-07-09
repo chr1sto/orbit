@@ -23,6 +23,10 @@ namespace Orbit.Game.Service
 
         private static TimeSpan serviceStatusUpdateInterval = new TimeSpan(0, 0, 20);
 
+        private static Timer eventPollingTimer;
+        private static Timer serviceUpdateTimer;
+        private static Timer updateCharsTimer;
+
         static void Main(string[] args)
         {
             var builder = new ConfigurationBuilder()
@@ -35,9 +39,8 @@ namespace Orbit.Game.Service
             var bootstrapper = new InjectionBootstrapper();
             bootstrapper.ConfigureServices(services);
 
-            services.AddDbContext<AccountDbContext>(options => 
-                options.UseSqlServer(
-                configuration["DefaultConnection"]));
+            services.AddDbContext<AccountDbContext>(options => options.UseSqlServer(configuration["DefaultConnection"]));
+            services.AddDbContext<CharacterDbContext>(options => options.UseSqlServer(configuration["CHARACTER_DBF"]));
 
             services.AddLogging(e => e.AddConsole());
 
@@ -48,11 +51,47 @@ namespace Orbit.Game.Service
             //Authenticate
             if(Authenticate(serviceProvider, configuration).Result)
             {
-                //Event Polling
-                StartEventPollingTask(serviceProvider);
+                eventPollingTimer = new System.Threading.Timer(
+                    async (e) => {
+                        var webEventHandler = serviceProvider.GetService<IWebEventHandler>();
+                        var logger = serviceProvider.GetService<ILogger<Program>>();
+                        try
+                        {
+                            await webEventHandler.PollAndHandleEvents();
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.LogCritical("Unable to poll events:\nException:\n{0}", ex.Message);
+                        }
+                        eventPollingTimer.Change(5000, Timeout.Infinite);
+                    }
+                    , null
+                    , 5000
+                    , Timeout.Infinite);
 
-                //Update Task
-                StartUpdateLoopTask(serviceProvider);
+                serviceUpdateTimer = new System.Threading.Timer(
+                    async (e) =>
+                    {
+                        var service = serviceProvider.GetRequiredService<IServiceStatusService>();
+                        service.Update();
+                        serviceUpdateTimer.Change(120000, Timeout.Infinite);
+                    }
+                    , null
+                    , 120000
+                    , Timeout.Infinite
+                    );
+
+                updateCharsTimer = new System.Threading.Timer(
+                    async (e) =>
+                    {
+                        var service = serviceProvider.GetRequiredService<IGameCharacterService>();
+                        service.UpdateAll();
+                        updateCharsTimer.Change(120000, Timeout.Infinite);
+                    }
+                    , null
+                    , 5000//120000
+                    , Timeout.Infinite
+                    );
             }
 
             Console.ReadLine();
@@ -87,72 +126,6 @@ namespace Orbit.Game.Service
             httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
             return true;
-        }
-
-        static void StartEventPollingTask(ServiceProvider serviceProvider)
-        {
-            pollingCancellationTokenSource = new CancellationTokenSource();
-            pollingCancellationToken = pollingCancellationTokenSource.Token;
-            var pollingBackgroundTask = Task.Run(() =>
-            {
-                RunPollingTask(serviceProvider);
-            }, pollingCancellationToken);
-        }
-
-        static async void RunPollingTask(ServiceProvider serviceProvider)
-        {
-            var webEventHandler = serviceProvider.GetService<IWebEventHandler>();
-            var logger = serviceProvider.GetService<ILogger<Program>>();
-            while (!pollingCancellationToken.IsCancellationRequested)
-            {
-                try
-                {
-                    await webEventHandler.PollAndHandleEvents();
-                }
-                catch(Exception ex)
-                {
-                    logger.LogCritical("Unable to poll events:\nException:\n{0}",ex.Message);
-                }
-
-                Thread.Sleep(5000);
-            }
-        }
-
-        static void StartUpdateLoopTask(ServiceProvider serviceProvider)
-        {
-            updateLoopCancellationTokenSource = new CancellationTokenSource();
-            updateLoopCancellationToken = updateLoopCancellationTokenSource.Token;
-            var updateBackgroundTask = Task.Run(() =>
-            {
-                RunUpdateTask(serviceProvider);
-            },updateLoopCancellationToken);
-        }
-
-        static async void RunUpdateTask(ServiceProvider serviceProvider)
-        {
-            var logger = serviceProvider.GetService<ILogger<Program>>();
-            var service = serviceProvider.GetRequiredService<IServiceStatusService>();
-
-            TimeSpan elapsedTime = TimeSpan.Zero;
-            DateTime oldTime = DateTime.Now;
-
-            while(!updateLoopCancellationToken.IsCancellationRequested)
-            {
-                elapsedTime += DateTime.Now - oldTime;
-                oldTime = DateTime.Now;
-                if (elapsedTime > serviceStatusUpdateInterval)
-                {
-                    try
-                    {
-                        service.Update();
-                    }
-                    catch(Exception ex)
-                    {
-                        logger.LogCritical("Unable to execute Update Task.\nException:\n{0}",ex.Message);
-                    }
-                    elapsedTime = DateTime.Now - oldTime;
-                }
-            }
         }
             
     }

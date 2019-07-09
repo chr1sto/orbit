@@ -51,11 +51,13 @@ namespace Orbit.Domain.GameCharacter.CommandHandlers
                 request.Stamina,
                 request.Intelligence,
                 request.Perin,
+                request.Penya,
                 request.RedChips,
                 request.EuphresiaCoins,
                 request.VotePoints,
                 request.DonateCoins,
-                request.BossKills
+                request.BossKills,
+                request.IsDeleted
                 );
 
             _repository.Add(@char);

@@ -34,26 +34,99 @@ namespace Orbit.Application.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<CharacterAdminViewModel> GetAllByGameAccount(string account)
+        public IEnumerable<CharacterAdminViewModel> GetAllByGameAccount(string account, out int total, int index = 0, int count = 10, string searchText = "")
         {
-            //var chars = _repository.GetAll().Where(c => c.Account == account);
-            var chars = from c in _repository.GetAll().Where(c => c.Account == account)
+            IQueryable<Character> query;
+            if(!string.IsNullOrWhiteSpace(searchText))
+            {
+                query = from c in _repository.GetAll().Where(c => c.Account == account && c.Name.ToUpper().Contains(searchText.ToUpper()))
                         group c by c.PlayerId
                         into g
                         select g.OrderByDescending(e => e.UpdatedOn).FirstOrDefault();
+            }
+            else
+            {
+                query = from c in _repository.GetAll().Where(c => c.Account == account)
+                        group c by c.PlayerId
+                        into g
+                        select g.OrderByDescending(e => e.UpdatedOn).FirstOrDefault();
+            }
+
+            total = query.Count();
+
+            query = query.Skip(index * count).Take(count);
 
             //Hopefully this works again...
-            return _mapper.ProjectTo<CharacterAdminViewModel>(chars).AsEnumerable();
+            return _mapper.ProjectTo<CharacterAdminViewModel>(query).AsEnumerable();
         }
 
-        public IEnumerable<CharacterAdminViewModel> GetCurrent()
+        public IEnumerable<CharacterAdminViewModel> GetCurrent(out int total, int index = 0, int count = 10, string searchText = "")
         {
-            var chars = from c in _repository.GetAll()
-                        group c by c.PlayerId
-                        into g
-                        select g.OrderByDescending(e => e.UpdatedOn).FirstOrDefault();
+            IQueryable<Character> query;
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                query = from c in _repository.GetAll()
+                            group c by c.PlayerId
+                            into g
+                            select g.OrderByDescending(e => e.UpdatedOn).FirstOrDefault();
+            }
+            else
+            {
+                query = from c in _repository.GetAll().Where(c => c.Name.ToUpper().Contains(searchText.ToUpper()))
+                            group c by c.PlayerId
+                            into g
+                            select g.OrderByDescending(e => e.UpdatedOn).FirstOrDefault();
+            }
 
-            return _mapper.ProjectTo<CharacterAdminViewModel>(chars).AsEnumerable();
+            total = query.Count();
+
+            query = query.Skip(index * count).Take(count);
+
+            return _mapper.ProjectTo<CharacterAdminViewModel>(query).AsEnumerable();
+        }
+
+        public IEnumerable<CharacterViewModel> GetRanking(out int total, int index = 0, int count = 10, string orderBy = "", string filterJob = "")
+        {
+            Func<Character, int> func;
+            switch (orderBy.ToUpper())
+            {
+                case "LEVEL":
+                    func = x => x.Level;
+                    break;
+                case "BOSSKILLS":
+                    func = x => x.BossKills;
+                    break;
+                case "GEARSCORE":
+                default:
+                    func = x => x.GearScore;
+                    break;
+            }
+
+            IQueryable<Character> query =
+                from c in _repository.GetAll()
+                group c by c.PlayerId
+                into g
+                select g.OrderByDescending(e => e.UpdatedOn).FirstOrDefault();
+
+            var ordered = query.Where(e => !e.IsStaff && !e.IsDeleted).OrderByDescending(func);
+            //TODO: filter by job
+
+            total = ordered.Count();
+
+            var result = ordered.Skip(index * count).Take(count).Select(e => new CharacterViewModel() {
+                BossKills = e.BossKills,
+                Class = e.Class,
+                Dexterity = e.Dexterity,
+                GearScore = e.GearScore,
+                Intelligence = e.Intelligence,
+                Level = e.Level,
+                Name = e.Name,
+                PlayTime = e.PlayTime,
+                Stamina = e.Stamina,
+                Strength = e.Strength
+            } );
+
+            return result;
         }
 
         public void InsertNewEntries(IEnumerable<CharacterAdminViewModel> models)

@@ -22,11 +22,13 @@ namespace Orbit.Application.ViewModels
         public int Dexterity { get; set; }
         public int Stamina { get; set; }
         public int Intelligence { get; set; }
-        public int Perin { get; set; }
-        public int RedChips { get; set; }
-        public int EuphresiaCoins { get; set; }
-        public int VotePoints { get; set; }
-        public int DonateCoins { get; set; }
+        public long Perin { get; set; }
+        public long Penya { get; set; }
+        public long RedChips { get; set; }
+        public long EuphresiaCoins { get; set; }
+        public long VotePoints { get; set; }
+        public long DonateCoins { get; set; }
         public int BossKills { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

@@ -49,6 +49,7 @@ namespace Orbit.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "Administrator,Developer,Gamemaster")]
         [ProducesResponseType(typeof(ApiResult<IPagedList<GameAccountViewModel>>), 200)]
         public IActionResult GetUserGameAccounts(Guid id)
         {

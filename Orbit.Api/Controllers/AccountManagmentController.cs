@@ -18,6 +18,8 @@ using Orbit.Infra.CrossCutting.Identity.Models.ManageViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using Orbit.Api.Misc;
+using Orbit.Infra.CrossCutting.Identity.Models.AccountViewModels;
+using System.Text.Encodings.Web;
 
 namespace Orbit.Api.Controllers
 {
@@ -32,6 +34,7 @@ namespace Orbit.Api.Controllers
         private readonly IUser _user;
         private readonly IHostingEnvironment _env;
         private readonly string _emailVerificationCallbackUrl;
+        private readonly string _passwordResetCallbackUrl;
 
         public AccountManagmentController(
             UserManager<ApplicationUser> userManager,
@@ -56,6 +59,7 @@ namespace Orbit.Api.Controllers
                 .Build();
 
             _emailVerificationCallbackUrl = config["EMAIL_VERIFICATION_CALLBACK_URL"];
+            _passwordResetCallbackUrl = config["PASSWORD_RESET_CALLBACK_URL"];
         }
 
         [ProducesResponseType(typeof(ApiResult<string>), 200)]
@@ -127,11 +131,77 @@ namespace Orbit.Api.Controllers
             return Response(model);
         }
 
+        [ProducesResponseType(typeof(ApiResult<ForgotPasswordViewModel>), 200)]
+        [ProducesResponseType(typeof(ApiResult<ForgotPasswordViewModel>), 400)]
+        [AllowAnonymous]
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> RequestPasswordForgottenMail([FromBody] ForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                NotifyModelStateErrors();
+                return Response(model);
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            if(user == null)
+            {
+                NotifyError("", "");
+                return Response(model);
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var url = GetPasswordResetCallbackUrl(user.Email, token);
+
+            await _emailSender.SendResetPasswordAsync(user.Email, url);
+
+            return Response(model);
+        }
+
+        [ProducesResponseType(typeof(ApiResult<ResetPasswordViewModel>), 200)]
+        [ProducesResponseType(typeof(ApiResult<ResetPasswordViewModel>), 400)]
+        [AllowAnonymous]
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                NotifyModelStateErrors();
+                return Response(model);
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            if (user == null)
+            {
+                NotifyError("", "");
+                return Response(model);
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+
+            if(!result.Succeeded)
+            {
+                AddIdentityErrors(result);
+            }
+
+            return Response(model);
+        }
+
         private string GetVerificationCallbackUrl(string code)
         {
             return _emailVerificationCallbackUrl
-                .Replace("{{CODE}}", code)
-                .Replace("{{UID}}", _user.Id.ToString());
+                .Replace("{{CODE}}", System.Uri.EscapeDataString(code))
+                .Replace("{{UID}}", System.Uri.EscapeDataString(_user.Id.ToString()));
+        }
+
+        private string GetPasswordResetCallbackUrl(string email,string token)
+        {
+            return _passwordResetCallbackUrl
+                .Replace("{{EMAIL}}", System.Uri.EscapeDataString(email))
+                .Replace("{{TOKEN}}", System.Uri.EscapeDataString(token));
         }
 
         private async Task<ApplicationUser> GetCurrenUser()

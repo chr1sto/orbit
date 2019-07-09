@@ -4,6 +4,7 @@ using Orbit.Domain.Core.Events;
 using Orbit.Game.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,8 +28,8 @@ namespace Orbit.Game.Core.Services
         {
             var client = new GameEventClient(_configuration["BASE_API_PATH"], _httpClient);
             var result = await client.GameEventsGetAsync();
-            Newtonsoft.Json.Linq.JArray data = (Newtonsoft.Json.Linq.JArray)result.Data;
-            return (data?.ToObject<List<StoredEvent>>()) ?? new List<StoredEvent>();
+            var data = result.Data;
+            return data.ToList();
         }
          
         public async Task<bool> SetHandled(Guid id)

@@ -1,10 +1,20 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Orbit.Game.Core.Mappings;
+using Orbit.Game.Core.Models.CharacterDb;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Orbit.Game.Core.Data
 {
-    class CharacterDbContext
+    public class CharacterDbContext : DbContext
     {
+        public virtual DbSet<Character> Characters { get; set; }
+        public CharacterDbContext(DbContextOptions<CharacterDbContext> options) : base(options) { }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new CharacterMap());
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

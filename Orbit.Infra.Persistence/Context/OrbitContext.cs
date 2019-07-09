@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore.Design;
 using Orbit.Domain.News;
 using Orbit.Domain.Game.Models;
 using Microsoft.Extensions.Logging;
+using Orbit.Domain.GameCharacter;
+using Orbit.Domain.Statistics;
+using Orbit.Domain.Generic;
 
 namespace Orbit.Infra.Persistence.Context
 {
@@ -27,6 +30,9 @@ namespace Orbit.Infra.Persistence.Context
         public DbSet<NewsPost> NewsPosts { get; set; }
         public DbSet<GameAccount> GameAccounts { get; set; }
         public DbSet<ServiceStatus> ServiceStates { get; set; }
+        public DbSet<Character> Characters { get; set; }
+        public DbSet<StatisticsEntry> StatisticsEntries { get; set; }
+        public DbSet<GenericObject> GenericObjects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

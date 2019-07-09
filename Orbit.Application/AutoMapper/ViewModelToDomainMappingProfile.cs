@@ -88,11 +88,13 @@ namespace Orbit.Application.AutoMapper
                                     c.Stamina,
                                     c.Intelligence,
                                     c.Perin,
+                                    c.Penya,
                                     c.RedChips,
                                     c.EuphresiaCoins,
                                     c.VotePoints,
                                     c.DonateCoins,
-                                    c.BossKills
+                                    c.BossKills,
+                                    c.IsDeleted
                             ));
 
             CreateMap<Guid, RemoveCharacterCommand>()

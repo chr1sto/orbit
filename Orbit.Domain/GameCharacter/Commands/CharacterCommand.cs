@@ -23,11 +23,14 @@ namespace Orbit.Domain.GameCharacter.Commands
         public int Dexterity { get; protected set; }
         public int Stamina { get; protected set; }
         public int Intelligence { get; protected set; }
-        public int Perin { get; protected set; }
-        public int RedChips { get; protected set; }
-        public int EuphresiaCoins { get; protected set; }
-        public int VotePoints { get; protected set; }
-        public int DonateCoins { get; protected set; }
+        public long Perin { get; protected set; }
+        public long Penya { get; protected set; }
+        public long RedChips { get; protected set; }
+        public long EuphresiaCoins { get; protected set; }
+        public long VotePoints { get; protected set; }
+        public long DonateCoins { get; protected set; }
         public int BossKills { get; protected set; }
+        public bool IsDeleted { get; protected set; }
+
     }
 }

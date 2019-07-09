@@ -37,7 +37,7 @@ namespace Orbit.Api.Controllers
                 return Ok(new ApiResult<T>(result, true));
             }
 
-            return BadRequest(new ApiResult<T>(result, false, _notifications.GetNotifications().Select(n => n.Value)));
+            return Ok(new ApiResult<T>(result, false, _notifications.GetNotifications().Select(n => n.Value)));
         }
 
         protected new IActionResult Response<T>(in T result = null) where T : class
@@ -47,7 +47,7 @@ namespace Orbit.Api.Controllers
                 return Ok(new ApiResult<T>(result, true));
             }
 
-            return BadRequest(new ApiResult<T>(result, false, _notifications.GetNotifications().Select(n => n.Value)));
+            return Ok(new ApiResult<T>(result, false, _notifications.GetNotifications().Select(n => n.Value)));
         }
 
         protected void NotifyModelStateErrors()

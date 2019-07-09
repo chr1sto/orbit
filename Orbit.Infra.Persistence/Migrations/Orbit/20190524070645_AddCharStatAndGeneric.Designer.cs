@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Orbit.Infra.Persistence.Context;
 
 namespace Orbit.Infra.Persistence.Migrations.Orbit
 {
     [DbContext(typeof(OrbitContext))]
-    partial class OrbitContextModelSnapshot : ModelSnapshot
+    [Migration("20190524070645_AddCharStatAndGeneric")]
+    partial class AddCharStatAndGeneric
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,15 +68,13 @@ namespace Orbit.Infra.Persistence.Migrations.Orbit
 
                     b.Property<int>("Dexterity");
 
-                    b.Property<long>("DonateCoins");
+                    b.Property<int>("DonateCoins");
 
-                    b.Property<long>("EuphresiaCoins");
+                    b.Property<int>("EuphresiaCoins");
 
                     b.Property<int>("GearScore");
 
                     b.Property<int>("Intelligence");
-
-                    b.Property<bool>("IsDeleted");
 
                     b.Property<bool>("IsStaff");
 
@@ -82,15 +82,15 @@ namespace Orbit.Infra.Persistence.Migrations.Orbit
 
                     b.Property<string>("Name");
 
-                    b.Property<long>("Penya");
+                    b.Property<int>("Penya");
 
-                    b.Property<long>("Perin");
+                    b.Property<int>("Perin");
 
                     b.Property<int>("PlayTime");
 
                     b.Property<string>("PlayerId");
 
-                    b.Property<long>("RedChips");
+                    b.Property<int>("RedChips");
 
                     b.Property<int>("Stamina");
 
@@ -100,7 +100,7 @@ namespace Orbit.Infra.Persistence.Migrations.Orbit
 
                     b.Property<DateTime>("UpdatedOn");
 
-                    b.Property<long>("VotePoints");
+                    b.Property<int>("VotePoints");
 
                     b.HasKey("Id");
 

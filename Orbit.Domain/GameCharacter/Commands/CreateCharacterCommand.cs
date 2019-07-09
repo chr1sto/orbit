@@ -6,7 +6,7 @@ namespace Orbit.Domain.GameCharacter.Commands
 {
     public class CreateCharacterCommand : CharacterCommand
     {
-        public CreateCharacterCommand(DateTime updatedOn, Guid updateId, bool isStaff, string playerId, string account, string name, string @class, int gearScore, int level, int playTime, DateTime createdOn, int strength, int dexterity, int stamina, int intelligence, int perin, int redChips, int euphresiaCoins, int votePoints, int donateCoins, int bossKills)
+        public CreateCharacterCommand(DateTime updatedOn, Guid updateId, bool isStaff, string playerId, string account, string name, string @class, int gearScore, int level, int playTime, DateTime createdOn, int strength, int dexterity, int stamina, int intelligence, long perin, long penya, long redChips, long euphresiaCoins, long votePoints, long donateCoins, int bossKills, bool isDeleted)
         {
             Id = Guid.NewGuid();
             UpdatedOn = updatedOn;
@@ -25,11 +25,13 @@ namespace Orbit.Domain.GameCharacter.Commands
             Stamina = stamina;
             Intelligence = intelligence;
             Perin = perin;
+            Penya = penya;
             RedChips = redChips;
             EuphresiaCoins = euphresiaCoins;
             VotePoints = votePoints;
             DonateCoins = donateCoins;
             BossKills = bossKills;
+            IsDeleted = isDeleted;
         }
 
         public override bool IsValid()

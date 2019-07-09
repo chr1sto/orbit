@@ -7,17 +7,6 @@ namespace Orbit.Domain.Statistics.Commands
 {
     public abstract class StatisticsEntryCommand : Command
     {
-        public StatisticsEntryCommand(DateTime start, DateTime end, string statGroup, string statName, string valueType, string value)
-        {
-            Id = Guid.NewGuid();
-            Start = start;
-            End = end;
-            StatGroup = statGroup;
-            StatName = statName;
-            ValueType = valueType;
-            Value = value;
-        }
-
         public Guid Id { get; protected set; }
         public DateTime Start { get; protected set; }
         public DateTime End { get; protected set; }

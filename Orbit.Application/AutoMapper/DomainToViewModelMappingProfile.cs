@@ -25,6 +25,7 @@ namespace Orbit.Application.AutoMapper
             //.ConstructUsing(c => new ServiceStatusViewModel(c.Id, c.Service, c.TimeStamp, (int)c.State));
             CreateMap<GenericObject, GenericObjectViewModel>();
             CreateMap<Character, CharacterAdminViewModel>();
+            CreateMap<Character, CharacterViewModel>();
             CreateMap<StatisticsEntry, StatisticsEntryViewModel>();
         }
     }

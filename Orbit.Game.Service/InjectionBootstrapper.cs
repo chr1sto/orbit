@@ -22,6 +22,7 @@ namespace Orbit.Game.Service
             services.AddSingleton<IWebEventService, WebEventService>();
             services.AddSingleton<IWebEventHandler, WebEventHandler>();
             services.AddSingleton<IServiceStatusService, ServiceStatusService>();
+            services.AddSingleton<IGameCharacterService, GameCharacterService>();
             services.AddSingleton<HttpClient>();
         }
     }

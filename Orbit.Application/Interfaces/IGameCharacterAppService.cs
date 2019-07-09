@@ -12,7 +12,8 @@ namespace Orbit.Application.Interfaces
     {
         void InsertNewEntries(IEnumerable<CharacterAdminViewModel> models);
         void ClearUntilRecent();
-        IEnumerable<CharacterAdminViewModel> GetCurrent();
-        IEnumerable<CharacterAdminViewModel> GetAllByGameAccount(string account);
+        IEnumerable<CharacterAdminViewModel> GetCurrent(out int total ,int index = 0, int count = 10, string searchText = "");
+        IEnumerable<CharacterAdminViewModel> GetAllByGameAccount(string account, out int total, int index = 0, int count = 10, string searchText = "");
+        IEnumerable<CharacterViewModel> GetRanking(out int total, int index = 0, int count = 10, string orderBy = "", string filterJob = "");
     }
 }

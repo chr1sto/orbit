@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Orbit.Application.Interfaces;
 using Orbit.Application.Services;
 using Orbit.Domain.Core.Bus;
@@ -13,6 +12,12 @@ using Orbit.Domain.Game.Events;
 using Orbit.Domain.GameAccount.CommandHandlers;
 using Orbit.Domain.GameAccount.Commands;
 using Orbit.Domain.GameAccount.EventHandlers;
+using Orbit.Domain.GameCharacter;
+using Orbit.Domain.GameCharacter.CommandHandlers;
+using Orbit.Domain.GameCharacter.Commands;
+using Orbit.Domain.Generic;
+using Orbit.Domain.Generic.CommandHandlers;
+using Orbit.Domain.Generic.Commands;
 using Orbit.Domain.News;
 using Orbit.Domain.News.CommandHandlers;
 using Orbit.Domain.News.Commands;
@@ -22,6 +27,9 @@ using Orbit.Domain.ServiceStatus.CommandHandlers;
 using Orbit.Domain.ServiceStatus.Commands;
 using Orbit.Domain.ServiceStatus.EventHandlers;
 using Orbit.Domain.ServiceStatus.Events;
+using Orbit.Domain.Statistics;
+using Orbit.Domain.Statistics.CommandHandlers;
+using Orbit.Domain.Statistics.Commands;
 using Orbit.Infra.CrossCutting.Bus;
 using Orbit.Infra.CrossCutting.Identity.Authorization;
 using Orbit.Infra.CrossCutting.Identity.Models;
@@ -56,6 +64,9 @@ namespace Orbit.Infra.CrossCutting.IoC
             services.AddScoped<IGameAccountAppService, GameAccountAppService>();
             services.AddScoped<IGameEventAppService, GameEventAppService>();
             services.AddScoped<IServiceStatusAppService, ServiceStatusAppService>();
+            services.AddScoped<IGenericObjectAppService, GenericObjectAppService>();
+            services.AddScoped<IStatisticsAppService, StatisticsAppService>();
+            services.AddScoped<IGameCharacterAppService, GameCharacterAppService>();
 
             // Domain - Events
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
@@ -77,11 +88,20 @@ namespace Orbit.Infra.CrossCutting.IoC
             services.AddScoped<IRequestHandler<CreateServiceStatusCommand, bool>, ServiceStatusCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateServiceStatusCommand, bool>, ServiceStatusCommandHandler>();
             services.AddScoped<IRequestHandler<RemoveServiceStatusCommand, bool>, ServiceStatusCommandHandler>();
+            services.AddScoped<IRequestHandler<CreateGenericObjectCommand, bool>, GenericObjectCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateGenericObjectCommand, bool>, GenericObjectCommandHandler>();
+            services.AddScoped<IRequestHandler<RemoveGenericObjectCommand, bool>, GenericObjectCommandHandler>();
+            services.AddScoped<IRequestHandler<CreateStatisticsEntryCommand, bool>, StatisticsEntryCommandHandler>();
+            services.AddScoped<IRequestHandler<CreateCharacterCommand, bool>, CharacterCommandHandler>();
+            services.AddScoped<IRequestHandler<RemoveCharacterCommand, bool>, CharacterCommandHandler>();
 
             // Infra - Data
             services.AddScoped<IRepository<NewsPost>,Repository<NewsPost>>();
             services.AddScoped<IRepository<Orbit.Domain.Game.Models.GameAccount>, Repository<Orbit.Domain.Game.Models.GameAccount>>();
             services.AddScoped<IRepository<Orbit.Domain.Game.Models.ServiceStatus>, Repository<Orbit.Domain.Game.Models.ServiceStatus>>();
+            services.AddScoped<IRepository<GenericObject>, Repository<GenericObject>>();
+            services.AddScoped<IRepository<StatisticsEntry>, Repository<StatisticsEntry>>();
+            services.AddScoped<IRepository<Character>, Repository<Character>>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             // Infra - Data EventSourcing
