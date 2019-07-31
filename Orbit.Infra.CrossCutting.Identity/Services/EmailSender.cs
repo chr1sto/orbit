@@ -3,19 +3,23 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Net.Mail;
+using MailKit;
 using System.Text;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace Orbit.Infra.CrossCutting.Identity.Services
 {
     public class EmailSender : IEmailSender
     {
-        private readonly SmtpClient _smtpClient;
         private readonly ILogger<EmailSender> _logger;
         private readonly IHostingEnvironment _env;
-        private readonly MailAddress _mailFrom;
+        private readonly MailboxAddress _mailFrom;
+        private readonly string _host;
+        private readonly int _port;
+        private readonly string _login;
+        private readonly string _password;
 
         public EmailSender(ILogger<EmailSender> logger, IHostingEnvironment env)
         {
@@ -27,27 +31,31 @@ namespace Orbit.Infra.CrossCutting.Identity.Services
             .AddJsonFile("appsettings.json")
             .Build();
 
-            _mailFrom = new MailAddress(config["IDENTITY_MAIL"]);
-            _smtpClient = new SmtpClient(config["IDENTITY_SMTP_HOST"],int.Parse(config["IDENTITY_SMTP_PORT"]))
-            {
-#if DEBUG
-                UseDefaultCredentials = true
-#else
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(config["IDENTITY_SMTP_USER"], config["IDENTITY_SMTP_PASSWORD"])
-#endif
-        };
+            _mailFrom = new MailboxAddress("Euphresia Flyff", config["IDENTITY_MAIL"]);
+            _host = config["IDENTITY_SMTP_HOST"];
+            _port = int.Parse(config["IDENTITY_SMTP_PORT"]);
+            _login = config["IDENTITY_SMTP_USER"];
+            _password = config["IDENTITY_SMTP_PASSWORD"];
         }
 
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            var mailMessage = new MailMessage();
-            mailMessage.From = _mailFrom;
-            mailMessage.To.Add(email);
-            mailMessage.Subject = subject;
-            mailMessage.Body = message;
+            var msg = new MimeMessage();
+            msg.From.Add(_mailFrom);
+            msg.To.Add(new MailboxAddress(email));
+            msg.Subject = subject;
+            msg.Body = new TextPart("plain") { Text = message };
 
-            return _smtpClient.SendMailAsync(mailMessage);
+            using(var client = new SmtpClient())
+            {
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                client.Connect(_host, _port, true);
+                client.Authenticate(_login, _password);
+                client.Send(msg);
+                client.Disconnect(true);
+            }
+
+            return Task.CompletedTask;
         }
     }
 }

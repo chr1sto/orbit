@@ -10,7 +10,11 @@ namespace Orbit.Game.Core.Data
     public class CharacterDbContext : DbContext
     {
         public virtual DbSet<Character> Characters { get; set; }
-        public CharacterDbContext(DbContextOptions<CharacterDbContext> options) : base(options) { }
+        public CharacterDbContext(DbContextOptions<CharacterDbContext> options) : base(options)
+        {
+            this.ChangeTracker.QueryTrackingBehavior = Microsoft.EntityFrameworkCore.QueryTrackingBehavior.NoTracking;
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CharacterMap());

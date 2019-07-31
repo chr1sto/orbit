@@ -10,13 +10,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Orbit.Api.Misc;
 using Orbit.Domain.Core.Bus;
 using Orbit.Domain.Core.Notifications;
+using Orbit.Infra.CrossCutting.Identity.Extensions;
 using Orbit.Infra.CrossCutting.Identity.Models;
 using Orbit.Infra.CrossCutting.Identity.Models.AccountViewModels;
+using Orbit.Infra.CrossCutting.Identity.Services;
 using X.PagedList;
 
 namespace Orbit.Api.Controllers
@@ -26,13 +29,19 @@ namespace Orbit.Api.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
+        private readonly IHostingEnvironment _env;
+        private readonly string _emailVerificationCallbackUrl;
+        private readonly string _passwordResetCallbackUrl;
 
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            IEmailSender emailSender,
+            IHostingEnvironment env,
             ILoggerFactory loggerFactory,
             IConfiguration configuration,
             INotificationHandler<DomainNotification> notifications, 
@@ -42,6 +51,16 @@ namespace Orbit.Api.Controllers
             _signInManager = signInManager;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _configuration = configuration;
+            _emailSender = emailSender;
+            _env = env;
+
+            var config = new ConfigurationBuilder()
+                .SetBasePath(_env.ContentRootPath)
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            _emailVerificationCallbackUrl = config["EMAIL_VERIFICATION_CALLBACK_URL"];
+            _passwordResetCallbackUrl = config["PASSWORD_RESET_CALLBACK_URL"];
         }
 
         [ProducesResponseType(typeof(ApiResult<string>), 200)]
@@ -55,22 +74,27 @@ namespace Orbit.Api.Controllers
                 return Response(loginViewModel);
             }
 
+            var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
+            if(user == null)
+            {
+                NotifyError("Invalid credentials!", "You either provided a wrong password or an account with this email does not exist.");
+                return Response(loginViewModel);
+            }
+
+            if(!user.EmailConfirmed)
+            {
+                NotifyError("MAIL_NOT_VERIFIED", "You need to verify your email in order to be able to login!");
+                return Response(loginViewModel);
+            }
+
             var result = await _signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, false, true);
             if(!result.Succeeded)
             {
-                NotifyError(result.ToString(), "Login failed");
+                NotifyError("Invalid credentials!", "You either provided a wrong password or an account with this email does not exist.");
                 return Response(loginViewModel);
             }
 
             _logger.LogInformation(1, "User logged in.");
-
-            var user = await _userManager.FindByNameAsync(loginViewModel.Email);
-
-            if(user == null)
-            {
-                NotifyError("USER NOT FOUND", "USER NOT FOUND");
-                return Response(loginViewModel);
-            }
 
             return await GetJwtToken(user);
         }
@@ -96,10 +120,19 @@ namespace Orbit.Api.Controllers
 
             if(result.Succeeded)
             {
-                await _signInManager.SignInAsync(user, false);
+                //await _signInManager.SignInAsync(user, false);
+                //Move this to a Service in Infra.CrossCutting.Identity!
+                user = await _userManager.FindByEmailAsync(user.Email);
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var email = user.Email;
+                var callback = GetVerificationCallbackUrl(code,user);
+                await _emailSender.SendEmailConfirmationAsync(email, callback);
                 _logger.LogInformation(3, "User created a new account with password");
 
-                return await GetJwtToken(user);
+                return Response("Verification Mail sent.");
+
+                //return await GetJwtToken(user);
+                //return Response(registerViewModel);
             }
 
             AddIdentityErrors(result);
@@ -162,6 +195,13 @@ namespace Orbit.Api.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return Response(tokenHandler.WriteToken(token));
+        }
+
+        private string GetVerificationCallbackUrl(string code, ApplicationUser user)
+        {
+            return _emailVerificationCallbackUrl
+                .Replace("{{CODE}}", System.Uri.EscapeDataString(code))
+                .Replace("{{UID}}", System.Uri.EscapeDataString(user.Id.ToString()));
         }
     }
 }

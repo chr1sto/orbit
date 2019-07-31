@@ -8,6 +8,7 @@ using System.Text;
 using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace Orbit.Game.Core.Services
 {
@@ -28,14 +29,14 @@ namespace Orbit.Game.Core.Services
 
         public IEnumerable<Character> GetAll()
         {
-            var characters = _context.Characters.ToList();
+            var characters = _context.Characters.AsNoTracking().ToList();
 
             return characters;
         }
 
         public async void UpdateAll()
         {
-            var characters = _context.Characters.ToList();
+            var characters = _context.Characters.AsNoTracking().ToList();
             Guid updateId = Guid.NewGuid();
             DateTime updatedOn = DateTime.Now;
 

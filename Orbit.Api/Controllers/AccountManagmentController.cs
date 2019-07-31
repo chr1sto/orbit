@@ -82,16 +82,17 @@ namespace Orbit.Api.Controllers
             return Response("Verification Mail sent.");
         }
 
+        [AllowAnonymous]
         [ProducesResponseType(typeof(ApiResult<string>), 200)]
         [ProducesResponseType(typeof(ApiResult<string>), 400)]
         [HttpPost("verify-mail")]
-        public async Task<IActionResult> VerifyMail([FromQuery] string code)
+        public async Task<IActionResult> VerifyMail([FromQuery] string code, [FromQuery] string id)
         {
-            var user = await GetCurrenUser();
+            var user =  await _userManager.FindByIdAsync(id);
 
             if (user == null)
             {
-                NotifyError("User not found", "Could not resolve current user.");
+                NotifyError("User not found", "Could not resolve the user with the provided id.");
                 return Response<object>(null);
             }
 

@@ -25,7 +25,7 @@ namespace Orbit.Game.Core.Mappings
                 .HasColumnName("m_dwGold");
             builder.Property(x => x.Job)
                 .HasColumnType("int")
-                .HasColumnName("m_dwGold");
+                .HasColumnName("m_nJob");
             builder.Property(x => x.Str)
                 .HasColumnType("int")
                 .HasColumnName("m_nStr");
