@@ -13,6 +13,8 @@
   <ItemGroup>
     <Folder Include="Generic\EventHandlers\" />
     <Folder Include="Generic\Events\" />
+    <Folder Include="Transaction\EventHandlers\" />
+    <Folder Include="Transaction\Events\" />
   </ItemGroup>
 
 </Project>

@@ -72,7 +72,7 @@ namespace Orbit.Application.Services
             recordCount = query.Where(e => e.Public == @public).Count();
 
             var newsPostViewModels = query.Where(e => e.Public == @public)
-                .OrderBy(o => o.CreatedOn)
+                .OrderByDescending(o => o.CreatedOn)
                 .Skip(pageIndex * recordsPerPage)
                 .Take(recordsPerPage);
             return _mapper.ProjectTo<NewsPostViewModel>(newsPostViewModels).AsEnumerable();

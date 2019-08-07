@@ -37,28 +37,28 @@ namespace Orbit.Domain.GameCharacter
 
         protected Character() { }
 
-        public DateTime UpdatedOn { get; private set; }
-        public Guid UpdateId { get; private set; }
-        public bool IsStaff { get; private set; }
-        public string PlayerId { get; private set; }
-        public string Account { get; private set; }
-        public string Name { get; private set; }
-        public string Class { get; private set; }
-        public int GearScore { get; private set; }
-        public int Level { get; private set; }
-        public int PlayTime { get; private set; }
-        public DateTime CreatedOn { get; private set; }
-        public int Strength { get; private set; }
-        public int Dexterity { get; private set; }
-        public int Stamina { get; private set; }
-        public int Intelligence { get; private set; }
-        public long Perin { get; private set; }
-        public long Penya { get; private set; }
-        public long RedChips { get; private set; }
-        public long EuphresiaCoins { get; private set; }
-        public long VotePoints { get; private set; }
-        public long DonateCoins { get; private set; }
-        public int BossKills { get; private set; }
-        public bool IsDeleted { get; private set; }
+        public DateTime UpdatedOn { get;  set; }
+        public Guid UpdateId { get;  set; }
+        public bool IsStaff { get;  set; }
+        public string PlayerId { get;  set; }
+        public string Account { get;  set; }
+        public string Name { get;  set; }
+        public string Class { get;  set; }
+        public int GearScore { get;  set; }
+        public int Level { get;  set; }
+        public int PlayTime { get;  set; }
+        public DateTime CreatedOn { get;  set; }
+        public int Strength { get;  set; }
+        public int Dexterity { get;  set; }
+        public int Stamina { get;  set; }
+        public int Intelligence { get;  set; }
+        public long Perin { get;  set; }
+        public long Penya { get;  set; }
+        public long RedChips { get;  set; }
+        public long EuphresiaCoins { get;  set; }
+        public long VotePoints { get;  set; }
+        public long DonateCoins { get;  set; }
+        public int BossKills { get;  set; }
+        public bool IsDeleted { get;  set; }
     }
 }

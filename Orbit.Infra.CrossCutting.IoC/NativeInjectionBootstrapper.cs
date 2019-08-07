@@ -30,6 +30,9 @@ using Orbit.Domain.ServiceStatus.Events;
 using Orbit.Domain.Statistics;
 using Orbit.Domain.Statistics.CommandHandlers;
 using Orbit.Domain.Statistics.Commands;
+using Orbit.Domain.Transaction;
+using Orbit.Domain.Transaction.CommandHandlers;
+using Orbit.Domain.Transaction.Commands;
 using Orbit.Infra.CrossCutting.Bus;
 using Orbit.Infra.CrossCutting.Identity.Authorization;
 using Orbit.Infra.CrossCutting.Identity.Models;
@@ -67,6 +70,7 @@ namespace Orbit.Infra.CrossCutting.IoC
             services.AddScoped<IGenericObjectAppService, GenericObjectAppService>();
             services.AddScoped<IStatisticsAppService, StatisticsAppService>();
             services.AddScoped<IGameCharacterAppService, GameCharacterAppService>();
+            services.AddScoped<ITransactionAppService, TransactionAppService>();
 
             // Domain - Events
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
@@ -94,6 +98,7 @@ namespace Orbit.Infra.CrossCutting.IoC
             services.AddScoped<IRequestHandler<CreateStatisticsEntryCommand, bool>, StatisticsEntryCommandHandler>();
             services.AddScoped<IRequestHandler<CreateCharacterCommand, bool>, CharacterCommandHandler>();
             services.AddScoped<IRequestHandler<RemoveCharacterCommand, bool>, CharacterCommandHandler>();
+            services.AddScoped<IRequestHandler<CreateTransactionCommand, bool>, TransactionCommandHandler>();
 
             // Infra - Data
             services.AddScoped<IRepository<NewsPost>,Repository<NewsPost>>();
@@ -102,6 +107,7 @@ namespace Orbit.Infra.CrossCutting.IoC
             services.AddScoped<IRepository<GenericObject>, Repository<GenericObject>>();
             services.AddScoped<IRepository<StatisticsEntry>, Repository<StatisticsEntry>>();
             services.AddScoped<IRepository<Character>, Repository<Character>>();
+            services.AddScoped<IRepository<Transaction>,Repository<Transaction>>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             // Infra - Data EventSourcing

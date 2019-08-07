@@ -62,6 +62,7 @@ namespace Orbit.Application.Services
 
         public IEnumerable<CharacterAdminViewModel> GetCurrent(out int total, int index = 0, int count = 10, string searchText = "")
         {
+            /*
             IQueryable<Character> query;
             if (string.IsNullOrWhiteSpace(searchText))
             {
@@ -76,6 +77,17 @@ namespace Orbit.Application.Services
                             group c by c.PlayerId
                             into g
                             select g.OrderByDescending(e => e.UpdatedOn).FirstOrDefault();
+            }
+            */
+
+            IQueryable<Character> query;
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                query = _repository.GetAll();
+            }
+            else
+            {
+                query = _repository.GetAll().Where(c => c.Name.ToUpper().Contains(searchText.ToUpper()));
             }
 
             total = query.Count();
@@ -102,18 +114,53 @@ namespace Orbit.Application.Services
                     break;
             }
 
-            IQueryable<Character> query =
-                from c in _repository.GetAll()
-                group c by c.PlayerId
-                into g
-                select g.OrderByDescending(e => e.UpdatedOn).FirstOrDefault();
+            Func<Character, bool> func2;
+            if(filterJob == null)
+            {
+                func2 = x => true;
+            }
+            else
+            {
+                switch (filterJob.ToUpper())
+                {
+                    case "TEMPLAR":
+                        func2 = x => x.Class == "32" || x.Class == "6" || x.Class == "16" || x.Class == "24" || x.Class == "1";
+                        break;
+                    case "SLAYER":
+                        func2 = x => x.Class == "33" || x.Class == "7" || x.Class == "17" || x.Class == "25" || x.Class == "1";
+                        break;
+                    case "HARLEQUIN":
+                        func2 = x => x.Class == "34" || x.Class == "8" || x.Class == "18" || x.Class == "26" || x.Class == "2";
+                        break;
+                    case "CRACKSHOOTER":
+                        func2 = x => x.Class == "35" || x.Class == "9" || x.Class == "19" || x.Class == "27" || x.Class == "2";
+                        break;
+                    case "SERAPH":
+                        func2 = x => x.Class == "36" || x.Class == "10" || x.Class == "20" || x.Class == "28" || x.Class == "3";
+                        break;
+                    case "FORCEMASTER":
+                        func2 = x => x.Class == "37" || x.Class == "11" || x.Class == "21" || x.Class == "29" || x.Class == "3";
+                        break;
+                    case "MENTALIST":
+                        func2 = x => x.Class == "38" || x.Class == "12" || x.Class == "22" || x.Class == "30" || x.Class == "4";
+                        break;
+                    case "ARCANIST":
+                        func2 = x => x.Class == "39" || x.Class == "13" || x.Class == "23" || x.Class == "31" || x.Class == "4";
+                        break;
+                    default:
+                        func2 = x => true;
+                        break;
 
-            var ordered = query.Where(e => !e.IsStaff && !e.IsDeleted).OrderByDescending(func);
-            //TODO: filter by job
+                }
+            }
+            
 
-            total = ordered.Count();
+            var query = _repository.GetAll().Where(e => !e.IsStaff && !e.IsDeleted).Where(func2).OrderByDescending(func);
 
-            var result = ordered.Skip(index * count).Take(count).Select(e => new CharacterViewModel() {
+            total = query.Count();
+
+            //TODO AUTOMAPPER
+            var result = query.Skip(index * count).Take(count).Select(e => new CharacterViewModel() {
                 BossKills = e.BossKills,
                 Class = e.Class,
                 Dexterity = e.Dexterity,

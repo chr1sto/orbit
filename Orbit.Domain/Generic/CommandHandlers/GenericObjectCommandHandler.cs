@@ -63,6 +63,8 @@ namespace Orbit.Domain.Generic.CommandHandlers
 
             var genericObj = new GenericObject(request.Id, request.CreatedOn, request.Type, request.ValueType, request.Value, request.Visible);
 
+            _repository.Update(genericObj);
+
             if (Commit())
             {
                 //Should there be Events?

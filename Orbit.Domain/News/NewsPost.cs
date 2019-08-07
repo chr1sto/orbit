@@ -24,14 +24,14 @@ namespace Orbit.Domain.News
 
         protected NewsPost() { }
 
-        public string Caption { get; private set; }
-        public string Content { get; private set; }
-        public string ImageUrlSmallTile { get; private set; }
-        public string ImageUrlBigTile { get; private set; }
-        public string ImageUrlBanner { get; private set; }
-        public string ForumPostUrl { get; private set; }
-        public string Tags { get; private set; }
-        public bool Public { get; private set; }
+        public string Caption { get; set; }
+        public string Content { get; set; }
+        public string ImageUrlSmallTile { get; set; }
+        public string ImageUrlBigTile { get; set; }
+        public string ImageUrlBanner { get; set; }
+        public string ForumPostUrl { get; set; }
+        public string Tags { get; set; }
+        public bool Public { get; set; }
         public DateTime CreatedOn { get; private set; }
         public Guid CreatedBy { get; private set; }
     }

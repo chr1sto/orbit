@@ -6,6 +6,7 @@ using Orbit.Domain.Core.Notifications;
 using Orbit.Domain.GameCharacter.Commands;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,7 +34,39 @@ namespace Orbit.Domain.GameCharacter.CommandHandlers
                 return Task.FromResult(false);
             }
 
-            var @char = new Character(
+            var @char = _repository.GetAll().Where(e => e.PlayerId == request.PlayerId).FirstOrDefault();
+
+            if(@char != null)
+            {
+                @char.UpdateId = request.UpdateId;
+                @char.UpdatedOn =  request.UpdatedOn;
+                @char.IsStaff =  request.IsStaff;
+                @char.PlayerId =  request.PlayerId;
+                @char.Account =  request.Account;
+                @char.Name =  request.Name;
+                @char.Class =  request.Class;
+                @char.GearScore =  request.GearScore;
+                @char.Level =  request.Level;
+                @char.PlayTime =  request.PlayTime;
+                @char.CreatedOn =  request.CreatedOn;
+                @char.Strength =  request.Strength;
+                @char.Dexterity =  request.Dexterity;
+                @char.Stamina =  request.Stamina;
+                @char.Intelligence =  request.Intelligence;
+                @char.Perin =  request.Perin;
+                @char.Penya =  request.Penya;
+                @char.RedChips =  request.RedChips;
+                @char.EuphresiaCoins =  request.EuphresiaCoins;
+                @char.VotePoints =  request.VotePoints;
+                @char.DonateCoins =  request.DonateCoins;
+                @char.BossKills =  request.BossKills;
+                @char.IsDeleted =  request.IsDeleted;
+
+                _repository.Update(@char);
+            }
+            else
+            {
+                @char = new Character(
                 request.Id,
                 request.UpdateId,
                 request.UpdatedOn,
@@ -60,7 +93,8 @@ namespace Orbit.Domain.GameCharacter.CommandHandlers
                 request.IsDeleted
                 );
 
-            _repository.Add(@char);
+                _repository.Add(@char);
+            }
 
             Commit();
 

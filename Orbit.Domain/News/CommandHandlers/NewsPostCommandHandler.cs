@@ -74,30 +74,25 @@ namespace Orbit.Domain.News.CommandHandlers
                 return false;
             }
 
-            var exists =_repository.Exists(message.Id);
+            var newsPost = _repository.GetById(message.Id);
 
-            if(!exists)
+            if (newsPost == null)
             {
                 return false;
             }
 
-            var newsPost = new NewsPost(
-                            message.Id,
-                            message.Caption,
-                            message.Content,
-                            message.ImageUrlSmallTile,
-                            message.ImageUrlBigTile,
-                            message.ImageUrlBanner,
-                            message.ForumPostUrl,
-                            message.Public,
-                            DateTime.Now,
-                            message.UserId,
-                            message.Tags
-                        );
+            newsPost.Caption = message.Caption;
+            newsPost.Content = message.Content;
+            newsPost.ForumPostUrl = message.ForumPostUrl;
+            newsPost.ImageUrlBanner = message.ImageUrlBanner;
+            newsPost.ImageUrlBigTile = message.ImageUrlBigTile;
+            newsPost.ImageUrlSmallTile = message.ImageUrlSmallTile;
+            newsPost.Public = message.Public;
+            newsPost.Tags = message.Tags;
 
             _repository.Update(newsPost);
 
-            if(Commit())
+            if (Commit())
             {
                 await _bus.RaiseEvent(new NewsPostUpdatedEvent(
                         newsPost.Id,

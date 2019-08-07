@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.FileProviders;
 using System.Linq;
+using Orbit.Api.Hubs;
 
 namespace Orbit.Api
 {
@@ -106,6 +107,8 @@ namespace Orbit.Api
 
             services.AddMediatR(typeof(Startup));
 
+
+            services.AddSignalR();
             RegisterServices(services);
         }
 
@@ -147,7 +150,7 @@ namespace Orbit.Api
                 });
             }
 
-            app.MapWhen(r => !r.Request.Path.Value.StartsWith("/swagger") && !r.Request.Path.Value.StartsWith("/api"), b =>
+            app.MapWhen(r => !r.Request.Path.Value.StartsWith("/swagger") && !r.Request.Path.Value.StartsWith("/api") && !r.Request.Path.Value.StartsWith("/sock"), b =>
             {
                 b.UseStaticFiles(new StaticFileOptions
                 {
@@ -155,6 +158,11 @@ namespace Orbit.Api
                     RequestPath = new Microsoft.AspNetCore.Http.PathString("/static")
                 }
                 );
+            });
+
+            app.UseSignalR(route =>
+            {
+                route.MapHub<VoteHub>("/sock/vote");
             });
 
             EnsureRolesCreated(serviceProvider).Wait();

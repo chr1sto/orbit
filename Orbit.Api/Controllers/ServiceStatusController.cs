@@ -32,6 +32,13 @@ namespace Orbit.Api.Controllers
             return Response(_serviceStatusAppService.GetRecent());
         }
 
+        [ProducesResponseType(typeof(ApiResult<IEnumerable<ServiceStatusViewModel>>), 200)]
+        [HttpGet("")]
+        public IActionResult Get()
+        {
+            return Response(_serviceStatusAppService.GetRecentPublic());
+        }
+
         [ProducesResponseType(typeof(ApiResult<ServiceStatusViewModel>), 200)]
         [ProducesResponseType(typeof(ApiResult<ServiceStatusViewModel>), 400)]
         [Authorize(Roles = "GameService")]

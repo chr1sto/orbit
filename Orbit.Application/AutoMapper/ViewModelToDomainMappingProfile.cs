@@ -7,6 +7,8 @@ using Orbit.Domain.Generic.Commands;
 using Orbit.Domain.News.Commands;
 using Orbit.Domain.ServiceStatus.Commands;
 using Orbit.Domain.Statistics.Commands;
+using Orbit.Domain.Transaction;
+using Orbit.Domain.Transaction.Commands;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -103,6 +105,9 @@ namespace Orbit.Application.AutoMapper
             //Statistics
             CreateMap<StatisticsEntryViewModel, CreateStatisticsEntryCommand>()
                 .ConstructUsing(c => new CreateStatisticsEntryCommand(c.Start, c.End, c.StatGroup, c.StatName, c.ValueType, c.Value));
+
+            CreateMap<Transaction, CreateTransactionCommand>()
+                .ConstructUsing(c => new CreateTransactionCommand(c.UserId, c.Date, c.Amount, c.Currency, c.IpAddress, c.RemoteAddress, c.Reason));
 
         }
     }

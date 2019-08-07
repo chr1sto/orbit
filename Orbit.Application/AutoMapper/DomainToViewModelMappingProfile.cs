@@ -5,6 +5,7 @@ using Orbit.Domain.GameCharacter;
 using Orbit.Domain.Generic;
 using Orbit.Domain.News;
 using Orbit.Domain.Statistics;
+using Orbit.Domain.Transaction;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,6 +28,7 @@ namespace Orbit.Application.AutoMapper
             CreateMap<Character, CharacterAdminViewModel>();
             CreateMap<Character, CharacterViewModel>();
             CreateMap<StatisticsEntry, StatisticsEntryViewModel>();
+            CreateMap<Transaction, TransactionViewModel>();
         }
     }
 }
