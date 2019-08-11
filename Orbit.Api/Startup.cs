@@ -20,6 +20,8 @@ using Microsoft.Extensions.FileProviders;
 using System.Linq;
 using Orbit.Api.Hubs;
 using System.Collections.Generic;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace Orbit.Api
 {
@@ -75,6 +77,8 @@ namespace Orbit.Api
                 });
             });
 
+            services.AddMemoryCache();
+
             services.Configure<IISServerOptions>(options => options.AutomaticAuthentication = false);
 
             services.AddDbContext<ApplicationDbContext>();
@@ -120,7 +124,14 @@ namespace Orbit.Api
                 });
 
             //Todo: Policies
-            services.AddAuthorization();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(JwtBearerDefaults.AuthenticationScheme, policy =>
+                {
+                    policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
+                    policy.RequireClaim(ClaimTypes.NameIdentifier);
+                });
+            });
 
             services.AddSwaggerGen(s =>
             {
@@ -162,6 +173,12 @@ namespace Orbit.Api
                 {
                     b.UseCors("PROD_ENV_SOCKET");
                 }
+
+                b.Use(async (context, next) =>
+                {
+                    await AuthQueryStringToHeader(context, next);
+                });
+
                 b.UseHttpsRedirection();
                 b.UseAuthentication();
                 b.UseSignalR(route =>
@@ -236,6 +253,19 @@ namespace Orbit.Api
                     result = await roleManager.CreateAsync(new IdentityRole(role));
                 }
             }
+        }
+
+        private async Task AuthQueryStringToHeader(HttpContext context, Func<Task> next)
+        {
+            var token = context.Request.Query["access_token"];
+
+
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+                context.Request.Headers.Add("Authorization", "Bearer " + token);
+            }
+
+            await next?.Invoke();
         }
     }
 }
