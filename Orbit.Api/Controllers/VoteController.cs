@@ -51,7 +51,7 @@ namespace Orbit.Api.Controllers
             var lastVote = _transactionAppService.GetLastVote(new Guid(pingUsername), VoterIP);
 
             bool canVote = true;
-            TimeSpan elapsedTime = new TimeSpan();
+            TimeSpan elapsedTime = new TimeSpan(0,0,0);
             if (lastVote != null)
             {
                 elapsedTime = DateTime.Now - lastVote.Date;
@@ -64,7 +64,7 @@ namespace Orbit.Api.Controllers
             if(!canVote)
             {
                 var timeUntilNextVote = new TimeSpan(24, 0, 0) - elapsedTime;
-                await _voteHubContext.Clients.User(pingUsername).SendAsync("ALREADY_VOTED_TODAY", timeUntilNextVote.ToString());
+                await _voteHubContext.Clients.User(pingUsername).SendAsync("STATE", new VoteState("ALREADY_VOTED",timeUntilNextVote.ToString()));
                 return Ok();
             }
 
@@ -72,11 +72,11 @@ namespace Orbit.Api.Controllers
             {
                 _transactionAppService.Add(new Domain.Transaction.Transaction(Guid.NewGuid(), new Guid(pingUsername), DateTime.Now, VOTE_POINTS, "VP", VoterIP, remoteIpAddress.ToString(), "GTOP 100"));
 
-                await _voteHubContext.Clients.User(pingUsername).SendAsync("VOTE_SUCCESFULL", "VOTE_SUCCESFULL");
+                await _voteHubContext.Clients.User(pingUsername).SendAsync("STATE", new VoteState("VOTE_SUCCESFULL", ""));
             }
             else
             {
-                await _voteHubContext.Clients.User(pingUsername).SendAsync("VOTE_FAILED","VOTE_FAILED");
+                await _voteHubContext.Clients.User(pingUsername).SendAsync("STATE",new VoteState("VOTE_FAILED",""));
             }
 
 
