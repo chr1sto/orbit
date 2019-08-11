@@ -34,56 +34,49 @@ namespace Orbit.Api.Controllers
         }
 
         [HttpPost("pingback")]
-        public async Task<IActionResult> Pingback()
+        public async Task<IActionResult> Pingback(string VoterIP, string Successful, string Reason, string pingUsername)
         {
-            string voterIp;
-            string succesfull;
-            string error;
-            string userId;
-
             var remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress;
 
+#if DEBUG
+#else
             if(!validAddresses.Contains(remoteIpAddress.ToString()))
             {
                 return BadRequest("NICE_TRY");
             }
+#endif
 
-            Request.Form.TryGetValue("VoterIP", out Microsoft.Extensions.Primitives.StringValues vs);
-            if(vs.Count != 1) return BadRequest();
-            voterIp = vs.First();
+            //TODO Get ID and set flag to automatically send VotePoints to character!
 
+            var lastVote = _transactionAppService.GetLastVote(new Guid(pingUsername), VoterIP);
 
-            Request.Form.TryGetValue("Successful", out Microsoft.Extensions.Primitives.StringValues vs2);
-            if (vs2.Count != 1) return BadRequest();
-            succesfull = vs2.First();
+            bool canVote = true;
+            TimeSpan elapsedTime = new TimeSpan();
+            if (lastVote != null)
+            {
+                elapsedTime = DateTime.Now - lastVote.Date;
+                if (elapsedTime < new TimeSpan(24, 0, 0))
+                {
+                    canVote = false;
+                }
+            }
 
-            Request.Form.TryGetValue("Reason", out Microsoft.Extensions.Primitives.StringValues vs3);
-            if (vs3.Count != 1) return BadRequest();
-            error = vs3.First();
-
-            Request.Form.TryGetValue("Reason", out Microsoft.Extensions.Primitives.StringValues vs4);
-            if (vs4.Count != 1) return BadRequest();
-            userId = vs4.First();
-
-            var lastVote = _transactionAppService.GetLastVote(new Guid(userId), voterIp);
-
-            var elapsedTime = DateTime.Now - lastVote.Date;
-            if ( elapsedTime < new TimeSpan(24,0,0))
+            if(!canVote)
             {
                 var timeUntilNextVote = new TimeSpan(24, 0, 0) - elapsedTime;
-                await _voteHubContext.Clients.User(userId).SendAsync("ALREADY_VOTED_TODAY", timeUntilNextVote.ToString());
+                await _voteHubContext.Clients.User(pingUsername).SendAsync("ALREADY_VOTED_TODAY", timeUntilNextVote.ToString());
                 return Ok();
             }
 
-            if(succesfull == "1")
+            if (Successful == "1")
             {
-                _transactionAppService.Add(new Domain.Transaction.Transaction(Guid.NewGuid(), new Guid(userId), DateTime.Now, VOTE_POINTS, "VP", voterIp, remoteIpAddress.ToString(), "GTOP 100"));
+                _transactionAppService.Add(new Domain.Transaction.Transaction(Guid.NewGuid(), new Guid(pingUsername), DateTime.Now, VOTE_POINTS, "VP", VoterIP, remoteIpAddress.ToString(), "GTOP 100"));
 
-                await _voteHubContext.Clients.User(userId).SendAsync("VOTE_SUCCESFULL", "VOTE_SUCCESFULL");
+                await _voteHubContext.Clients.User(pingUsername).SendAsync("VOTE_SUCCESFULL", "VOTE_SUCCESFULL");
             }
             else
             {
-                await _voteHubContext.Clients.User(userId).SendAsync("VOTE_FAILED","VOTE_FAILED");
+                await _voteHubContext.Clients.User(pingUsername).SendAsync("VOTE_FAILED","VOTE_FAILED");
             }
 
 
