@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Orbit.Domain.Transaction
-{
+namespace Orbit.Domain.Game
+{ 
     public class Transaction : Entity
     {
-        public Transaction(Guid id,Guid userId, DateTime date, int amount, string currency, string ipAddress, string remoteAddress, string reason)
+        public Transaction(Guid id, Guid userId, DateTime date, int amount, string currency, string ipAddress, string remoteAddress, string reason, string target, string targetInfo, string status)
         {
             Id = id;
             UserId = userId;
@@ -17,6 +17,9 @@ namespace Orbit.Domain.Transaction
             IpAddress = ipAddress;
             RemoteAddress = remoteAddress;
             Reason = reason;
+            Target = target;
+            TargetInfo = targetInfo;
+            Status = status;
         }
 
         public Guid UserId { get; set; }
@@ -26,5 +29,8 @@ namespace Orbit.Domain.Transaction
         public string IpAddress { get; set; } 
         public string RemoteAddress { get; set; }
         public string Reason { get; set; }
+        public string Target { get; set; }
+        public string TargetInfo { get; set; }
+        public string Status { get; set; }
     }
 }

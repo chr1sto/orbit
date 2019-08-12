@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Orbit.Domain.Transaction.Commands
 {
-    public class CreateTransactionCommand : TransactionCommand
+    public class UpdateTransactionCommand : TransactionCommand
     {
-        public CreateTransactionCommand(Guid id, Guid userId, DateTime date, int amount, string currency, string ipAddress, string remoteAddress, string reason, string target, string targetInfo, string status)
+        public UpdateTransactionCommand(Guid id, Guid userId, DateTime date, int amount, string currency, string ipAddress, string remoteAddress, string reason, string target, string targetInfo, string status)
         {
             Id = id;
             UserId = userId;
@@ -24,7 +24,7 @@ namespace Orbit.Domain.Transaction.Commands
 
         public override bool IsValid()
         {
-            ValidationResult = new CreateTransactionValidation().Validate(this);
+            ValidationResult = new UpdateTransactionValidation().Validate(this);
             return ValidationResult.IsValid;
         }
     }

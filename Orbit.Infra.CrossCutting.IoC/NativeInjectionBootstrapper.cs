@@ -99,6 +99,7 @@ namespace Orbit.Infra.CrossCutting.IoC
             services.AddScoped<IRequestHandler<CreateCharacterCommand, bool>, CharacterCommandHandler>();
             services.AddScoped<IRequestHandler<RemoveCharacterCommand, bool>, CharacterCommandHandler>();
             services.AddScoped<IRequestHandler<CreateTransactionCommand, bool>, TransactionCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateTransactionCommand,bool>, TransactionCommandHandler>();
 
             // Infra - Data
             services.AddScoped<IRepository<NewsPost>,Repository<NewsPost>>();
@@ -107,7 +108,7 @@ namespace Orbit.Infra.CrossCutting.IoC
             services.AddScoped<IRepository<GenericObject>, Repository<GenericObject>>();
             services.AddScoped<IRepository<StatisticsEntry>, Repository<StatisticsEntry>>();
             services.AddScoped<IRepository<Character>, Repository<Character>>();
-            services.AddScoped<IRepository<Transaction>,Repository<Transaction>>();
+            services.AddScoped<IRepository<Orbit.Domain.Game.Transaction>,Repository<Orbit.Domain.Game.Transaction>>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             // Infra - Data EventSourcing

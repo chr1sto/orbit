@@ -15,5 +15,8 @@ namespace Orbit.Domain.Transaction.Commands
         public string IpAddress { get; protected set; }
         public string RemoteAddress { get; protected set; }
         public string Reason { get; protected set; }
+        public string Target { get; protected set; }
+        public string TargetInfo { get; protected set; }
+        public string Status { get; protected set; }
     }
 }

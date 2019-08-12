@@ -11,5 +11,8 @@ namespace Orbit.Application.ViewModels
         public DateTime Date { get; set; }
         public string Reason { get; set; }
         public string Currency { get; set; }
+        public string Target { get; set; }
+        public string TargetInfo { get; set; }
+        public string Status { get; set; }
     }
 }

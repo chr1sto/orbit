@@ -106,8 +106,14 @@ namespace Orbit.Application.AutoMapper
             CreateMap<StatisticsEntryViewModel, CreateStatisticsEntryCommand>()
                 .ConstructUsing(c => new CreateStatisticsEntryCommand(c.Start, c.End, c.StatGroup, c.StatName, c.ValueType, c.Value));
 
-            CreateMap<Transaction, CreateTransactionCommand>()
-                .ConstructUsing(c => new CreateTransactionCommand(c.UserId, c.Date, c.Amount, c.Currency, c.IpAddress, c.RemoteAddress, c.Reason));
+            CreateMap<Orbit.Domain.Game.Transaction, CreateTransactionCommand>()
+                .ConstructUsing(c => new CreateTransactionCommand(Guid.NewGuid(), c.UserId, c.Date, c.Amount, c.Currency, c.IpAddress, c.RemoteAddress, c.Reason, c.Target,c.TargetInfo,c.Status));
+
+            CreateMap<Orbit.Domain.Game.Transaction, UpdateTransactionCommand>()
+                .ConstructUsing(c => new UpdateTransactionCommand(c.Id, c.UserId, c.Date, c.Amount, c.Currency, c.IpAddress, c.RemoteAddress, c.Reason, c.Target, c.TargetInfo, c.Status));
+
+            CreateMap<TransactionViewModel, UpdateTransactionCommand>()
+                .ConstructUsing(c => new UpdateTransactionCommand(c.Id, Guid.NewGuid(), c.Date, c.Amount, c.Currency, "", "", c.Reason, c.Target, c.TargetInfo, c.Status));
 
         }
     }

@@ -26,7 +26,8 @@ namespace Orbit.Game.Core.Services
 
         public async Task<ICollection<StoredEvent>> GetUnhandled()
         {
-            var client = new GameEventClient(_configuration["BASE_API_PATH"], _httpClient);
+            var client = new GameEventClient(_httpClient);
+            client.BaseUrl = _configuration["BASE_API_PATH"];
             var result = await client.GameEventsGetAsync();
             var data = result.Data;
             return data.ToList();
@@ -34,7 +35,8 @@ namespace Orbit.Game.Core.Services
          
         public async Task<bool> SetHandled(Guid id)
         {
-            var client = new GameEventClient(_configuration["BASE_API_PATH"], _httpClient);
+            var client = new GameEventClient(_httpClient);
+            client.BaseUrl = _configuration["BASE_API_PATH"];
             await client.GameEventsPatchAsync(id);
             return true;
         }

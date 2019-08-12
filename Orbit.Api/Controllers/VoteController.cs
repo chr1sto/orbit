@@ -73,7 +73,7 @@ namespace Orbit.Api.Controllers
 
             if (Successful == "1")
             {
-                _transactionAppService.Add(new Domain.Transaction.Transaction(Guid.NewGuid(), new Guid(userID), DateTime.Now, VOTE_POINTS, "VP", VoterIP, remoteIpAddress.ToString(), "GTOP 100"));
+                _transactionAppService.Add(new Orbit.Domain.Game.Transaction(Guid.NewGuid(), new Guid(userID), DateTime.Now, VOTE_POINTS, "VP", VoterIP, remoteIpAddress.ToString(), "GTOP 100","WEB","","FINISHED"));
 
                 await _voteHubContext.Clients.User(userID).SendAsync("STATE", new VoteState("VOTE_SUCCESFULL", ""));
             }

@@ -34,7 +34,7 @@ namespace Orbit.Infra.Persistence.Context
         public DbSet<Character> Characters { get; set; }
         public DbSet<StatisticsEntry> StatisticsEntries { get; set; }
         public DbSet<GenericObject> GenericObjects { get; set; }
-        public DbSet<Transaction> Transactions { get; set; } 
+        public DbSet<Orbit.Domain.Game.Transaction> Transactions { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
