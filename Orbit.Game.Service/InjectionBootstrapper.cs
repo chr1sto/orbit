@@ -18,11 +18,12 @@ namespace Orbit.Game.Service
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IGameAccountService, GameAccountService>();
-            services.AddSingleton<IWebEventService, WebEventService>();
-            services.AddSingleton<IWebEventHandler, WebEventHandler>();
-            services.AddSingleton<IServiceStatusService, ServiceStatusService>();
-            services.AddSingleton<IGameCharacterService, GameCharacterService>();
+            services.AddTransient<IGameAccountService, GameAccountService>();
+            services.AddTransient<IWebEventService, WebEventService>();
+            services.AddTransient<IWebEventHandler, WebEventHandler>();
+            services.AddTransient<IServiceStatusService, ServiceStatusService>();
+            services.AddTransient<IGameCharacterService, GameCharacterService>();
+            services.AddTransient<IProcessTransactionsService, ProcessTransactionsService>();
             services.AddSingleton<HttpClient>();
         }
     }

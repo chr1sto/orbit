@@ -23,7 +23,8 @@ namespace Orbit.Game.Core.Services
         {
             _context = context;
             _httpClient = httpClient;
-            _client = new GameCharacterClient(configuration["BASE_API_PATH"], _httpClient);
+            _client = new GameCharacterClient( _httpClient);
+            _client.BaseUrl = configuration["BASE_API_PATH"];
             _logger = logger;
         }
 

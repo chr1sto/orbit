@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Orbit.Infra.Persistence.Context;
 
 namespace Orbit.Infra.Persistence.Migrations.Orbit
 {
     [DbContext(typeof(OrbitContext))]
-    partial class OrbitContextModelSnapshot : ModelSnapshot
+    [Migration("20190811081838_TransactionsAndVote")]
+    partial class TransactionsAndVote
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,36 +51,6 @@ namespace Orbit.Infra.Persistence.Migrations.Orbit
                     b.HasKey("Id");
 
                     b.ToTable("ServiceStates");
-                });
-
-            modelBuilder.Entity("Orbit.Domain.Game.Transaction", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Amount");
-
-                    b.Property<string>("Currency");
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<string>("IpAddress");
-
-                    b.Property<string>("Reason");
-
-                    b.Property<string>("RemoteAddress");
-
-                    b.Property<string>("Status");
-
-                    b.Property<string>("Target");
-
-                    b.Property<string>("TargetInfo");
-
-                    b.Property<Guid>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Orbit.Domain.GameCharacter.Character", b =>
@@ -207,6 +179,30 @@ namespace Orbit.Infra.Persistence.Migrations.Orbit
                     b.HasKey("Id");
 
                     b.ToTable("StatisticsEntries");
+                });
+
+            modelBuilder.Entity("Orbit.Domain.Transaction.Transaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Amount");
+
+                    b.Property<string>("Currency");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("IpAddress");
+
+                    b.Property<string>("Reason");
+
+                    b.Property<string>("RemoteAddress");
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Transactions");
                 });
 #pragma warning restore 612, 618
         }

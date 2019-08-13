@@ -28,7 +28,7 @@ namespace Orbit.Application.AutoMapper
             CreateMap<Character, CharacterAdminViewModel>();
             CreateMap<Character, CharacterViewModel>();
             CreateMap<StatisticsEntry, StatisticsEntryViewModel>();
-            CreateMap<Transaction, TransactionViewModel>();
+            CreateMap<Orbit.Domain.Game.Transaction, TransactionViewModel>();
         }
     }
 }

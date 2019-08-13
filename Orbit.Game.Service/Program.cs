@@ -15,17 +15,15 @@ namespace Orbit.Game.Service
 {
     public class Program
     {
-        private static CancellationTokenSource pollingCancellationTokenSource;
-        private static CancellationToken pollingCancellationToken;
-
-        private static CancellationTokenSource updateLoopCancellationTokenSource;
-        private static CancellationToken updateLoopCancellationToken;
-
-        private static TimeSpan serviceStatusUpdateInterval = new TimeSpan(0, 0, 20);
-
         private static Timer eventPollingTimer;
         private static Timer serviceUpdateTimer;
         private static Timer updateCharsTimer;
+        private static Timer processTransactionsTimer;
+
+        private static bool eventPollingRunning = false;
+        private static bool serviceUpdateRunning = false;
+        private static bool updateCharsRunning = false;
+        private static bool processTransactionsRunning = false;
 
         static void Main(string[] args)
         {
@@ -48,22 +46,46 @@ namespace Orbit.Game.Service
 
             var serviceProvider = services.BuildServiceProvider();
 
-            //Authenticate
-            if(Authenticate(serviceProvider, configuration).Result)
+            bool authenticated = false;
+
+            try
+            {
+                authenticated = Authenticate(serviceProvider, configuration).Result;
+            }
+            catch(Exception ex)
+            {
+                var logger = serviceProvider.GetService<ILogger<Program>>();
+                logger.LogCritical("Could not authenticate!!!\nException:\n{0}", ex.Message);
+            }
+
+            if (authenticated)
             {
                 eventPollingTimer = new System.Threading.Timer(
                     async (e) => {
-                        var webEventHandler = serviceProvider.GetService<IWebEventHandler>();
-                        var logger = serviceProvider.GetService<ILogger<Program>>();
-                        try
+                        using (var scope = serviceProvider.CreateScope())
                         {
-                            await webEventHandler.PollAndHandleEvents();
+                            if (!eventPollingRunning)
+                            {
+                                eventPollingRunning = true;
+                                var webEventHandler = scope.ServiceProvider.GetService<IWebEventHandler>();
+                                var logger = scope.ServiceProvider.GetService<ILogger<Program>>();
+                                try
+                                {
+                                    await webEventHandler.PollAndHandleEvents();
+                                }
+                                catch (Exception ex)
+                                {
+                                    logger.LogCritical("Unable to poll events:\nException:\n{0}", ex.Message);
+                                }
+                                finally
+                                {
+                                    eventPollingRunning = false;
+                                    eventPollingTimer.Change(5000, Timeout.Infinite);
+                                }
+                            }
+
                         }
-                        catch (Exception ex)
-                        {
-                            logger.LogCritical("Unable to poll events:\nException:\n{0}", ex.Message);
-                        }
-                        eventPollingTimer.Change(5000, Timeout.Infinite);
+
                     }
                     , null
                     , 5000
@@ -72,9 +94,29 @@ namespace Orbit.Game.Service
                 serviceUpdateTimer = new System.Threading.Timer(
                     async (e) =>
                     {
-                        var service = serviceProvider.GetRequiredService<IServiceStatusService>();
-                        service.Update();
-                        serviceUpdateTimer.Change(120000, Timeout.Infinite);
+                        using (var scope = serviceProvider.CreateScope())
+                        {
+                            if (!serviceUpdateRunning)
+                            {
+                                var logger = scope.ServiceProvider.GetService<ILogger<Program>>();
+                                try
+                                {
+                                    serviceUpdateRunning = true;
+                                    var service = scope.ServiceProvider.GetRequiredService<IServiceStatusService>();
+                                    service.Update();
+                                }
+                                catch (Exception ex)
+                                {
+                                    logger.LogCritical("Unable to update service states:\nException:\n{0}", ex.Message);
+                                }
+                                finally
+                                {
+                                    serviceUpdateRunning = false;
+                                    serviceUpdateTimer.Change(120000, Timeout.Infinite);
+                                }
+                            }
+                        }
+
                     }
                     , null
                     , 120000
@@ -84,12 +126,64 @@ namespace Orbit.Game.Service
                 updateCharsTimer = new System.Threading.Timer(
                     async (e) =>
                     {
-                        var service = serviceProvider.GetRequiredService<IGameCharacterService>();
-                        service.UpdateAll();
-                        updateCharsTimer.Change(120000, Timeout.Infinite);
+                        using (var scope = serviceProvider.CreateScope())
+                        {
+                            if (!updateCharsRunning)
+                            {
+                                var logger = scope.ServiceProvider.GetService<ILogger<Program>>();
+                                try
+                                {
+                                    updateCharsRunning = true;
+                                    var service = scope.ServiceProvider.GetRequiredService<IGameCharacterService>();
+                                    service.UpdateAll();
+                                }
+                                catch (Exception ex)
+                                {
+                                    logger.LogCritical("Unable to update characters:\nException:\n{0}", ex.Message);
+                                }
+                                finally
+                                {
+                                    updateCharsRunning = false;
+                                    updateCharsTimer.Change(120000, Timeout.Infinite);
+                                }
+                            }
+                        }
+
                     }
                     , null
                     , 5000//120000
+                    , Timeout.Infinite
+                    );
+
+                processTransactionsTimer = new System.Threading.Timer(
+                    async (e) =>
+                    {
+                        if(!processTransactionsRunning)
+                        {
+                            using(var scope = serviceProvider.CreateScope())
+                            {
+                                var logger = scope.ServiceProvider.GetService<ILogger<Program>>();
+                                try
+                                {
+                                    processTransactionsRunning = true;
+                                    var service = scope.ServiceProvider.GetRequiredService<IProcessTransactionsService>();
+                                    await service.Process();
+                                }
+                                catch (Exception ex)
+                                {
+                                    logger.LogCritical("Unable to process transactions:\nException:\n{0}", ex.Message);
+                                }
+                                finally
+                                {
+                                    processTransactionsRunning = false;
+                                    processTransactionsTimer.Change(5000, Timeout.Infinite);
+                                }
+                            }
+
+                        }
+                    }
+                    , null
+                    , 5000
                     , Timeout.Infinite
                     );
             }
@@ -101,7 +195,8 @@ namespace Orbit.Game.Service
         {
             var logger = serviceProvider.GetService<ILogger<Program>>();
             var httpClient = serviceProvider.GetRequiredService<HttpClient>();
-            var accountClient = new AccountClient(configuration["BASE_API_PATH"], httpClient);
+            var accountClient = new AccountClient(httpClient);
+            accountClient.BaseUrl = configuration["BASE_API_PATH"];
             var result = await accountClient.LoginAsync(new LoginViewModel()
             {
                 Email = configuration["Credentials:Email"],

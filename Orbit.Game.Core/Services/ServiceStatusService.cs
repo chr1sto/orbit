@@ -41,7 +41,8 @@ namespace Orbit.Game.Core.Services
 
         public void Update()
         {
-            var client = new ServiceStatusClient(_configuration["BASE_API_PATH"], _httpClient);
+            var client = new ServiceStatusClient(_httpClient);
+            client.BaseUrl = _configuration["BASE_API_PATH"];
 
             client.ServiceStatusPostAsync(new ServiceStatusViewModel() {
                 Service = "GameService",

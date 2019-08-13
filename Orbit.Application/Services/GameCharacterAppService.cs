@@ -3,6 +3,7 @@ using Orbit.Application.Interfaces;
 using Orbit.Application.ViewModels;
 using Orbit.Domain.Core.Bus;
 using Orbit.Domain.Core.Interfaces;
+using Orbit.Domain.Game.Models;
 using Orbit.Domain.GameCharacter;
 using Orbit.Domain.GameCharacter.Commands;
 using Orbit.Infra.Persistence.Repository.EventSourcing;
@@ -18,12 +19,14 @@ namespace Orbit.Application.Services
         private readonly IMapper _mapper;
         private readonly IEventStoreRepository _eventStoreRepository;
         private readonly IRepository<Character> _repository;
+        private readonly IRepository<GameAccount> _gameAccountRepo;
         private readonly IMediatorHandler _bus;
 
-        public GameCharacterAppService(IMapper mapper, IRepository<Character> repository, IEventStoreRepository eventStoreRepository, IMediatorHandler bus)
+        public GameCharacterAppService(IMapper mapper, IRepository<Character> repository, IRepository<GameAccount> gameAccountRepo, IEventStoreRepository eventStoreRepository, IMediatorHandler bus)
         {
             _mapper = mapper;
             _repository = repository;
+            _gameAccountRepo = gameAccountRepo;
             _eventStoreRepository = eventStoreRepository;
             _bus = bus;
         }
@@ -34,25 +37,24 @@ namespace Orbit.Application.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<CharacterAdminViewModel> GetAllByGameAccount(string account, out int total, int index = 0, int count = 10, string searchText = "")
+        public IEnumerable<CharacterAdminViewModel> GetAllByGameAccount(string account, bool includeDeleted,out int total, int index = 0, int count = 10, string searchText = "")
         {
             IQueryable<Character> query;
             if(!string.IsNullOrWhiteSpace(searchText))
             {
-                query = from c in _repository.GetAll().Where(c => c.Account == account && c.Name.ToUpper().Contains(searchText.ToUpper()))
-                        group c by c.PlayerId
-                        into g
-                        select g.OrderByDescending(e => e.UpdatedOn).FirstOrDefault();
+                query = _repository.GetAll().Where(c => c.Account == account && c.Name.ToUpper().Contains(searchText.ToUpper()));
             }
             else
             {
-                query = from c in _repository.GetAll().Where(c => c.Account == account)
-                        group c by c.PlayerId
-                        into g
-                        select g.OrderByDescending(e => e.UpdatedOn).FirstOrDefault();
+                query = _repository.GetAll().Where(c => c.Account == account);
             }
 
             total = query.Count();
+
+            if(!includeDeleted)
+            {
+                query = query.Where(c => c.IsDeleted == false);
+            }
 
             query = query.Skip(index * count).Take(count);
 
@@ -174,6 +176,15 @@ namespace Orbit.Application.Services
             } );
 
             return result;
+        }
+
+        public Guid GetWebIdFromCharName(string charName)
+        {
+            var character = _repository.GetAll().Where(x => x.Name == charName && x.IsDeleted == false).FirstOrDefault();
+            if (character == null) return Guid.Empty;
+            var gameAccount = _gameAccountRepo.GetAll().Where(x => x.Account == character.Account).FirstOrDefault();
+            if(gameAccount == null) return Guid.Empty;
+            return gameAccount.UserID;
         }
 
         public void InsertNewEntries(IEnumerable<CharacterAdminViewModel> models)

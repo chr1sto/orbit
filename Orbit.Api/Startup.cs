@@ -19,6 +19,9 @@ using System.Text;
 using Microsoft.Extensions.FileProviders;
 using System.Linq;
 using Orbit.Api.Hubs;
+using System.Collections.Generic;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace Orbit.Api
 {
@@ -48,6 +51,34 @@ namespace Orbit.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyOrigin();
+                });
+
+                options.AddPolicy("DEV_ENV_SOCKET", builder =>
+                {
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                    builder.AllowCredentials();
+                    builder.WithOrigins("https://localhost:4200", "http://localhost:4200");
+                });
+
+                options.AddPolicy("PROD_ENV_SOCKET", builder =>
+                {
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                    builder.AllowCredentials();
+                    builder.WithOrigins("https://euphresia-flyff.com", "http://euphresia-flyff.com");
+                });
+            });
+
+            services.AddMemoryCache();
+
             services.Configure<IISServerOptions>(options => options.AutomaticAuthentication = false);
 
             services.AddDbContext<ApplicationDbContext>();
@@ -61,7 +92,7 @@ namespace Orbit.Api
             services.AddMvc(options =>
             {
                 options.OutputFormatters.Remove(new XmlDataContractSerializerOutputFormatter());
-                options.UseCentralRoutePrefix(new RouteAttribute($"api/v{VERSION}"));
+                options.UseCentralRoutePrefix(new RouteAttribute($"v{VERSION}"));
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -93,7 +124,14 @@ namespace Orbit.Api
                 });
 
             //Todo: Policies
-            services.AddAuthorization();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(JwtBearerDefaults.AuthenticationScheme, policy =>
+                {
+                    policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
+                    policy.RequireClaim(ClaimTypes.NameIdentifier);
+                });
+            });
 
             services.AddSwaggerGen(s =>
             {
@@ -118,40 +156,50 @@ namespace Orbit.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseCors(
-                e => {
-                    e.AllowAnyHeader();
-                    e.AllowAnyMethod();
-                    e.AllowAnyOrigin();
-                });
             }
             else
             {
-                app.UseCors(
-                 e => {
-                     e.AllowAnyHeader();
-                     e.AllowAnyMethod();
-                     e.AllowAnyOrigin();
-                 });
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseAuthentication();
-            app.UseMvc();
-
-            if(env.IsDevelopment())
+            // SOCKETS
+            app.Map("/sock", b =>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI(s =>
+                if(env.IsDevelopment())
                 {
-                    s.SwaggerEndpoint("/swagger/v1/swagger.json", "Orbit");
-                });
-            }
+                    b.UseCors("DEV_ENV_SOCKET");
+                }
+                else
+                {
+                    b.UseCors("PROD_ENV_SOCKET");
+                }
 
+                b.Use(async (context, next) =>
+                {
+                    await AuthQueryStringToHeader(context, next);
+                });
+
+                b.UseHttpsRedirection();
+                b.UseAuthentication();
+                b.UseSignalR(route =>
+                {
+                    route.MapHub<VoteHub>("/vote");
+                });
+            });
+
+            //API
+            app.Map("/api", b =>
+            {
+                b.UseCors();
+                b.UseHttpsRedirection();
+                b.UseAuthentication();
+                b.UseMvc();
+            });
+            
+            //SATIC FILES
             app.MapWhen(r => !r.Request.Path.Value.StartsWith("/swagger") && !r.Request.Path.Value.StartsWith("/api") && !r.Request.Path.Value.StartsWith("/sock"), b =>
             {
+                b.UseCors();
                 b.UseStaticFiles(new StaticFileOptions
                 {
                     FileProvider = new PhysicalFileProvider(Configuration["FILE_UPLOAD_ROOT_PATH"]),
@@ -160,10 +208,29 @@ namespace Orbit.Api
                 );
             });
 
-            app.UseSignalR(route =>
+            //DOCUMENTATION
+            if (env.IsDevelopment())
             {
-                route.MapHub<VoteHub>("/sock/vote");
-            });
+                app.UseSwagger(options => {
+                    options.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+                    {
+                        swaggerDoc.BasePath = "/api";
+                    });
+
+                    options.PreSerializeFilters.Add((swaggerDoc, httpReq) => {
+                        IDictionary<string, PathItem> paths = new Dictionary<string, PathItem>();
+                        foreach (var path in swaggerDoc.Paths)
+                        {
+                            paths.Add(path.Key.Replace("/api", "/"), path.Value);
+                        }
+                        swaggerDoc.Paths = paths;
+                    });
+                });
+                app.UseSwaggerUI(s =>
+                {
+                    s.SwaggerEndpoint("/swagger/v1/swagger.json", "Orbit");
+                });
+            }
 
             EnsureRolesCreated(serviceProvider).Wait();
         }
@@ -186,6 +253,19 @@ namespace Orbit.Api
                     result = await roleManager.CreateAsync(new IdentityRole(role));
                 }
             }
+        }
+
+        private async Task AuthQueryStringToHeader(HttpContext context, Func<Task> next)
+        {
+            var token = context.Request.Query["access_token"];
+
+
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+                context.Request.Headers.Add("Authorization", "Bearer " + token);
+            }
+
+            await next?.Invoke();
         }
     }
 }

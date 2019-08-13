@@ -3,7 +3,7 @@ using Orbit.Application.Interfaces;
 using Orbit.Application.ViewModels;
 using Orbit.Domain.Core.Bus;
 using Orbit.Domain.Core.Interfaces;
-using Orbit.Domain.Transaction;
+using Orbit.Domain.Game;
 using Orbit.Domain.Transaction.Commands;
 using Orbit.Infra.Persistence.Repository.EventSourcing;
 using System;
@@ -44,9 +44,15 @@ namespace Orbit.Application.Services
             return _mapper.ProjectTo<TransactionViewModel>(transactions).AsEnumerable();
         }
 
+        public IEnumerable<TransactionViewModel> GetAllPendingForGame()
+        {
+            var transactions = _repository.GetAll().Where(x => x.Target.ToUpper() == "GAME" && x.Status.ToUpper() == "PENDING");
+            return _mapper.ProjectTo<TransactionViewModel>(transactions).AsEnumerable();
+        }
+
         public int GetBalance(Guid userId, string currency)
         {
-            return _repository.GetAll().Where(x => x.UserId == userId && x.Currency.ToUpper() == currency.ToUpper()).Sum(x => x.Amount);
+            return _repository.GetAll().Where(x => x.UserId == userId && x.Currency.ToUpper() == currency.ToUpper() && x.Status != "FAILED").Sum(x => x.Amount);
         }
 
         public TransactionViewModel GetById(Guid id)
@@ -56,8 +62,14 @@ namespace Orbit.Application.Services
 
         public TransactionViewModel GetLastVote(Guid userId, string ipAddress)
         {
-            var transaction = _repository.GetAll().Where((x => x.UserId == userId || x.IpAddress == ipAddress)).OrderByDescending(x => x.Date).FirstOrDefault();
+            var transaction = _repository.GetAll().Where((x => (x.UserId == userId || x.IpAddress == ipAddress) && x.Target == "WEB")).OrderByDescending(x => x.Date).FirstOrDefault();
             return _mapper.Map<TransactionViewModel>(transaction);
+        }
+
+        public void Update(TransactionViewModel transactionViewModel)
+        {
+            var updateCommand = _mapper.Map<UpdateTransactionCommand>(transactionViewModel);
+            _bus.SendCommand(updateCommand);
         }
     }
 }
