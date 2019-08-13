@@ -24,13 +24,15 @@ namespace Orbit.Api.Controllers
         private const int VOTE_POINTS = 8;
         private readonly string[] validAddresses = { "104.28.15.89", "173.245.58.198","173.245.59.206","127.0.0.1"};
         private readonly ITransactionAppService _transactionAppService;
+        private readonly IGameCharacterAppService _gameCharacterAppService;
         private readonly IHubContext<VoteHub> _voteHubContext;
         private readonly IUser _user;
 
-        public VoteController(IUser user,ITransactionAppService transactionAppService, IHubContext<VoteHub> voteHubContext,INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator) : base(notifications, mediator)
+        public VoteController(IUser user,ITransactionAppService transactionAppService, IGameCharacterAppService gameCharacterAppService,IHubContext<VoteHub> voteHubContext,INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator) : base(notifications, mediator)
         {
             _transactionAppService = transactionAppService;
             _voteHubContext = voteHubContext;
+            _gameCharacterAppService = gameCharacterAppService;
             _user = user;
         }
 
@@ -46,8 +48,21 @@ namespace Orbit.Api.Controllers
                 return BadRequest("NICE_TRY");
             }
 #endif
-
-            var userID = pingUsername;
+            bool transferToChar = false;
+            string charName = null;
+            string userID = null;
+            if (!Guid.TryParse(pingUsername,out Guid result))
+            {
+                charName = pingUsername;
+                transferToChar = true;
+                var userId = _gameCharacterAppService.GetWebIdFromCharName(charName);
+                if (userId == Guid.Empty) return BadRequest();
+                userID = userId.ToString();
+            }
+            else
+            {
+                userID = pingUsername;
+            }
 
             //TODO Get ID and set flag to automatically send VotePoints to character!
 
@@ -67,7 +82,7 @@ namespace Orbit.Api.Controllers
             if(!canVote)
             {
                 var timeUntilNextVote = new TimeSpan(24, 0, 0) - elapsedTime;
-                await _voteHubContext.Clients.User(userID).SendAsync("STATE", new VoteState("ALREADY_VOTED",timeUntilNextVote.ToString()));
+                if(!transferToChar) await _voteHubContext.Clients.User(userID).SendAsync("STATE", new VoteState("ALREADY_VOTED",timeUntilNextVote.ToString()));
                 return Ok();
             }
 
@@ -75,11 +90,16 @@ namespace Orbit.Api.Controllers
             {
                 _transactionAppService.Add(new Orbit.Domain.Game.Transaction(Guid.NewGuid(), new Guid(userID), DateTime.Now, VOTE_POINTS, "VP", VoterIP, remoteIpAddress.ToString(), "GTOP 100","WEB","","FINISHED"));
 
-                await _voteHubContext.Clients.User(userID).SendAsync("STATE", new VoteState("VOTE_SUCCESFULL", ""));
+                if(transferToChar)
+                {
+                    _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), new Guid(userID), DateTime.Now, -8, "VP", VoterIP, remoteIpAddress.ToString(), "Withdrawal", "GAME", charName, "PENDING"));
+                }
+
+                if (!transferToChar)  await _voteHubContext.Clients.User(userID).SendAsync("STATE", new VoteState("VOTE_SUCCESFULL", ""));
             }
             else
             {
-                 await _voteHubContext.Clients.User(userID).SendAsync("STATE",new VoteState("VOTE_FAILED",""));
+                if (!transferToChar)  await _voteHubContext.Clients.User(userID).SendAsync("STATE",new VoteState("VOTE_FAILED",""));
             }
 
 

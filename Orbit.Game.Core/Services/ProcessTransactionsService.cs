@@ -46,7 +46,7 @@ namespace Orbit.Game.Core.Services
                                 {
                                     ItemName = itemName,
                                     PlayerId = player.IdPlayer,
-                                    ItemCount = t.Amount ?? 0,
+                                    ItemCount = Math.Abs(t.Amount ?? 0),
                                     SenderId = "0000000",
                                     ServerIndex = "01"
                                 };

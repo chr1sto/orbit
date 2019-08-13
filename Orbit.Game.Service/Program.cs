@@ -46,8 +46,19 @@ namespace Orbit.Game.Service
 
             var serviceProvider = services.BuildServiceProvider();
 
-            //Authenticate
-            if(Authenticate(serviceProvider, configuration).Result)
+            bool authenticated = false;
+
+            try
+            {
+                authenticated = Authenticate(serviceProvider, configuration).Result;
+            }
+            catch(Exception ex)
+            {
+                var logger = serviceProvider.GetService<ILogger<Program>>();
+                logger.LogCritical("Could not authenticate!!!\nException:\n{0}", ex.Message);
+            }
+
+            if (authenticated)
             {
                 eventPollingTimer = new System.Threading.Timer(
                     async (e) => {
