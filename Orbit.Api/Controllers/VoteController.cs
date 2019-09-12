@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Orbit.Api.Hubs;
 using Orbit.Api.Misc;
 using Orbit.Application.Interfaces;
@@ -26,24 +27,27 @@ namespace Orbit.Api.Controllers
         private readonly ITransactionAppService _transactionAppService;
         private readonly IGameCharacterAppService _gameCharacterAppService;
         private readonly IHubContext<VoteHub> _voteHubContext;
+        private readonly ILogger _logger;
         private readonly IUser _user;
 
-        public VoteController(IUser user,ITransactionAppService transactionAppService, IGameCharacterAppService gameCharacterAppService,IHubContext<VoteHub> voteHubContext,INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator) : base(notifications, mediator)
+        public VoteController(IUser user, ILogger<VoteController> logger,ITransactionAppService transactionAppService, IGameCharacterAppService gameCharacterAppService,IHubContext<VoteHub> voteHubContext,INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator) : base(notifications, mediator)
         {
             _transactionAppService = transactionAppService;
             _voteHubContext = voteHubContext;
             _gameCharacterAppService = gameCharacterAppService;
+            _logger = logger;
             _user = user;
         }
 
         [HttpPost("pingback")]
         public async Task<IActionResult> Pingback(string VoterIP, string Successful, string Reason, string pingUsername)
         {
-            var remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress;
+            string remoteIpAddress = Request.GetIPAddress();
 
+            _logger.LogWarning("Vote Ip Address :: {0}", remoteIpAddress ?? "NULL");
 #if DEBUG
 #else
-            if(!validAddresses.Contains(remoteIpAddress.ToString()))
+            if (!validAddresses.Contains(remoteIpAddress))
             {
                 return BadRequest("NICE_TRY");
             }
@@ -86,7 +90,7 @@ namespace Orbit.Api.Controllers
                 return Ok();
             }
 
-            if (Successful == "1")
+            if (Successful == "0")
             {
                 _transactionAppService.Add(new Orbit.Domain.Game.Transaction(Guid.NewGuid(), new Guid(userID), DateTime.Now, VOTE_POINTS, "VP", VoterIP, remoteIpAddress.ToString(), "GTOP 100","WEB","","FINISHED"));
 

@@ -22,6 +22,7 @@ using Orbit.Api.Hubs;
 using System.Collections.Generic;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace Orbit.Api
 {
@@ -80,6 +81,11 @@ namespace Orbit.Api
             services.AddMemoryCache();
 
             services.Configure<IISServerOptions>(options => options.AutomaticAuthentication = false);
+
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
 
             services.AddDbContext<ApplicationDbContext>();
 
