@@ -191,6 +191,19 @@ namespace Orbit.Api.Controllers
             return Response(model);
         }
 
+        [ProducesResponseType(typeof(ApiResult<bool>), 200)]
+        [ProducesResponseType(typeof(ApiResult<bool>), 400)]
+        [HttpGet("mail-verified")]
+        public async Task<IActionResult> IsMailVerified()
+        {
+            var user = await GetCurrenUser();
+            if(user != null)
+            {
+                return Response(user.EmailConfirmed);
+            }
+            return BadRequest();
+        }
+
         private string GetVerificationCallbackUrl(string code)
         {
             return _emailVerificationCallbackUrl
