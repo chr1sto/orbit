@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Orbit.Api.Hubs;
 using Orbit.Api.Misc;
@@ -22,7 +24,7 @@ namespace Orbit.Api.Controllers
     [Route("vote")]
     public class VoteController : ApiController
     {
-        private const int VOTE_POINTS = 8;
+        private readonly int _votePoints = 100;
         private readonly string[] validAddresses = { "104.28.15.89", "173.245.58.198","173.245.59.206","127.0.0.1"};
         private readonly ITransactionAppService _transactionAppService;
         private readonly IGameCharacterAppService _gameCharacterAppService;
@@ -30,13 +32,21 @@ namespace Orbit.Api.Controllers
         private readonly ILogger _logger;
         private readonly IUser _user;
 
-        public VoteController(IUser user, ILogger<VoteController> logger,ITransactionAppService transactionAppService, IGameCharacterAppService gameCharacterAppService,IHubContext<VoteHub> voteHubContext,INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator) : base(notifications, mediator)
+        public VoteController(IHostingEnvironment env,  IUser user, ILogger<VoteController> logger,ITransactionAppService transactionAppService, IGameCharacterAppService gameCharacterAppService,IHubContext<VoteHub> voteHubContext,INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator) : base(notifications, mediator)
         {
             _transactionAppService = transactionAppService;
             _voteHubContext = voteHubContext;
             _gameCharacterAppService = gameCharacterAppService;
             _logger = logger;
             _user = user;
+
+            var config = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            validAddresses = config.GetSection("VOTE_ADDRESS_WHITELIST").Get<string[]>();
+            _votePoints = int.Parse(config["VOTE_POINTS_AMOUNT"]);
         }
 
         [HttpPost("pingback")]
@@ -92,11 +102,11 @@ namespace Orbit.Api.Controllers
 
             if (Successful == "0")
             {
-                _transactionAppService.Add(new Orbit.Domain.Game.Transaction(Guid.NewGuid(), new Guid(userID), DateTime.Now, VOTE_POINTS, "VP", VoterIP, remoteIpAddress.ToString(), "GTOP 100","WEB","","FINISHED"));
+                _transactionAppService.Add(new Orbit.Domain.Game.Transaction(Guid.NewGuid(), new Guid(userID), DateTime.Now, _votePoints, "VP", VoterIP, remoteIpAddress.ToString(), "GTOP 100","WEB","","FINISHED"));
 
                 if(transferToChar)
                 {
-                    _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), new Guid(userID), DateTime.Now, -8, "VP", VoterIP, remoteIpAddress.ToString(), "Withdrawal", "GAME", charName, "PENDING"));
+                    _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), new Guid(userID), DateTime.Now, _votePoints * -1 , "VP", VoterIP, remoteIpAddress.ToString(), "Withdrawal", "GAME", charName, "PENDING"));
                 }
 
                 if (!transferToChar)  await _voteHubContext.Clients.User(userID).SendAsync("STATE", new VoteState("VOTE_SUCCESFULL", ""));
