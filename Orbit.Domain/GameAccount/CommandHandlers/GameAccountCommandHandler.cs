@@ -61,6 +61,12 @@ namespace Orbit.Domain.GameAccount.CommandHandlers
                 return Task.FromResult(false);
             }
 
+            if(existingGameAccount.UserID != _user.Id)
+            {
+                _bus.RaiseEvent(new DomainNotification(message.MessageType, "You have no permission to perform this action."));
+                return Task.FromResult(false);
+            }
+
             //Todo: Option to trade/transfer Accounts
             var gameAccount = new Orbit.Domain.Game.Models.GameAccount(existingGameAccount.Id, existingGameAccount.UserID, existingGameAccount.Account, message.Alias);
 
