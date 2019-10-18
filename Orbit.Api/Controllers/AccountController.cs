@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Orbit.Api.Misc;
+using Orbit.Application.Interfaces;
 using Orbit.Domain.Core.Bus;
 using Orbit.Domain.Core.Notifications;
 using Orbit.Infra.CrossCutting.Identity.Extensions;
@@ -33,6 +34,7 @@ namespace Orbit.Api.Controllers
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
         private readonly IHostingEnvironment _env;
+        private readonly IGameAccountAppService _gameAccountAppService;
         private readonly string _emailVerificationCallbackUrl;
         private readonly string _passwordResetCallbackUrl;
 
@@ -44,6 +46,7 @@ namespace Orbit.Api.Controllers
             IHostingEnvironment env,
             ILoggerFactory loggerFactory,
             IConfiguration configuration,
+            IGameAccountAppService gameAccountAppService,
             INotificationHandler<DomainNotification> notifications, 
             IMediatorHandler mediator) : base(notifications, mediator)
         {
@@ -51,6 +54,7 @@ namespace Orbit.Api.Controllers
             _signInManager = signInManager;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _configuration = configuration;
+            _gameAccountAppService = gameAccountAppService;
             _emailSender = emailSender;
             _env = env;
 
@@ -120,6 +124,20 @@ namespace Orbit.Api.Controllers
 
             if(result.Succeeded)
             {
+                try
+                {
+                    _gameAccountAppService.Create(new Application.ViewModels.GameAccountViewModel()
+                    {
+                        Alias = "MyGameAccount",
+                        Account = Guid.NewGuid().ToString().Replace("-", string.Empty).ToLower(),
+                        Id = Guid.NewGuid()
+                    });
+                }
+                catch(Exception ex)
+                {
+                    _logger.LogInformation(3, "Something went terribly wrong when creating the default GameAccount:\n",ex.Message);
+                }
+
                 //await _signInManager.SignInAsync(user, false);
                 //Move this to a Service in Infra.CrossCutting.Identity!
                 user = await _userManager.FindByEmailAsync(user.Email);
