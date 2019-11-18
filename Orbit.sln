@@ -17,8 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{4CC39F6F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orbit.Infra.Persistence", "Orbit.Infra.Persistence\Orbit.Infra.Persistence.csproj", "{A8A5D2AC-6401-412B-9AAE-FABEB047DE47}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orbit.Game.Service", "Orbit.Game.Service\Orbit.Game.Service.csproj", "{74603A29-9C55-434E-B72F-ECBC907ABBEA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orbit.Domain.Core", "Orbit.Domain.Core\Orbit.Domain.Core.csproj", "{04CA0189-86F7-43C9-BF8E-3D306B8D34A8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orbit.Infra.CrossCutting.Bus", "Orbit.Infra.CrossCutting.Bus\Orbit.Infra.CrossCutting.Bus.csproj", "{E1A31A71-C3B5-4C4D-A96E-18B0099D4EDA}"
@@ -29,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orbit.Infra.CrossCutting.Id
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orbit.Domain.Game", "Orbit.Domain.Game\Orbit.Domain.Game.csproj", "{134275B4-DFEA-462F-A28B-0BF5D0D9089D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orbit.Infra.FileUpload", "Orbit.Infra.FileUpload\Orbit.Infra.FileUpload.csproj", "{BFD946C8-4024-47CD-840B-CC735544642F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orbit.Infra.FileUpload", "Orbit.Infra.FileUpload\Orbit.Infra.FileUpload.csproj", "{BFD946C8-4024-47CD-840B-CC735544642F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orbit.Game.Service", "Orbit.Game.Service\Orbit.Game.Service.csproj", "{942BB1F3-7569-493E-9C8E-3EC97EAD4563}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,10 +57,6 @@ Global
 		{A8A5D2AC-6401-412B-9AAE-FABEB047DE47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8A5D2AC-6401-412B-9AAE-FABEB047DE47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8A5D2AC-6401-412B-9AAE-FABEB047DE47}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74603A29-9C55-434E-B72F-ECBC907ABBEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74603A29-9C55-434E-B72F-ECBC907ABBEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74603A29-9C55-434E-B72F-ECBC907ABBEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74603A29-9C55-434E-B72F-ECBC907ABBEA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{04CA0189-86F7-43C9-BF8E-3D306B8D34A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{04CA0189-86F7-43C9-BF8E-3D306B8D34A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04CA0189-86F7-43C9-BF8E-3D306B8D34A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -85,6 +81,10 @@ Global
 		{BFD946C8-4024-47CD-840B-CC735544642F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFD946C8-4024-47CD-840B-CC735544642F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFD946C8-4024-47CD-840B-CC735544642F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{942BB1F3-7569-493E-9C8E-3EC97EAD4563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{942BB1F3-7569-493E-9C8E-3EC97EAD4563}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{942BB1F3-7569-493E-9C8E-3EC97EAD4563}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{942BB1F3-7569-493E-9C8E-3EC97EAD4563}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,11 +92,11 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{0AA73E0F-0AE2-4B1A-AB84-C41D79CC26E1} = {308AED0F-36F1-457A-82A3-94016E0E98BA}
 		{A8A5D2AC-6401-412B-9AAE-FABEB047DE47} = {4CC39F6F-E04C-46CA-8DF1-8DD5CC86C5C3}
-		{74603A29-9C55-434E-B72F-ECBC907ABBEA} = {308AED0F-36F1-457A-82A3-94016E0E98BA}
 		{E1A31A71-C3B5-4C4D-A96E-18B0099D4EDA} = {4CC39F6F-E04C-46CA-8DF1-8DD5CC86C5C3}
 		{E13245AB-575A-48BD-A7C8-A8CFDCBBBDB5} = {4CC39F6F-E04C-46CA-8DF1-8DD5CC86C5C3}
 		{1EF8F5D3-A854-452D-9E20-762FB35F0AC2} = {4CC39F6F-E04C-46CA-8DF1-8DD5CC86C5C3}
 		{BFD946C8-4024-47CD-840B-CC735544642F} = {4CC39F6F-E04C-46CA-8DF1-8DD5CC86C5C3}
+		{942BB1F3-7569-493E-9C8E-3EC97EAD4563} = {308AED0F-36F1-457A-82A3-94016E0E98BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66731AB0-F653-4F6E-822C-15FF77038CBB}

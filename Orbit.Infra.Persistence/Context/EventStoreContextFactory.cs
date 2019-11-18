@@ -13,7 +13,7 @@ namespace Orbit.Infra.Persistence.Context
         {
             var h = new HostingEnvironment
             {
-                ContentRootPath = @"C:\git\Euphresia\orbit\Orbit.Api"
+                ContentRootPath = @"F:\Projects\orbit\Orbit.Api"
             };
             var x = new EventStoreContext(h);
             return x;

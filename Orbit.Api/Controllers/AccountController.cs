@@ -85,12 +85,13 @@ namespace Orbit.Api.Controllers
                 return Response(loginViewModel);
             }
 
+            /*
             if(!user.EmailConfirmed)
             {
                 NotifyError("MAIL_NOT_VERIFIED", "You need to verify your email in order to be able to login!");
                 return Response(loginViewModel);
             }
-
+            */
             var result = await _signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, false, true);
             if(!result.Succeeded)
             {

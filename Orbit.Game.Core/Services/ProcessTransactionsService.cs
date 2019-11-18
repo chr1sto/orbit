@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Orbit.Game.Core.Data;
 using Orbit.Game.Core.Interfaces;
@@ -16,16 +17,16 @@ namespace Orbit.Game.Core.Services
 {
     public class ProcessTransactionsService : IProcessTransactionsService
     {
-        private readonly CharacterDbContext _context;
         private readonly TransactionsClient _client;
         private readonly ILogger<ProcessTransactionsService> _logger;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public ProcessTransactionsService(ILogger<ProcessTransactionsService> logger, CharacterDbContext context, HttpClient httpClient, IConfiguration configuration)
+        public ProcessTransactionsService(ILogger<ProcessTransactionsService> logger, HttpClient httpClient, IConfiguration configuration, IServiceScopeFactory serviceScopeFactory)
         {
-            _context = context;
             _client = new TransactionsClient(httpClient);
             _client.BaseUrl = configuration["BASE_API_PATH"];
             _logger = logger;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         public async Task Process()
@@ -35,73 +36,77 @@ namespace Orbit.Game.Core.Services
             {
                 if(transactions.Data != null)
                 {
-                    foreach(var t in transactions.Data)
+                    using(var scope = _serviceScopeFactory.CreateScope())
                     {
-                        var itemId = getItemIdFromCurrency(t.Currency);
-                        if (itemId != 0)
+                        var context = scope.ServiceProvider.GetRequiredService<CharacterDbContext>();
+                        foreach (var t in transactions.Data)
                         {
-                            var player = _context.Characters.Where(e => e.Name == t.TargetInfo).FirstOrDefault();
-
-                            if(player != null)
+                            var itemId = getItemIdFromCurrency(t.Currency);
+                            if (itemId != 0)
                             {
-                                try
+                                var player = context.Characters.Where(e => e.Name == t.TargetInfo).FirstOrDefault();
+
+                                if (player != null)
                                 {
-                                    using(var client = new TcpClient())
+                                    try
                                     {
-                                        client.Connect(IPAddress.Parse("127.0.0.1"), 29000);
-                                        byte[] bytes = new byte[36];
-
-                                        //ServerIndex
-                                        this.ToLittleEndianByteArray(1)
-                                            .CopyTo(bytes, 0);
-                                        //PlayerId
-                                        this.ToLittleEndianByteArray(int.Parse(player.IdPlayer))
-                                            .CopyTo(bytes, 4);
-                                        //TargetId
-                                        this.ToLittleEndianByteArray(int.Parse(player.IdPlayer))
-                                            .CopyTo(bytes, 8);
-                                        //Command
-                                        this.ToLittleEndianByteArray(101)
-                                            .CopyTo(bytes, 12);
-                                        //ItemId
-                                        this.ToLittleEndianByteArray(itemId)
-                                            .CopyTo(bytes, 16);
-                                        //Amount
-                                        this.ToLittleEndianByteArray(Math.Abs(t.Amount ?? 0))
-                                            .CopyTo(bytes, 20);
-                                        //param3 is empty;
-                                        //Password 1
-                                        this.ToLittleEndianByteArray(3851872)
-                                            .CopyTo(bytes, 28);
-                                        //Password 2
-                                        this.ToLittleEndianByteArray(6381597)
-                                            .CopyTo(bytes, 32);
-
-
-                                        using (NetworkStream stream = client.GetStream())
+                                        using (var client = new TcpClient())
                                         {
-                                            stream.Write(bytes, 0, bytes.Length);
-                                            stream.Close();
+                                            client.Connect(IPAddress.Parse("127.0.0.1"), 29000);
+                                            byte[] bytes = new byte[36];
+
+                                            //ServerIndex
+                                            this.ToLittleEndianByteArray(1)
+                                                .CopyTo(bytes, 0);
+                                            //PlayerId
+                                            this.ToLittleEndianByteArray(int.Parse(player.IdPlayer))
+                                                .CopyTo(bytes, 4);
+                                            //TargetId
+                                            this.ToLittleEndianByteArray(int.Parse(player.IdPlayer))
+                                                .CopyTo(bytes, 8);
+                                            //Command
+                                            this.ToLittleEndianByteArray(101)
+                                                .CopyTo(bytes, 12);
+                                            //ItemId
+                                            this.ToLittleEndianByteArray(itemId)
+                                                .CopyTo(bytes, 16);
+                                            //Amount
+                                            this.ToLittleEndianByteArray(Math.Abs(t.Amount ?? 0))
+                                                .CopyTo(bytes, 20);
+                                            //param3 is empty;
+                                            //Password 1
+                                            this.ToLittleEndianByteArray(3851872)
+                                                .CopyTo(bytes, 28);
+                                            //Password 2
+                                            this.ToLittleEndianByteArray(6381597)
+                                                .CopyTo(bytes, 32);
+
+
+                                            using (NetworkStream stream = client.GetStream())
+                                            {
+                                                stream.Write(bytes, 0, bytes.Length);
+                                                stream.Close();
+                                            }
+
+                                            client.Close();
                                         }
-
-                                        client.Close();
                                     }
-                                }
-                                catch (Exception e)
-                                {
-                                    t.Status = "FAILED";
+                                    catch (Exception e)
+                                    {
+                                        t.Status = "FAILED";
+                                        await _client.TransactionsPatchAsync(t);
+                                    }
+
+                                    t.Status = "FINISHED";
+
                                     await _client.TransactionsPatchAsync(t);
+                                    continue;
                                 }
-
-                                t.Status = "FINISHED";
-
-                                await _client.TransactionsPatchAsync(t);
-                                continue;
                             }
-                        }
 
-                        t.Status = "FAILED";
-                        await _client.TransactionsPatchAsync(t);
+                            t.Status = "FAILED";
+                            await _client.TransactionsPatchAsync(t);
+                        }
                     }
                 }
             }

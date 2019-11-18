@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Orbit.Game.Core.Misc
 {
-    internal class EventWrapper
+    public class EventWrapper
     {
         public string MessageType { get; set; }
     }

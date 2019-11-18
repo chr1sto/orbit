@@ -1,4 +1,5 @@
-﻿using Orbit.Domain.Game.Models;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Orbit.Domain.Game.Models;
 using Orbit.Game.Core.Data;
 using Orbit.Game.Core.Interfaces;
 using Orbit.Game.Core.Models;
@@ -11,11 +12,11 @@ namespace Orbit.Game.Core.Services
 {
     public class GameAccountService : IGameAccountService
     {
-        private readonly AccountDbContext _accountDbContext;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public GameAccountService(AccountDbContext accountDbContext)
+        public GameAccountService(IServiceScopeFactory serviceScopeFactory)
         {
-            _accountDbContext = accountDbContext;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         public Task<bool> BanAccount(string accountId)
@@ -62,10 +63,14 @@ namespace Orbit.Game.Core.Services
                 PlayTime = 0
             };
 
-            _accountDbContext.Add(account);
-            _accountDbContext.Add(accountDetail);
-            _accountDbContext.Add(accountPlayTime);
-            _accountDbContext.SaveChanges();
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<AccountDbContext>();
+                context.Add(account);
+                context.Add(accountDetail);
+                context.Add(accountPlayTime);
+                context.SaveChanges();
+            }
 
             return Task.FromResult(true);
         }
