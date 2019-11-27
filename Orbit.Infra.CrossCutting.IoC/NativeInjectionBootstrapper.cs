@@ -39,6 +39,8 @@ using Orbit.Infra.CrossCutting.Identity.Models;
 using Orbit.Infra.CrossCutting.Identity.Services;
 using Orbit.Infra.FileUpload.Interfaces;
 using Orbit.Infra.FileUpload.Services;
+using Orbit.Infra.Payments.PayPal.Interfaces;
+using Orbit.Infra.Payments.PayPal.Services;
 using Orbit.Infra.Persistence.Context;
 using Orbit.Infra.Persistence.EventSourcing;
 using Orbit.Infra.Persistence.Repository;
@@ -124,6 +126,9 @@ namespace Orbit.Infra.CrossCutting.IoC
 
             // Infra - FileUpload
             services.AddSingleton<IFileUploadService, FileUploadService>();
+
+            // Infra - PaymentProviders
+            services.AddScoped<IPayPalService, PayPalService>();
         }
 
     }

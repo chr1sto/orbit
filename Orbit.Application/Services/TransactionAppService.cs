@@ -34,6 +34,11 @@ namespace Orbit.Application.Services
             _bus.SendCommand(createCommand);
         }
 
+        public bool DonateOrderExists(string orderId)
+        {
+            return _repository.GetAll().Where(x => x.Reason.Contains(orderId)).FirstOrDefault() != null;
+        }
+
         public IEnumerable<TransactionViewModel> GetAllByUser(Guid userid, out int recordCount, int pageIndex = 0, int recordsPerPage = 20)
         {
             var query = _repository.GetAll().Where(x => x.UserId == userid);

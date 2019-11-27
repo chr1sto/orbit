@@ -138,6 +138,8 @@ namespace Orbit.Game.Core.Services
             switch (currency.ToUpper())
             {
                 case "VP": return 31439;
+                    //!!! WHATS THAT ID?
+                case "DP": return 31439;
                 default: return 0;
             }
         }

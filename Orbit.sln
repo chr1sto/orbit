@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orbit.Domain.Game", "Orbit.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orbit.Infra.FileUpload", "Orbit.Infra.FileUpload\Orbit.Infra.FileUpload.csproj", "{BFD946C8-4024-47CD-840B-CC735544642F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orbit.Game.Service", "Orbit.Game.Service\Orbit.Game.Service.csproj", "{942BB1F3-7569-493E-9C8E-3EC97EAD4563}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orbit.Game.Service", "Orbit.Game.Service\Orbit.Game.Service.csproj", "{942BB1F3-7569-493E-9C8E-3EC97EAD4563}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orbit.Infra.Payments.PayPal", "Orbit.Infra.Payments.PayPal\Orbit.Infra.Payments.PayPal.csproj", "{EB31A6A5-3C53-40B3-BB7B-AD18083B6F45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +87,10 @@ Global
 		{942BB1F3-7569-493E-9C8E-3EC97EAD4563}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{942BB1F3-7569-493E-9C8E-3EC97EAD4563}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{942BB1F3-7569-493E-9C8E-3EC97EAD4563}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB31A6A5-3C53-40B3-BB7B-AD18083B6F45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB31A6A5-3C53-40B3-BB7B-AD18083B6F45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB31A6A5-3C53-40B3-BB7B-AD18083B6F45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB31A6A5-3C53-40B3-BB7B-AD18083B6F45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +103,7 @@ Global
 		{1EF8F5D3-A854-452D-9E20-762FB35F0AC2} = {4CC39F6F-E04C-46CA-8DF1-8DD5CC86C5C3}
 		{BFD946C8-4024-47CD-840B-CC735544642F} = {4CC39F6F-E04C-46CA-8DF1-8DD5CC86C5C3}
 		{942BB1F3-7569-493E-9C8E-3EC97EAD4563} = {308AED0F-36F1-457A-82A3-94016E0E98BA}
+		{EB31A6A5-3C53-40B3-BB7B-AD18083B6F45} = {4CC39F6F-E04C-46CA-8DF1-8DD5CC86C5C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66731AB0-F653-4F6E-822C-15FF77038CBB}
