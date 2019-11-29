@@ -71,6 +71,9 @@ namespace Orbit.Game.Core.Mappings
             builder.Property(x => x.IsBlock)
                 .HasColumnType("char(1)")
                 .HasColumnName("isblock");
+            builder.Property(x => x.MultiServer)
+                .HasColumnType("int")
+                .HasColumnName("MultiServer");
             builder.ToTable("CHARACTER_TBL");
             builder.HasKey(x => x.IdPlayer);
         }

@@ -15,5 +15,6 @@ namespace Orbit.Application.Interfaces
         int GetBalance(Guid userId, string currency);
         IEnumerable<TransactionViewModel> GetAllPendingForGame();
         void Update(TransactionViewModel transactionViewModel);
+        bool DonateOrderExists(string orderId);
     }
 }

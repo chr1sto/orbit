@@ -46,6 +46,8 @@ namespace Orbit.Game.Core.Models.CharacterDb
         public int GearScore { get; set; }
         //isblock char(1)
         public char IsBlock { get; set; }
+        //int
+        public int MultiServer { get; set; }
 
     }
 }

@@ -20,11 +20,13 @@ namespace Orbit.Game.Core.Services
         private readonly TransactionsClient _client;
         private readonly ILogger<ProcessTransactionsService> _logger;
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly string _ip;
 
         public ProcessTransactionsService(ILogger<ProcessTransactionsService> logger, HttpClient httpClient, IConfiguration configuration, IServiceScopeFactory serviceScopeFactory)
         {
             _client = new TransactionsClient(httpClient);
             _client.BaseUrl = configuration["BASE_API_PATH"];
+            _ip = configuration["TRANSACTIONS_IP"];
             _logger = logger;
             _serviceScopeFactory = serviceScopeFactory;
         }
@@ -48,59 +50,64 @@ namespace Orbit.Game.Core.Services
 
                                 if (player != null)
                                 {
-                                    try
+                                    //IF Player is Online
+                                    if(player.MultiServer != 0)
                                     {
-                                        using (var client = new TcpClient())
+
+                                        try
                                         {
-                                            client.Connect(IPAddress.Parse("127.0.0.1"), 29000);
-                                            byte[] bytes = new byte[36];
-
-                                            //ServerIndex
-                                            this.ToLittleEndianByteArray(1)
-                                                .CopyTo(bytes, 0);
-                                            //PlayerId
-                                            this.ToLittleEndianByteArray(int.Parse(player.IdPlayer))
-                                                .CopyTo(bytes, 4);
-                                            //TargetId
-                                            this.ToLittleEndianByteArray(int.Parse(player.IdPlayer))
-                                                .CopyTo(bytes, 8);
-                                            //Command
-                                            this.ToLittleEndianByteArray(101)
-                                                .CopyTo(bytes, 12);
-                                            //ItemId
-                                            this.ToLittleEndianByteArray(itemId)
-                                                .CopyTo(bytes, 16);
-                                            //Amount
-                                            this.ToLittleEndianByteArray(Math.Abs(t.Amount ?? 0))
-                                                .CopyTo(bytes, 20);
-                                            //param3 is empty;
-                                            //Password 1
-                                            this.ToLittleEndianByteArray(3851872)
-                                                .CopyTo(bytes, 28);
-                                            //Password 2
-                                            this.ToLittleEndianByteArray(6381597)
-                                                .CopyTo(bytes, 32);
-
-
-                                            using (NetworkStream stream = client.GetStream())
+                                            using (var client = new TcpClient())
                                             {
-                                                stream.Write(bytes, 0, bytes.Length);
-                                                stream.Close();
+                                                client.Connect(IPAddress.Parse(_ip), 29000);
+                                                byte[] bytes = new byte[36];
+
+                                                //ServerIndex
+                                                this.ToLittleEndianByteArray(1)
+                                                    .CopyTo(bytes, 0);
+                                                //PlayerId
+                                                this.ToLittleEndianByteArray(int.Parse(player.IdPlayer))
+                                                    .CopyTo(bytes, 4);
+                                                //TargetId
+                                                this.ToLittleEndianByteArray(int.Parse(player.IdPlayer))
+                                                    .CopyTo(bytes, 8);
+                                                //Command
+                                                this.ToLittleEndianByteArray(101)
+                                                    .CopyTo(bytes, 12);
+                                                //ItemId
+                                                this.ToLittleEndianByteArray(itemId)
+                                                    .CopyTo(bytes, 16);
+                                                //Amount
+                                                this.ToLittleEndianByteArray(Math.Abs(t.Amount ?? 0))
+                                                    .CopyTo(bytes, 20);
+                                                //param3 is empty;
+                                                //Password 1
+                                                this.ToLittleEndianByteArray(3851872)
+                                                    .CopyTo(bytes, 28);
+                                                //Password 2
+                                                this.ToLittleEndianByteArray(6381597)
+                                                    .CopyTo(bytes, 32);
+
+
+                                                using (NetworkStream stream = client.GetStream())
+                                                {
+                                                    stream.Write(bytes, 0, bytes.Length);
+                                                    stream.Close();
+                                                }
+
+                                                client.Close();
                                             }
-
-                                            client.Close();
                                         }
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        t.Status = "FAILED";
+                                        catch (Exception e)
+                                        {
+                                            t.Status = "FAILED";
+                                            await _client.TransactionsPatchAsync(t);
+                                        }
+
+                                        t.Status = "FINISHED";
+
                                         await _client.TransactionsPatchAsync(t);
+                                        continue;
                                     }
-
-                                    t.Status = "FINISHED";
-
-                                    await _client.TransactionsPatchAsync(t);
-                                    continue;
                                 }
                             }
 
@@ -138,8 +145,7 @@ namespace Orbit.Game.Core.Services
             switch (currency.ToUpper())
             {
                 case "VP": return 31439;
-                    //!!! WHATS THAT ID?
-                case "DP": return 31439;
+                case "DP": return 31438;
                 default: return 0;
             }
         }

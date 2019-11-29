@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -42,17 +43,17 @@ namespace Orbit.Infra.Payments.PayPal.Services
                 _baseUrl = "https://api.sandbox.paypal.com/";
             }
 
-            var handler = new HttpClientHandler()
-            {
-                Credentials = new NetworkCredential(config["PAYPAL:CLIENT_ID"],config["CLIENT_SECRET"])
-            };
+            _httpClient = new HttpClient();
+            _httpClient.BaseAddress = new Uri(_baseUrl);
+            _httpClient.DefaultRequestHeaders
+                  .Accept
+                  .Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            _httpClient = new HttpClient(handler);
-            _httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
+            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"{config["PAYPAL:CLIENT_ID"]}:{config["PAYPAL:CLIENT_SECRET"]}"))}");
 
 
             _products = new Dictionary<string, string>();
-            var valuesSection = config.GetSection("MySettings:MyValues");
+            var valuesSection = config.GetSection("PAYPAL:PRODUCTS");
             foreach (IConfigurationSection section in valuesSection.GetChildren())
             {
                 var key = section["PRICE"];
@@ -65,32 +66,27 @@ namespace Orbit.Infra.Payments.PayPal.Services
 
         public async Task<int> VerifyOrder(string orderId)
         {
-            var response = await _httpClient.GetAsync(_baseUrl + "v2/checkout/orders/" + orderId);
+            var response = await _httpClient.GetAsync("/v2/checkout/orders/" + orderId);
 
             var s = await response.Content.ReadAsStringAsync();
             dynamic obj = JsonConvert.DeserializeObject(s);
 
             try
             {
-                var status = obj.status as string;
+                string status = obj.status;
                 if(status == "APPROVED" || status == "COMPLETED")
                 {
-                    var units = obj.status as dynamic[];
 
-                    if(units.Length > 0)
+                    string price = obj.purchase_units[0].amount.value;
+
+                    if(_products.ContainsKey(price))
                     {
-                        var unit = units[0];
-                        var price = unit.value as string;
-
-                        if(_products.ContainsKey(price))
-                        {
-                            int.TryParse(_products[price], out int ret);
-                            return ret;
-                        }
-                        else
-                        {
-                            _logger.LogError("!!! User did not donate valid amount, please check !!!");
-                        }
+                        int.TryParse(_products[price], out int ret);
+                        return ret;
+                    }
+                    else
+                    {
+                        _logger.LogError("!!! User did not donate valid amount, please check !!!");
                     }
                 }
             }
@@ -103,7 +99,16 @@ namespace Orbit.Infra.Payments.PayPal.Services
 
         private async Task Authorize()
         {
-            var result = await _httpClient.GetAsync(_baseUrl + "v1/oauth2/token");
+            var nvc = new List<KeyValuePair<string, string>>();
+            nvc.Add(new KeyValuePair<string, string>("grant_type", "client_credentials"));
+            var request = new HttpRequestMessage(HttpMethod.Post, "/v1/oauth2/token")
+            {
+                Content = new FormUrlEncodedContent(nvc)
+            };
+
+            var result = await _httpClient.SendAsync(request);
+
+
             if(!result.IsSuccessStatusCode)
             {
                 _logger.LogError("Could not authenticate with Paypal Credentials!");
@@ -114,6 +119,7 @@ namespace Orbit.Infra.Payments.PayPal.Services
 
             try
             {
+                _httpClient.DefaultRequestHeaders.Authorization = null;
                 _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {(string)obj.access_token}");
             }
             catch(Exception ex)

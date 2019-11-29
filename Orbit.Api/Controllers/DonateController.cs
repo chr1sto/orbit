@@ -15,6 +15,7 @@ using Orbit.Infra.Payments.PayPal.Interfaces;
 namespace Orbit.Api.Controllers
 {
     [Authorize]
+    [Route("donate")]
     public class DonateController : ApiController
     {
         private readonly IPayPalService _payPalService;
@@ -49,6 +50,14 @@ namespace Orbit.Api.Controllers
             _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), _user.Id, DateTime.Now, amount, "DP", "localhost", "localhost", $"Donation {orderId}", "WEB", "", "FINISHED"));
 
             return Response("Successfully Donated!");
+        }
+
+        [ProducesResponseType(typeof(ApiResult<int>), 200)]
+        [Authorize]
+        [HttpGet("balance")]
+        public async Task<IActionResult> GetBalance()
+        {
+            return Response(_transactionAppService.GetBalance(_user.Id, "DP"));
         }
     }
 }

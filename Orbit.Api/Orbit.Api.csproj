@@ -24,6 +24,7 @@
     <ProjectReference Include="..\Orbit.Application\Orbit.Application.csproj" />
     <ProjectReference Include="..\Orbit.Infra.CrossCutting.Identity\Orbit.Infra.CrossCutting.Identity.csproj" />
     <ProjectReference Include="..\Orbit.Infra.CrossCutting.IoC\Orbit.Infra.CrossCutting.IoC.csproj" />
+    <ProjectReference Include="..\Orbit.Infra.Payments.PayPal\Orbit.Infra.Payments.PayPal.csproj" />
   </ItemGroup>
 
 </Project>
