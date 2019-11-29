@@ -139,14 +139,22 @@ namespace Orbit.Api.Controllers
                     _logger.LogInformation(3, "Something went terribly wrong when creating the default GameAccount:\n",ex.Message);
                 }
 
+                try
+                {
+                    //Move this to a Service in Infra.CrossCutting.Identity!
+                    user = await _userManager.FindByEmailAsync(user.Email);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var email = user.Email;
+                    var callback = GetVerificationCallbackUrl(code, user);
+                    await _emailSender.SendEmailConfirmationAsync(email, callback);
+                    _logger.LogInformation(3, "User created a new account with password");
+                }
+                catch(Exception ex)
+                {
+                    _logger.LogWarning($"Could not send verification Mail: \n\n{ex.Message}");
+                }
                 //await _signInManager.SignInAsync(user, false);
-                //Move this to a Service in Infra.CrossCutting.Identity!
-                user = await _userManager.FindByEmailAsync(user.Email);
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var email = user.Email;
-                var callback = GetVerificationCallbackUrl(code,user);
-                await _emailSender.SendEmailConfirmationAsync(email, callback);
-                _logger.LogInformation(3, "User created a new account with password");
+
 
                 return Response("Verification Mail sent.");
 

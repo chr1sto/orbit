@@ -65,6 +65,11 @@ namespace Orbit.Application.Services
             EServiceState flag = EServiceState.Online;
             foreach (var item in serviceStates)
             {
+                if (item.State == Domain.Game.Enums.EServiceState.Maintenance)
+                {
+                    flag = EServiceState.Maintenance;
+                    break;
+                }
                 if (item.State != Domain.Game.Enums.EServiceState.Online || (DateTime.Now - item.TimeStamp) > new TimeSpan(0,5,0)) flag = EServiceState.Offline;
             }
             return new[] { new ServiceStatusViewModel(Guid.NewGuid(),"Server",DateTime.Now,(int)flag)};

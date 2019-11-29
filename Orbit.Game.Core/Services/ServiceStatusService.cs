@@ -6,6 +6,7 @@ using Orbit.Game.Core.Misc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 
@@ -41,6 +42,7 @@ namespace Orbit.Game.Core.Services
 
         public void Update()
         {
+
             var client = new ServiceStatusClient(_httpClient);
             client.BaseUrl = _configuration["BASE_API_PATH"];
 
@@ -49,7 +51,31 @@ namespace Orbit.Game.Core.Services
                 State = (int)EServiceState.Online
             }).Wait();
 
-            foreach(var monitorProcessInfo in _monitorProcessInfos)
+            var filePath = _configuration["ACCOUNT_INI_FILE_PATH"];
+
+            if (File.Exists(filePath))
+            {
+                var lines = File.ReadAllLines(filePath);
+                foreach (var line in lines)
+                {
+                    if (line.Contains("Maintenance") && line.Contains("1"))
+                    {
+                        foreach (var monitorProcessInfo in _monitorProcessInfos)
+                        {
+                            client.ServiceStatusPostAsync(new ServiceStatusViewModel()
+                            {
+                                Service = monitorProcessInfo.ServiceName,
+                                State = (int)EServiceState.Maintenance
+                            }).Wait();
+                        }
+
+                        return;
+                    }
+                }
+            }
+
+
+            foreach (var monitorProcessInfo in _monitorProcessInfos)
             {
                 EServiceState state;
                 var processes = Process.GetProcessesByName(monitorProcessInfo.ProcessName);
