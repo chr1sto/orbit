@@ -62,7 +62,7 @@ namespace Orbit.Api.Controllers
                 return Response(viewModel);
             }
 
-            if(viewModel.Currency != "VP")
+            if(viewModel.Currency != "VP" || viewModel.Currency != "DP")
             {
                 NotifyError("INVALID_CURRENCY", "You need to select a valid currency!");
                 return Response(viewModel);
