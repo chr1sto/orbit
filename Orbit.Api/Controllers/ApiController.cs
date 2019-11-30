@@ -89,7 +89,7 @@ namespace Orbit.Api.Controllers
         {
             var cacheEntryOptions = new MemoryCacheEntryOptions()
                // Keep in cache for this time, reset time if accessed.
-               .SetSlidingExpiration(expirationDate);
+               .SetAbsoluteExpiration(expirationDate);
             _cache.Set(key, value,cacheEntryOptions);
         }
     }
