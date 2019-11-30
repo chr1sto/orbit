@@ -128,7 +128,7 @@ namespace Orbit.Infra.CrossCutting.IoC
             services.AddSingleton<IFileUploadService, FileUploadService>();
 
             // Infra - PaymentProviders
-            services.AddSingleton<IPayPalService, PayPalService>();
+            services.AddScoped<IPayPalService, PayPalService>();
         }
 
     }

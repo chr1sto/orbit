@@ -63,10 +63,7 @@ namespace Orbit.Infra.Payments.PayPal.Services
 
         public async Task<int> VerifyOrder(string orderId)
         {
-            if(expirationDate.AddSeconds(-30) < DateTime.Now)
-            {
-                await this.Authorize();
-            }
+            await this.Authorize();
             var response = await _httpClient.GetAsync("/v2/checkout/orders/" + orderId);
 
             var s = await response.Content.ReadAsStringAsync();
