@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
+using Orbit.Api.Hubs;
 using Orbit.Api.Misc;
 using Orbit.Application.Interfaces;
 using Orbit.Application.ViewModels;
@@ -16,10 +20,11 @@ namespace Orbit.Api.Controllers
     [Route("service-status")]
     public class ServiceStatusController : ApiController
     {
+        private static string GET_CACHE_KEY = "ServiceStatus";
         private readonly IServiceStatusAppService _serviceStatusAppService;
 
 
-        public ServiceStatusController(IServiceStatusAppService serviceStatusAppService, INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator) : base(notifications, mediator)
+        public ServiceStatusController(IServiceStatusAppService serviceStatusAppService, IMemoryCache cache, INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator) : base(notifications, mediator, cache)
         {
             _serviceStatusAppService = serviceStatusAppService;
         }
@@ -36,7 +41,16 @@ namespace Orbit.Api.Controllers
         [HttpGet("")]
         public IActionResult Get()
         {
-            return Response(_serviceStatusAppService.GetRecentPublic());
+            var cachedResult = this.CacheGetValue<IEnumerable<ServiceStatusViewModel>>(GET_CACHE_KEY);
+            if(cachedResult == default)
+            {
+                var m = _serviceStatusAppService.GetRecentPublic();
+                this.CacheSetValue(GET_CACHE_KEY, m, TimeSpan.FromSeconds(30));
+                cachedResult = m;
+            }
+
+            
+            return Response(cachedResult);
         }
 
         [ProducesResponseType(typeof(ApiResult<ServiceStatusViewModel>), 200)]
