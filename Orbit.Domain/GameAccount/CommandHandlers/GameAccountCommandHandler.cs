@@ -67,14 +67,12 @@ namespace Orbit.Domain.GameAccount.CommandHandlers
                 return Task.FromResult(false);
             }
 
-            //Todo: Option to trade/transfer Accounts
-            var gameAccount = new Orbit.Domain.Game.Models.GameAccount(existingGameAccount.Id, existingGameAccount.UserID, existingGameAccount.Account, message.Alias);
-
-            _repository.Update(gameAccount);
+            existingGameAccount.Alias = message.Alias;
+            _repository.Update(existingGameAccount);
 
             if(Commit())
             {
-                _bus.RaiseEvent(new GameAccountUpdatedEvent(gameAccount.Id,gameAccount.UserID, gameAccount.Account, gameAccount.Alias));
+                _bus.RaiseEvent(new GameAccountUpdatedEvent(existingGameAccount.Id, existingGameAccount.UserID, existingGameAccount.Account, existingGameAccount.Alias));
             }
 
             return Task.FromResult(true);
