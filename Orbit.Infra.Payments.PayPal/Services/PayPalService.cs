@@ -22,7 +22,6 @@ namespace Orbit.Infra.Payments.PayPal.Services
         private readonly string _baseUrl;
         private readonly Dictionary<string, string> _products;
         private readonly IConfiguration _config;
-        private DateTime expirationDate = DateTime.Now.AddDays(-1);
 
         public PayPalService(IHostingEnvironment env, ILogger<PayPalService> logger)
         {
@@ -121,8 +120,6 @@ namespace Orbit.Infra.Payments.PayPal.Services
             {
                 _httpClient.DefaultRequestHeaders.Authorization = null;
                 _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {(string)obj.access_token}");
-                int.TryParse(obj.expires_in.ToString(), out int expiresInSeconds);
-                this.expirationDate = DateTime.Now.AddSeconds(expiresInSeconds);
             }
             catch(Exception ex)
             {
