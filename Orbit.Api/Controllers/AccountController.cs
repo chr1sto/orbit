@@ -9,6 +9,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -48,7 +49,8 @@ namespace Orbit.Api.Controllers
             IConfiguration configuration,
             IGameAccountAppService gameAccountAppService,
             INotificationHandler<DomainNotification> notifications, 
-            IMediatorHandler mediator) : base(notifications, mediator)
+            IMediatorHandler mediator,
+            IMemoryCache cache) : base(notifications, mediator, cache)
         {
             _userManager = userManager;
             _signInManager = signInManager;

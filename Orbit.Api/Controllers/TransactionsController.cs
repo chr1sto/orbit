@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Orbit.Api.Misc;
 using Orbit.Application.Interfaces;
 using Orbit.Application.ViewModels;
@@ -21,7 +22,7 @@ namespace Orbit.Api.Controllers
         private readonly ITransactionAppService _transactionAppService;
         private readonly IUser _user;
 
-        public TransactionsController(IUser user,ITransactionAppService transactionAppService, INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator) : base(notifications, mediator)
+        public TransactionsController(IUser user,ITransactionAppService transactionAppService, INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator, IMemoryCache cache) : base(notifications, mediator, cache)
         {
             _transactionAppService = transactionAppService;
             _user = user;

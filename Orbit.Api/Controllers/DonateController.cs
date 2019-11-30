@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Orbit.Api.Misc;
 using Orbit.Application.Interfaces;
 using Orbit.Domain.Core.Bus;
@@ -22,7 +23,7 @@ namespace Orbit.Api.Controllers
         private readonly ITransactionAppService _transactionAppService;
         private readonly IUser _user;
 
-        public DonateController(IPayPalService payPalService, ITransactionAppService transactionAppService, IUser user, INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator) : base(notifications, mediator)
+        public DonateController(IPayPalService payPalService, ITransactionAppService transactionAppService, IUser user, INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator, IMemoryCache cache) : base(notifications, mediator, cache)
         {
             _payPalService = payPalService;
             _transactionAppService = transactionAppService;

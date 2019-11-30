@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Orbit.Api.Misc;
 using Orbit.Domain.Core.Bus;
 using Orbit.Domain.Core.Notifications;
@@ -19,7 +20,7 @@ namespace Orbit.Api.Controllers
     {
         private readonly IFileUploadService _fileUploadService;
 
-        public FileUploadController(IFileUploadService fileUploadService,INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator) : base(notifications, mediator)
+        public FileUploadController(IFileUploadService fileUploadService,INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator, IMemoryCache cache) : base(notifications, mediator, cache)
         {
             _fileUploadService = fileUploadService;
         }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Orbit.Api.Misc;
 using Orbit.Domain.Core.Bus;
 using Orbit.Domain.Core.Notifications;
@@ -21,7 +22,7 @@ namespace Orbit.Api.Controllers
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public RolesController(RoleManager<IdentityRole> roleManager,UserManager<ApplicationUser> userManager,INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator) : base(notifications, mediator)
+        public RolesController(RoleManager<IdentityRole> roleManager,UserManager<ApplicationUser> userManager,INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator, IMemoryCache cache) : base(notifications, mediator, cache)
         {
             _userManager = userManager;
         }

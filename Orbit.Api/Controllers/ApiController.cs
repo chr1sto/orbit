@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Orbit.Api.Misc;
 using Orbit.Domain.Core.Bus;
 using Orbit.Domain.Core.Notifications;
@@ -15,12 +16,16 @@ namespace Orbit.Api.Controllers
     {
         private readonly DomainNotificationHandler _notifications;
         private readonly IMediatorHandler _mediator;
+        private readonly IMemoryCache _cache;
+
 
         protected ApiController(INotificationHandler<DomainNotification> notifications,
-                                IMediatorHandler mediator)
+                                IMediatorHandler mediator,
+                                IMemoryCache cache)
         {
             _notifications = (DomainNotificationHandler)notifications;
             _mediator = mediator;
+            _cache = cache;
         }
 
         protected IEnumerable<DomainNotification> Notifications => _notifications.GetNotifications();
@@ -71,6 +76,21 @@ namespace Orbit.Api.Controllers
             {
                 NotifyError(result.ToString(), error.Description);
             }
+        }
+
+        protected TResult CacheGetValue<TResult>(string key)
+        {
+            TResult entry = default;
+            _cache.TryGetValue(key, out entry);
+            return entry;
+        }
+
+        protected void CacheSetValue<T>(string key, T value, TimeSpan expirationDate)
+        {
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+               // Keep in cache for this time, reset time if accessed.
+               .SetSlidingExpiration(expirationDate);
+            _cache.Set(key, value,cacheEntryOptions);
         }
     }
 }

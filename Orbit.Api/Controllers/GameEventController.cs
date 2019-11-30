@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Orbit.Api.Misc;
 using Orbit.Application.Interfaces;
 using Orbit.Domain.Core.Bus;
@@ -19,7 +20,7 @@ namespace Orbit.Api.Controllers
     {
         private readonly IGameEventAppService _gameEventAppService;
 
-        public GameEventController(IGameEventAppService gameEventAppService, INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator) : base(notifications, mediator)
+        public GameEventController(IGameEventAppService gameEventAppService, INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator, IMemoryCache cache) : base(notifications, mediator, cache)
         {
             _gameEventAppService = gameEventAppService;
         }

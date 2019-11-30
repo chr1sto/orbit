@@ -32,7 +32,7 @@ namespace Orbit.Api.Controllers
         private readonly ILogger _logger;
         private readonly IUser _user;
 
-        public VoteController(IHostingEnvironment env,  IUser user, ILogger<VoteController> logger,ITransactionAppService transactionAppService, IGameCharacterAppService gameCharacterAppService,IHubContext<VoteHub> voteHubContext,INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator) : base(notifications, mediator)
+        public VoteController(IHostingEnvironment env,  IUser user, ILogger<VoteController> logger,ITransactionAppService transactionAppService, IGameCharacterAppService gameCharacterAppService,IHubContext<VoteHub> voteHubContext,INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator, IMemoryCache cache) : base(notifications, mediator, cache)
         {
             _transactionAppService = transactionAppService;
             _voteHubContext = voteHubContext;

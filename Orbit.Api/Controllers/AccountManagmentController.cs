@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Authorization;
 using Orbit.Api.Misc;
 using Orbit.Infra.CrossCutting.Identity.Models.AccountViewModels;
 using System.Text.Encodings.Web;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Orbit.Api.Controllers
 {
@@ -44,7 +45,8 @@ namespace Orbit.Api.Controllers
             IUser user,
             IHostingEnvironment env,
             INotificationHandler<DomainNotification> notifications,
-            IMediatorHandler mediator) : base(notifications, mediator)
+            IMediatorHandler mediator,
+            IMemoryCache cache) : base(notifications, mediator, cache)
         {
             _userManager = userManager;
             _signInManager = signInManager;
