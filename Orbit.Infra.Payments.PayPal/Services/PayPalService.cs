@@ -32,6 +32,7 @@ namespace Orbit.Infra.Payments.PayPal.Services
                 .SetBasePath(_env.ContentRootPath)
                 .AddJsonFile("appsettings.json")
                 .Build();
+            _config = config;
 
             bool.TryParse(config["PAYPAL:PROD"], out bool prod);
 
