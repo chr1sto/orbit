@@ -21,6 +21,8 @@ namespace Orbit.Infra.Payments.PayPal.Services
         private readonly HttpClient _httpClient;
         private readonly string _baseUrl;
         private readonly Dictionary<string, string> _products;
+        private readonly IConfiguration _config;
+        private DateTime expirationDate = DateTime.Now.AddDays(-1);
 
         public PayPalService(IHostingEnvironment env, ILogger<PayPalService> logger)
         {
@@ -47,10 +49,7 @@ namespace Orbit.Infra.Payments.PayPal.Services
             _httpClient.BaseAddress = new Uri(_baseUrl);
             _httpClient.DefaultRequestHeaders
                   .Accept
-                  .Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"{config["PAYPAL:CLIENT_ID"]}:{config["PAYPAL:CLIENT_SECRET"]}"))}");
-
+                  .Add(new MediaTypeWithQualityHeaderValue("application/json"));           
 
             _products = new Dictionary<string, string>();
             var valuesSection = config.GetSection("PAYPAL:PRODUCTS");
@@ -60,12 +59,14 @@ namespace Orbit.Infra.Payments.PayPal.Services
                 var value = section["AMOUNT"];
                 _products.Add(key, value);
             }
-
-            this.Authorize().Wait();
         }
 
         public async Task<int> VerifyOrder(string orderId)
         {
+            if(expirationDate.AddSeconds(-30) < DateTime.Now)
+            {
+                await this.Authorize();
+            }
             var response = await _httpClient.GetAsync("/v2/checkout/orders/" + orderId);
 
             var s = await response.Content.ReadAsStringAsync();
@@ -99,6 +100,8 @@ namespace Orbit.Infra.Payments.PayPal.Services
 
         private async Task Authorize()
         {
+            _httpClient.DefaultRequestHeaders.Add("Authorization", $"Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_config["PAYPAL:CLIENT_ID"]}:{_config["PAYPAL:CLIENT_SECRET"]}"))}");
+
             var nvc = new List<KeyValuePair<string, string>>();
             nvc.Add(new KeyValuePair<string, string>("grant_type", "client_credentials"));
             var request = new HttpRequestMessage(HttpMethod.Post, "/v1/oauth2/token")
@@ -121,6 +124,8 @@ namespace Orbit.Infra.Payments.PayPal.Services
             {
                 _httpClient.DefaultRequestHeaders.Authorization = null;
                 _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {(string)obj.access_token}");
+                int.TryParse(obj.expires_in.ToString(), out int expiresInSeconds);
+                this.expirationDate = DateTime.Now.AddSeconds(expiresInSeconds);
             }
             catch(Exception ex)
             {

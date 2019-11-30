@@ -30,6 +30,7 @@ namespace Orbit.Api.Controllers
         [HttpGet("unpublished")]
         public IActionResult GetAll([FromQuery] int index = 0,[FromQuery] int count = 10)
         {
+
             var result = _newsAppService.GetAll(false, out int recCount, index, count);
             var pagedResultData = new PagedResultData<IEnumerable<NewsPostViewModel>>(result, recCount, index, count);
             return Response(pagedResultData);
