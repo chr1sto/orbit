@@ -5,6 +5,7 @@ using Orbit.Game.Core.Interfaces;
 using Orbit.Game.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -66,6 +67,10 @@ namespace Orbit.Game.Core.Services
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<AccountDbContext>();
+                if(context.Accounts.Where(x => x.AccountId == account.AccountId).FirstOrDefault() != null)
+                {
+                    return Task.FromResult(true);
+                }
                 context.Add(account);
                 context.Add(accountDetail);
                 context.Add(accountPlayTime);
