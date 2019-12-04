@@ -9,6 +9,7 @@ using Orbit.Domain.GameCharacter;
 using Orbit.Domain.Statistics;
 using Orbit.Domain.Generic;
 using Orbit.Domain.Transaction;
+using Orbit.Domain.PlayerLog;
 
 namespace Orbit.Infra.Persistence.Context
 {
@@ -34,7 +35,8 @@ namespace Orbit.Infra.Persistence.Context
         public DbSet<Character> Characters { get; set; }
         public DbSet<StatisticsEntry> StatisticsEntries { get; set; }
         public DbSet<GenericObject> GenericObjects { get; set; }
-        public DbSet<Orbit.Domain.Game.Transaction> Transactions { get; set; } 
+        public DbSet<Orbit.Domain.Game.Transaction> Transactions { get; set; }
+        public DbSet<PlayerLog> PlayerLogs {get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

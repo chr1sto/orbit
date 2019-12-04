@@ -23,6 +23,9 @@ using Orbit.Domain.News.CommandHandlers;
 using Orbit.Domain.News.Commands;
 using Orbit.Domain.News.EventHandlers;
 using Orbit.Domain.News.Events;
+using Orbit.Domain.PlayerLog;
+using Orbit.Domain.PlayerLog.CommandHandlers;
+using Orbit.Domain.PlayerLog.Commands;
 using Orbit.Domain.ServiceStatus.CommandHandlers;
 using Orbit.Domain.ServiceStatus.Commands;
 using Orbit.Domain.ServiceStatus.EventHandlers;
@@ -73,6 +76,7 @@ namespace Orbit.Infra.CrossCutting.IoC
             services.AddScoped<IStatisticsAppService, StatisticsAppService>();
             services.AddScoped<IGameCharacterAppService, GameCharacterAppService>();
             services.AddScoped<ITransactionAppService, TransactionAppService>();
+            services.AddScoped<IPlayerLogAppService, PlayerLogAppService>();
 
             // Domain - Events
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
@@ -102,6 +106,7 @@ namespace Orbit.Infra.CrossCutting.IoC
             services.AddScoped<IRequestHandler<RemoveCharacterCommand, bool>, CharacterCommandHandler>();
             services.AddScoped<IRequestHandler<CreateTransactionCommand, bool>, TransactionCommandHandler>();
             services.AddScoped<IRequestHandler<UpdateTransactionCommand,bool>, TransactionCommandHandler>();
+            services.AddScoped<IRequestHandler<CreatePlayerLogCommand, bool>, PlayerLogCommandHandlers>();
 
             // Infra - Data
             services.AddScoped<IRepository<NewsPost>,Repository<NewsPost>>();
@@ -112,6 +117,7 @@ namespace Orbit.Infra.CrossCutting.IoC
             services.AddScoped<IRepository<Character>, Repository<Character>>();
             services.AddScoped<IRepository<Orbit.Domain.Game.Transaction>,Repository<Orbit.Domain.Game.Transaction>>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IRepository<PlayerLog>, Repository<PlayerLog>>();
 
             // Infra - Data EventSourcing
             services.AddScoped<IEventStoreRepository, EventStoreRepository>();

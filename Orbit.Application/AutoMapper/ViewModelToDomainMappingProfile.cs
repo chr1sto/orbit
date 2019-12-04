@@ -5,6 +5,7 @@ using Orbit.Domain.GameAccount.Commands;
 using Orbit.Domain.GameCharacter.Commands;
 using Orbit.Domain.Generic.Commands;
 using Orbit.Domain.News.Commands;
+using Orbit.Domain.PlayerLog.Commands;
 using Orbit.Domain.ServiceStatus.Commands;
 using Orbit.Domain.Statistics.Commands;
 using Orbit.Domain.Transaction;
@@ -115,6 +116,8 @@ namespace Orbit.Application.AutoMapper
             CreateMap<TransactionViewModel, UpdateTransactionCommand>()
                 .ConstructUsing(c => new UpdateTransactionCommand(c.Id, Guid.NewGuid(), c.Date, c.Amount, c.Currency, "", "", c.Reason, c.Target, c.TargetInfo, c.Status));
 
+            CreateMap<Newtonsoft.Json.Linq.JObject, CreatePlayerLogCommand>()
+                .ConstructUsing(c => new CreatePlayerLogCommand(Newtonsoft.Json.JsonConvert.SerializeObject(c)));
         }
     }
 }

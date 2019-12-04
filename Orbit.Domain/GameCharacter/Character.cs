@@ -60,6 +60,5 @@ namespace Orbit.Domain.GameCharacter
         public long DonateCoins { get;  set; }
         public int BossKills { get;  set; }
         public bool IsDeleted { get;  set; }
-        public virtual GameGuild.Guild Guild { get; set; }
     }
 }

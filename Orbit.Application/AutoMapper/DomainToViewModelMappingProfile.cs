@@ -2,8 +2,10 @@
 using Orbit.Application.ViewModels;
 using Orbit.Domain.Game.Enums;
 using Orbit.Domain.GameCharacter;
+using Orbit.Domain.GameGuild;
 using Orbit.Domain.Generic;
 using Orbit.Domain.News;
+using Orbit.Domain.PlayerLog;
 using Orbit.Domain.Statistics;
 using Orbit.Domain.Transaction;
 using System;
@@ -29,6 +31,7 @@ namespace Orbit.Application.AutoMapper
             CreateMap<Character, CharacterViewModel>();
             CreateMap<StatisticsEntry, StatisticsEntryViewModel>();
             CreateMap<Orbit.Domain.Game.Transaction, TransactionViewModel>();
+            CreateMap<Guild, GuildViewModel>();
         }
     }
 }
