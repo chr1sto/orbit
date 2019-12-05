@@ -72,7 +72,7 @@ namespace Orbit.Infra.Payments.PayPal.Services
             try
             {
                 string status = obj.status;
-                if(status == "APPROVED" || status == "COMPLETED")
+                if(status == "COMPLETED")
                 {
 
                     string price = obj.purchase_units[0].amount.value;
