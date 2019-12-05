@@ -48,7 +48,7 @@ namespace Orbit.Api.Controllers
                 return Response("Something went wrong while verifying your order. Please contact the Euphresia-Staff immediately.");
             }
 
-            _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), _user.Id, DateTime.Now, amount, "DP", "localhost", "localhost", $"Donation {orderId}", "WEB", "", "PENDING"));
+            _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), _user.Id, DateTime.Now, amount, "DP", "localhost", "localhost", $"Donation {orderId}", "WEB", "", "FINISHED"));
 
             return Response("Successfully Donated!");
         }
