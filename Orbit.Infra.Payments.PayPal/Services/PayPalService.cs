@@ -74,18 +74,26 @@ namespace Orbit.Infra.Payments.PayPal.Services
                 string status = obj.status;
                 if(status == "APPROVED" || status == "COMPLETED")
                 {
-
-                    string price = obj.purchase_units[0].amount.value;
-
-                    if(_products.ContainsKey(price))
+                    if(obj.payments.purchase_units[0].payments.captures[0].status != "DECLINED")
                     {
-                        int.TryParse(_products[price], out int ret);
-                        return ret;
+                        string price = obj.purchase_units[0].amount.value;
+
+                        if (_products.ContainsKey(price))
+                        {
+                            int.TryParse(_products[price], out int ret);
+                            return ret;
+                        }
+                        else
+                        {
+                            _logger.LogError("!!! User did not donate valid amount, please check !!!");
+                        }
                     }
                     else
                     {
-                        _logger.LogError("!!! User did not donate valid amount, please check !!!");
+                        _logger.LogError("Payment declined");
                     }
+
+
                 }
             }
             catch (Exception ex)
