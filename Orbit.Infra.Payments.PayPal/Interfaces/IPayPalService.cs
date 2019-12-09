@@ -9,5 +9,6 @@ namespace Orbit.Infra.Payments.PayPal.Interfaces
     public interface IPayPalService
     {
         Task<PayPalVerificationResult> VerifyOrder(string orderId);
+        Task<PayPalResult> GetOrderInfo(string orderId);
     }
 }

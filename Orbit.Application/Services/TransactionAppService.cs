@@ -75,9 +75,9 @@ namespace Orbit.Application.Services
             return _repository.GetAll().Where(x => x.UserId == userId && x.Currency.ToUpper() == currency.ToUpper() && x.Status != "FAILED").Sum(x => x.Amount);
         }
 
-        public TransactionViewModel GetById(Guid id)
+        public TransactionAdminViewModel GetById(Guid id)
         {
-            return _mapper.Map<TransactionViewModel>(_repository.GetById(id));
+            return _mapper.Map<TransactionAdminViewModel>(_repository.GetById(id));
         }
 
         public TransactionViewModel GetLastVote(Guid userId, string ipAddress)

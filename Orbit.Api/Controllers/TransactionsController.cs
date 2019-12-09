@@ -83,5 +83,14 @@ namespace Orbit.Api.Controllers
             var pagedResult = new PagedResultData<IEnumerable<TransactionAdminViewModel>>(result, recordCount, pageIndex, recordsPerPage);
             return Response(pagedResult);
         }
+
+        [HttpGet("admin1")]
+        [ProducesResponseType(typeof(ApiResult<TransactionAdminViewModel>), 200)]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var result = _transactionAppService.GetById(id);
+            return Response(result);
+        }
     }
 }
