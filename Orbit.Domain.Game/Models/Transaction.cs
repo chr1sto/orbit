@@ -7,7 +7,7 @@ namespace Orbit.Domain.Game
 { 
     public class Transaction : Entity
     {
-        public Transaction(Guid id, Guid userId, DateTime date, int amount, string currency, string ipAddress, string remoteAddress, string reason, string target, string targetInfo, string status)
+        public Transaction(Guid id, Guid userId, DateTime date, int amount, string currency, string ipAddress, string remoteAddress, string reason, string target, string targetInfo, string status, string additionalInfo)
         {
             Id = id;
             UserId = userId;
@@ -20,6 +20,7 @@ namespace Orbit.Domain.Game
             Target = target;
             TargetInfo = targetInfo;
             Status = status;
+            AdditionalInfo = additionalInfo;
         }
 
         public Guid UserId { get; set; }
@@ -32,5 +33,6 @@ namespace Orbit.Domain.Game
         public string Target { get; set; }
         public string TargetInfo { get; set; }
         public string Status { get; set; }
+        public string AdditionalInfo { get; set; }
     }
 }

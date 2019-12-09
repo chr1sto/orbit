@@ -12,6 +12,7 @@ using Orbit.Domain.Core.Bus;
 using Orbit.Domain.Core.Interfaces;
 using Orbit.Domain.Core.Notifications;
 using Orbit.Infra.Payments.PayPal.Interfaces;
+using Orbit.Infra.Payments.PayPal.Models;
 
 namespace Orbit.Api.Controllers
 {
@@ -41,14 +42,15 @@ namespace Orbit.Api.Controllers
                 return Response("Something went wrong while verifying your order. Please contact the Euphresia-Staff immediately.");
             }
 
-            var amount = await _payPalService.VerifyOrder(orderId);
-            if(amount == 0)
+            var result = await _payPalService.VerifyOrder(orderId);
+            if(!result.Success)
             {
                 NotifyError("", "");
+                _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), _user.Id, DateTime.Now, result.Amount, "DP", "localhost", "localhost", $"Donation {orderId}", "WEB", "", "FAILED", result.Info));
                 return Response("Something went wrong while verifying your order. Please contact the Euphresia-Staff immediately.");
             }
 
-            _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), _user.Id, DateTime.Now, amount, "DP", "localhost", "localhost", $"Donation {orderId}", "WEB", "", "FINISHED"));
+            _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), _user.Id, DateTime.Now, result.Amount, "DP", "localhost", "localhost", $"Donation {orderId}", "WEB", "", "FINISHED",result.Info));
 
             return Response("Successfully Donated!");
         }
@@ -59,6 +61,17 @@ namespace Orbit.Api.Controllers
         public async Task<IActionResult> GetBalance()
         {
             return Response(_transactionAppService.GetBalance(_user.Id, "DP"));
+        }
+
+
+        [ProducesResponseType(typeof(ApiResult<PayPalResult>), 400)]
+        [ProducesResponseType(typeof(ApiResult<PayPalResult>),200)]
+        [Authorize(Roles ="Administrator")]
+        [HttpGet("order-info")]
+
+        public async Task<IActionResult> GetOrderInfo(string orderId)
+        {
+            return Response(await _payPalService.GetOrderInfo(orderId));
         }
     }
 }

@@ -49,6 +49,21 @@ namespace Orbit.Application.Services
             return _mapper.ProjectTo<TransactionViewModel>(transactions).AsEnumerable();
         }
 
+        public IEnumerable<TransactionAdminViewModel> GetAll(out int recordCount, int pageIndex = 0, int recordsPerPage = 0, Guid? userid = null, string currency = null, DateTime? from = null, DateTime? until = null, int minValue = int.MinValue, int maxValue = int.MaxValue, string status = null, string filter = null)
+        {
+            var query = _repository.GetAll().Where(x => x.Amount >= minValue && x.Amount <= maxValue);
+            if (userid != null) query = query.Where(x => x.UserId == userid);
+            if (!String.IsNullOrWhiteSpace(currency)) query = query.Where(x => x.Currency == currency);
+            if (from != null && until != null) query = query.Where(x => x.Date >= from && x.Date <= until);
+            if (!String.IsNullOrWhiteSpace(status)) query = query.Where(x => x.Status == status);
+            if(!String.IsNullOrWhiteSpace(filter)) query = query.Where(x => x.AdditionalInfo.Contains(filter));
+            recordCount = query.Count();
+
+            var transactions = query.OrderByDescending(o => o.Date).Skip(pageIndex * recordsPerPage).Take(recordsPerPage);
+
+            return _mapper.ProjectTo<TransactionAdminViewModel>(transactions).AsEnumerable();
+        }
+
         public IEnumerable<TransactionViewModel> GetAllPendingForGame()
         {
             var transactions = _repository.GetAll().Where(x => x.Target.ToUpper() == "GAME" && x.Status.ToUpper() == "PENDING");
@@ -60,9 +75,9 @@ namespace Orbit.Application.Services
             return _repository.GetAll().Where(x => x.UserId == userId && x.Currency.ToUpper() == currency.ToUpper() && x.Status != "FAILED").Sum(x => x.Amount);
         }
 
-        public TransactionViewModel GetById(Guid id)
+        public TransactionAdminViewModel GetById(Guid id)
         {
-            return _mapper.Map<TransactionViewModel>(_repository.GetById(id));
+            return _mapper.Map<TransactionAdminViewModel>(_repository.GetById(id));
         }
 
         public TransactionViewModel GetLastVote(Guid userId, string ipAddress)
