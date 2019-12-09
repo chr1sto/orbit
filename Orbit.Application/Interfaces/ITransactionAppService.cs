@@ -16,5 +16,6 @@ namespace Orbit.Application.Interfaces
         IEnumerable<TransactionViewModel> GetAllPendingForGame();
         void Update(TransactionViewModel transactionViewModel);
         bool DonateOrderExists(string orderId);
+        IEnumerable<TransactionAdminViewModel> GetAll(out int recordCount, int pageIndex = 0, int recordsPerPage = 0, Guid? userid = null, string currency = null, DateTime? from = null, DateTime? until = null, int minValue = int.MinValue, int maxValue = int.MaxValue, string status = null, string filter = null);
     }
 }

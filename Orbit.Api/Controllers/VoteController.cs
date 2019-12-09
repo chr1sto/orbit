@@ -102,11 +102,11 @@ namespace Orbit.Api.Controllers
 
             if (Successful == "0")
             {
-                _transactionAppService.Add(new Orbit.Domain.Game.Transaction(Guid.NewGuid(), new Guid(userID), DateTime.Now, _votePoints, "VP", VoterIP, remoteIpAddress.ToString(), "GTOP 100","WEB","","FINISHED"));
+                _transactionAppService.Add(new Orbit.Domain.Game.Transaction(Guid.NewGuid(), new Guid(userID), DateTime.Now, _votePoints, "VP", VoterIP, remoteIpAddress.ToString(), "GTOP 100","WEB","","FINISHED",null));
 
                 if(transferToChar)
                 {
-                    _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), new Guid(userID), DateTime.Now, _votePoints * -1 , "VP", VoterIP, remoteIpAddress.ToString(), "Withdrawal", "GAME", charName, "PENDING"));
+                    _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), new Guid(userID), DateTime.Now, _votePoints * -1 , "VP", VoterIP, remoteIpAddress.ToString(), "Withdrawal", "GAME", charName, "PENDING", null));
                 }
 
                 if (!transferToChar)  await _voteHubContext.Clients.User(userID).SendAsync("STATE", new VoteState("VOTE_SUCCESFULL", ""));

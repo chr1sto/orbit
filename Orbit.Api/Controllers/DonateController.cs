@@ -41,14 +41,15 @@ namespace Orbit.Api.Controllers
                 return Response("Something went wrong while verifying your order. Please contact the Euphresia-Staff immediately.");
             }
 
-            var amount = await _payPalService.VerifyOrder(orderId);
-            if(amount == 0)
+            var result = await _payPalService.VerifyOrder(orderId);
+            if(!result.Success)
             {
                 NotifyError("", "");
+                _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), _user.Id, DateTime.Now, result.Amount, "DP", "localhost", "localhost", $"Donation {orderId}", "WEB", "", "FAILED", result.Info));
                 return Response("Something went wrong while verifying your order. Please contact the Euphresia-Staff immediately.");
             }
 
-            _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), _user.Id, DateTime.Now, amount, "DP", "localhost", "localhost", $"Donation {orderId}", "WEB", "", "FINISHED"));
+            _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), _user.Id, DateTime.Now, result.Amount, "DP", "localhost", "localhost", $"Donation {orderId}", "WEB", "", "FINISHED",result.Info));
 
             return Response("Successfully Donated!");
         }

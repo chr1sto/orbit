@@ -69,9 +69,19 @@ namespace Orbit.Api.Controllers
                 return Response(viewModel);
             }
 
-            _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), _user.Id, DateTime.Now, viewModel.Amount * - 1, viewModel.Currency, "localhost", Request.HttpContext.Connection.RemoteIpAddress?.ToString(), "Withdrawal", "GAME", viewModel.Character, "PENDING"));
+            _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), _user.Id, DateTime.Now, viewModel.Amount * - 1, viewModel.Currency, "localhost", Request.HttpContext.Connection.RemoteIpAddress?.ToString(), "Withdrawal", "GAME", viewModel.Character, "PENDING", null));
 
             return Response(viewModel);
+        }
+
+        [HttpGet("admin")]
+        [ProducesResponseType(typeof(ApiResult<PagedResultData<IEnumerable<TransactionAdminViewModel>>>), 200)]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> AdminGetAll(int pageIndex = 0, int recordsPerPage = 0, Guid? userid = null, string currency = null, DateTime? from = null, DateTime? until = null, int minValue = int.MinValue, int maxValue = int.MaxValue, string status = null, string filter = null)
+        {
+            var result =  _transactionAppService.GetAll(out int recordCount, pageIndex, recordsPerPage, userid, currency, from, until, minValue, maxValue, status, filter);
+            var pagedResult = new PagedResultData<IEnumerable<TransactionAdminViewModel>>(result, recordCount, pageIndex, recordsPerPage);
+            return Response(pagedResult);
         }
     }
 }

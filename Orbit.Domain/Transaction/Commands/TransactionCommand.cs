@@ -18,5 +18,6 @@ namespace Orbit.Domain.Transaction.Commands
         public string Target { get; protected set; }
         public string TargetInfo { get; protected set; }
         public string Status { get; protected set; }
+        public string AdditionalInfo { get; protected set; }
     }
 }

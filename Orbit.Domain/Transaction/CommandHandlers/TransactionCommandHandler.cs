@@ -32,7 +32,7 @@ namespace Orbit.Domain.Transaction.CommandHandlers
                 return Task.FromResult(false);
             }
 
-            var transaction = new Orbit.Domain.Game.Transaction(request.Id, request.UserId, request.Date, request.Amount, request.Currency, request.IpAddress, request.RemoteAddress, request.Reason, request.Target, request.TargetInfo, request.Status);
+            var transaction = new Orbit.Domain.Game.Transaction(request.Id, request.UserId, request.Date, request.Amount, request.Currency, request.IpAddress, request.RemoteAddress, request.Reason, request.Target, request.TargetInfo, request.Status, request.AdditionalInfo);
 
             _repository.Add(transaction);
 

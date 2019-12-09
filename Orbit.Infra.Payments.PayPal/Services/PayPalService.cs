@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Orbit.Infra.Payments.PayPal.Interfaces;
+using Orbit.Infra.Payments.PayPal.Models;
 
 namespace Orbit.Infra.Payments.PayPal.Services
 {
@@ -61,7 +62,7 @@ namespace Orbit.Infra.Payments.PayPal.Services
             }
         }
 
-        public async Task<int> VerifyOrder(string orderId)
+        public async Task<PayPalVerificationResult> VerifyOrder(string orderId)
         {
             await this.Authorize();
             var response = await _httpClient.GetAsync("/v2/checkout/orders/" + orderId);
@@ -81,7 +82,7 @@ namespace Orbit.Infra.Payments.PayPal.Services
                         if (_products.ContainsKey(price))
                         {
                             int.TryParse(_products[price], out int ret);
-                            return ret;
+                            return new PayPalVerificationResult(ret,true,obj.payer.email_address);
                         }
                         else
                         {
@@ -100,7 +101,7 @@ namespace Orbit.Infra.Payments.PayPal.Services
             {
                 _logger.LogError("Something went horribly wrong wile trying to verify and Order\n\n" + ex.Message);
             }
-            return 0;
+            return new PayPalVerificationResult(0, false, obj.payer.email_address);
         }
 
         private async Task Authorize()
