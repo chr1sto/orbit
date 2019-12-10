@@ -90,7 +90,7 @@ namespace Orbit.Infra.Payments.PayPal.Services
                         if (_products.ContainsKey(price))
                         {
                             int.TryParse(_products[price], out int ret);
-                            return new PayPalVerificationResult(ret,true,obj.payer.email_address);
+                            return new PayPalVerificationResult(ret,true,(string)obj.payer.email_address);
                         }
                         else
                         {
@@ -109,7 +109,7 @@ namespace Orbit.Infra.Payments.PayPal.Services
             {
                 _logger.LogError("Something went horribly wrong wile trying to verify and Order\n\n" + ex.Message);
             }
-            return new PayPalVerificationResult(0, false, obj.payer.email_address);
+            return new PayPalVerificationResult(0, false, (string)obj?.payer?.email_address);
         }
 
         private async Task Authorize()
