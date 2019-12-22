@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Orbit.Application.Interfaces;
 using Orbit.Application.ViewModels;
 using Orbit.Domain.Core.Bus;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Orbit.Application.Services
 {
@@ -34,7 +36,7 @@ namespace Orbit.Application.Services
             _bus.SendCommand(createCommand);
         }
 
-        public IEnumerable<StatisticsEntryViewModel> Get(DateTime from, DateTime until, string statGroup, string statName = null, char interval = 'h')
+        public async Task<IEnumerable<StatisticsEntryViewModel>> Get(DateTime from, DateTime until, string statGroup, string statName = null, int count = 15,char interval = 'h')
         {
             var query = _repository.GetAll();
             //End currently is the same as Start...
@@ -66,9 +68,11 @@ namespace Orbit.Application.Services
                     break;
             }
 
-            //Hopefully this sh*t works...
+            var orderedQuery = query.OrderByDescending(x => x.Start);
+            var mapped = _mapper.ProjectTo<StatisticsEntryViewModel>(orderedQuery);
+            var result = await mapped.ToListAsync();
+            return result.Take(count);
 
-            return _mapper.ProjectTo<StatisticsEntryViewModel>(query).AsEnumerable();
         }
     }
 }

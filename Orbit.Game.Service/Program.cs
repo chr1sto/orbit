@@ -52,16 +52,19 @@ namespace Orbit.Game.Service
                     services.AddTransient<IServiceStatusService, ServiceStatusService>();
                     services.AddTransient<IGameCharacterService, GameCharacterService>();
                     services.AddTransient<IProcessTransactionsService, ProcessTransactionsService>();
+                    services.AddTransient<IStatisticsService, StatisticsService>();
 
                     services.AddSingleton<HttpClient>();
                     services.AddSingleton<AuthenticationService>();
                     services.AddDbContext<AccountDbContext>(options => options.UseSqlServer(hostContext.Configuration["DefaultConnection"]));
                     services.AddDbContext<CharacterDbContext>(options => options.UseSqlServer(hostContext.Configuration["CHARACTER_DBF"]));
+                    //services.AddDbContext<LoggingDbContext>(options => options.UseSqlServer(hostContext.Configuration["LOGGING_DBF"]));
 
                     services.AddHostedService<WebEventWorker>();
                     services.AddHostedService<StatusWorker>();
                     services.AddHostedService<TransactionsWorker>();
                     services.AddHostedService<CharacterWorker>();
+                    services.AddHostedService<StatisticsWorker>();
                 });
     }
 }

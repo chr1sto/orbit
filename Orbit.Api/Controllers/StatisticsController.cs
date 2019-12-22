@@ -30,9 +30,9 @@ namespace Orbit.Api.Controllers
         [ProducesResponseType(typeof(ApiResult<IEnumerable<StatisticsEntryViewModel>>), 200)]
         [ProducesResponseType(typeof(ApiResult<IEnumerable<StatisticsEntryViewModel>>), 400)]
         [HttpGet("")]
-        public async Task<IActionResult> Get([FromQuery] string from, [FromQuery] string until, [FromQuery] string statGroup, [FromQuery] string statName = null, [FromQuery] char interval = 'h')
+        public async Task<IActionResult> Get(string from, string until, string statGroup, string statName = null, int count = 15, char interval = 'h')
         {
-            var result = _statisticsAppService.Get(DateTime.Parse(from), DateTime.Parse(until), statGroup, statName, interval);
+            var result = await _statisticsAppService.Get(DateTime.Parse(from), DateTime.Parse(until), statGroup, statName, count, interval);
 
             return Response(result);
         }
