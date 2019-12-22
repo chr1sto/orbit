@@ -11,5 +11,6 @@ namespace Orbit.Domain.GameAccount.Commands
         public Guid UserID { get; protected set; }
         public string Account { get; protected set; }
         public string Alias { get; protected set; }
+        public string Server { get; protected set; }
     }
 }

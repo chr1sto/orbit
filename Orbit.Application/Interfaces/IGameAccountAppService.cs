@@ -10,6 +10,6 @@ namespace Orbit.Application.Interfaces
     {
         void Create(GameAccountViewModel gameAccountViewModel);
         void Update(GameAccountViewModel gameAccountViewModel);
-        IPagedList<GameAccountViewModel> GetAll(Guid userId, bool onlyOwned, out int recordCount, int pageIndex = 0, int recordsPerPage = 10);
+        IPagedList<GameAccountViewModel> GetAll(Guid userId, bool onlyOwned, out int recordCount, int pageIndex = 0, int recordsPerPage = 10, string server = "LIVE");
     }
 }

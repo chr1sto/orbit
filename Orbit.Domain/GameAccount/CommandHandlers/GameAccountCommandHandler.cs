@@ -33,13 +33,13 @@ namespace Orbit.Domain.GameAccount.CommandHandlers
             }
 
             string accountId = Guid.NewGuid().ToString().Replace("-", string.Empty).ToLower();
-            var gameAccount = new Orbit.Domain.Game.Models.GameAccount(Guid.NewGuid(), _user.Id, accountId, message.Alias);
+            var gameAccount = new Orbit.Domain.Game.Models.GameAccount(Guid.NewGuid(), _user.Id, accountId, message.Alias,message.Server);
 
             _repository.Add(gameAccount);
 
             if (Commit())
             {
-                _bus.RaiseEvent(new GameAccountCreatedEvent(gameAccount.Id, gameAccount.UserID, gameAccount.Account, gameAccount.Alias));
+                _bus.RaiseEvent(new GameAccountCreatedEvent(gameAccount.Id, gameAccount.UserID, gameAccount.Account, gameAccount.Alias, message.Server));
             }
 
             return Task.FromResult(true);

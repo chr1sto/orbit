@@ -101,8 +101,12 @@ namespace Orbit.Game.Service.Workers
         private async Task<bool> HandleGameAccountCreatedEvent(string serializedData)
         {
             var deserializedData = JsonConvert.DeserializeObject<GameAccountCreatedEvent>(serializedData);
-            var result = await _gameAccountService.CreateAccount(deserializedData.Account, deserializedData.UserID.ToString());
-            return result;
+            if(deserializedData.Target == _configuration["ENVIRONMENT"])
+            {
+                var result = await _gameAccountService.CreateAccount(deserializedData.Account, deserializedData.UserID.ToString());
+                return result;
+            }
+            return false;
         }
     }
 }

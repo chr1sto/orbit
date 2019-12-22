@@ -34,9 +34,9 @@ namespace Orbit.Application.Services
             _bus.SendCommand(createCommand);
         }
 
-        public IPagedList<GameAccountViewModel> GetAll(Guid userId,bool onlyOwned, out int recordCount, int pageIndex = 0, int recordsPerPage = 10)
+        public IPagedList<GameAccountViewModel> GetAll(Guid userId,bool onlyOwned, out int recordCount, int pageIndex = 0, int recordsPerPage = 10, string server = "LIVE")
         {
-            var gameAccounts = _repository.GetAll().Where(e => !onlyOwned || e.UserID == userId );
+            var gameAccounts = _repository.GetAll().Where(e => (!onlyOwned || e.UserID == userId) && e.Server == server);
             var gameAccountViewModels = _mapper.ProjectTo<GameAccountViewModel>(gameAccounts);
             recordCount = gameAccountViewModels.Count();
             return new StaticPagedList<GameAccountViewModel>(gameAccountViewModels, pageIndex + 1, recordsPerPage, recordCount);

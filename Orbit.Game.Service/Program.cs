@@ -61,10 +61,13 @@ namespace Orbit.Game.Service
                     //services.AddDbContext<LoggingDbContext>(options => options.UseSqlServer(hostContext.Configuration["LOGGING_DBF"]));
 
                     services.AddHostedService<WebEventWorker>();
-                    services.AddHostedService<StatusWorker>();
-                    services.AddHostedService<TransactionsWorker>();
-                    services.AddHostedService<CharacterWorker>();
-                    services.AddHostedService<StatisticsWorker>();
+                    if(hostContext.Configuration["ENVIRONMENT"] == "LIVE")
+                    {
+                        services.AddHostedService<StatusWorker>();
+                        services.AddHostedService<TransactionsWorker>();
+                        services.AddHostedService<CharacterWorker>();
+                        services.AddHostedService<StatisticsWorker>();
+                    }
                 });
     }
 }

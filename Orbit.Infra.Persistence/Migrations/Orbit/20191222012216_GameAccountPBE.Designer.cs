@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Orbit.Infra.Persistence.Context;
 
 namespace Orbit.Infra.Persistence.Migrations.Orbit
 {
     [DbContext(typeof(OrbitContext))]
-    partial class OrbitContextModelSnapshot : ModelSnapshot
+    [Migration("20191222012216_GameAccountPBE")]
+    partial class GameAccountPBE
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

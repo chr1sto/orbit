@@ -52,7 +52,7 @@ namespace Orbit.Application.AutoMapper
 
             //GameAccount
             CreateMap<GameAccountViewModel, CreateGameAccountCommand>()
-                .ConstructUsing(c => new CreateGameAccountCommand(Guid.NewGuid(), c.Account, c.Alias));
+                .ConstructUsing(c => new CreateGameAccountCommand(Guid.NewGuid(), c.Account, c.Alias,c.Server));
             CreateMap<GameAccountViewModel, UpdateGameAccountCommand>()
                 .ConstructUsing(c => new UpdateGameAccountCommand(c.Id,c.Account, c.Alias));
 

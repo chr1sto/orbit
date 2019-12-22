@@ -52,9 +52,9 @@ namespace Orbit.Api.Controllers
         [HttpGet("{id}")]
         [Authorize(Roles = "Administrator,Developer,Gamemaster")]
         [ProducesResponseType(typeof(ApiResult<IPagedList<GameAccountViewModel>>), 200)]
-        public IActionResult GetUserGameAccounts(Guid id)
+        public IActionResult GetUserGameAccounts(Guid id, string server = "LIVE")
         {
-            var gameAccounts = _gameAccountAppService.GetAll(id, true, out int recCount);
+            var gameAccounts = _gameAccountAppService.GetAll(id, true, out int recCount,server: server);
             return Response(gameAccounts);
         }
 
@@ -77,9 +77,9 @@ namespace Orbit.Api.Controllers
         [ProducesResponseType(typeof(ApiResult<IPagedList<GameAccountViewModel>>), 200)]
         //TODO QUERY PARAMS FOR PAGES
         [HttpGet("")]
-        public IActionResult Get()
+        public IActionResult Get(string server = "LIVE")
         {
-            var gameAccounts = _gameAccountAppService.GetAll(_user.Id, true, out int reccCount);
+            var gameAccounts = _gameAccountAppService.GetAll(_user.Id, true, out int reccCount,server: server);
             return Response(gameAccounts);
         }
     }

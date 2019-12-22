@@ -12,5 +12,6 @@ namespace Orbit.Application.ViewModels
         [Required(ErrorMessage = "You need to provide a valid Alias")]
         public string Alias { get; set; }
         public string Account { get; set; }
+        public string Server { get; set; } = "LIVE";
     }
 }
