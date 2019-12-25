@@ -79,9 +79,8 @@ namespace Orbit.Api.Controllers
             }
 
             //TODO Get ID and set flag to automatically send VotePoints to character!
-
+            /*
             var lastVote = _transactionAppService.GetLastVote(new Guid(userID), VoterIP);
-
             bool canVote = true;
             TimeSpan elapsedTime = new TimeSpan(0,0,0);
             if (lastVote != null)
@@ -99,6 +98,7 @@ namespace Orbit.Api.Controllers
                 if(!transferToChar) await _voteHubContext.Clients.User(userID).SendAsync("STATE", new VoteState("ALREADY_VOTED",timeUntilNextVote.ToString()));
                 return Ok();
             }
+            */
 
             if (Successful == "0")
             {
@@ -144,6 +144,7 @@ namespace Orbit.Api.Controllers
         [HttpGet("status")]
         public async Task<IActionResult> CanVote()
         {
+            /*
             var lastVote = _transactionAppService.GetLastVote(_user.Id, Request.HttpContext.Connection.RemoteIpAddress?.ToString());
             if(lastVote != null)
             {
@@ -153,7 +154,7 @@ namespace Orbit.Api.Controllers
                     var timeUntilNextVote = new TimeSpan(24, 0, 0) - elapsedTime;
                     return Response(new VoteState("ALREADY_VOTED", timeUntilNextVote.ToString()));
                 }
-            }
+            }*/
             return Response(new VoteState("CAN_VOTE", ""));
         }
     }
