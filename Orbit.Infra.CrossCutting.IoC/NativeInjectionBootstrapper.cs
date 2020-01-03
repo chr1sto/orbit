@@ -68,6 +68,7 @@ namespace Orbit.Infra.CrossCutting.IoC
             services.AddSingleton<IAuthorizationHandler, ClaimsRequirementHandler>();
 
             // Application
+            services.AddSingleton<IConcurrencyLockService, ConcurrencyLockService>();
             services.AddScoped<INewsAppService, NewsAppService>();
             services.AddScoped<IGameAccountAppService, GameAccountAppService>();
             services.AddScoped<IGameEventAppService, GameEventAppService>();

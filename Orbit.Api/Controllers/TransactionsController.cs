@@ -21,11 +21,13 @@ namespace Orbit.Api.Controllers
     {
         private readonly ITransactionAppService _transactionAppService;
         private readonly IUser _user;
+        private readonly IConcurrencyLockService _concurrencyLockService;
 
-        public TransactionsController(IUser user,ITransactionAppService transactionAppService, INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator, IMemoryCache cache) : base(notifications, mediator, cache)
+        public TransactionsController(IConcurrencyLockService concurrencyLockService , IUser user,ITransactionAppService transactionAppService, INotificationHandler<DomainNotification> notifications, IMediatorHandler mediator, IMemoryCache cache) : base(notifications, mediator, cache)
         {
             _transactionAppService = transactionAppService;
             _user = user;
+            _concurrencyLockService = concurrencyLockService;
         }
 
         [ProducesResponseType(typeof(ApiResult<IEnumerable<TransactionViewModel>>), 200)]
@@ -55,21 +57,27 @@ namespace Orbit.Api.Controllers
                 return Response(viewModel);
             }
 
-            var balance = _transactionAppService.GetBalance(_user.Id, viewModel.Currency);
-
-            if(balance < viewModel.Amount)
+            var @object = _concurrencyLockService.GetUserLockObject(_user.Id);
+            lock(@object)
             {
-                NotifyError("NOT_ENOUGH_BALANCE", "The selected amount exceeds your current balance!");
-                return Response(viewModel);
+                var balance = _transactionAppService.GetBalance(_user.Id, viewModel.Currency);
+
+                if (balance < viewModel.Amount)
+                {
+                    NotifyError("NOT_ENOUGH_BALANCE", "The selected amount exceeds your current balance!");
+                    return Response(viewModel);
+                }
+
+                if (viewModel.Currency != "VP" && viewModel.Currency != "DP")
+                {
+                    NotifyError("INVALID_CURRENCY", "You need to select a valid currency!");
+                    return Response(viewModel);
+                }
+
+                _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), _user.Id, DateTime.Now, viewModel.Amount * -1, viewModel.Currency, "localhost", Request.HttpContext.Connection.RemoteIpAddress?.ToString(), "Withdrawal", "GAME", viewModel.Character, "PENDING", null));
+
             }
 
-            if(viewModel.Currency != "VP" && viewModel.Currency != "DP")
-            {
-                NotifyError("INVALID_CURRENCY", "You need to select a valid currency!");
-                return Response(viewModel);
-            }
-
-            _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), _user.Id, DateTime.Now, viewModel.Amount * - 1, viewModel.Currency, "localhost", Request.HttpContext.Connection.RemoteIpAddress?.ToString(), "Withdrawal", "GAME", viewModel.Character, "PENDING", null));
 
             return Response(viewModel);
         }
