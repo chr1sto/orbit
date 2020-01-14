@@ -74,6 +74,12 @@ namespace Orbit.Api.Controllers
                     return Response(viewModel);
                 }
 
+                if(viewModel.Currency == "VP" && viewModel.Amount % 100 != 0)
+                {
+                    NotifyError("INVALID_AMOUNT", "You can only withdraw Votepoints in steps of 100.");
+                    return Response(viewModel);
+                }
+
                 _transactionAppService.Add(new Domain.Game.Transaction(Guid.NewGuid(), _user.Id, DateTime.Now, viewModel.Amount * -1, viewModel.Currency, "localhost", Request.HttpContext.Connection.RemoteIpAddress?.ToString(), "Withdrawal", "GAME", viewModel.Character, "PENDING", null));
 
             }

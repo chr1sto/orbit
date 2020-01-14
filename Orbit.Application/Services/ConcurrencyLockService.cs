@@ -16,6 +16,10 @@ namespace Orbit.Application.Services
 
         public object GetUserLockObject(Guid userId)
         {
+            if(!_locks.ContainsKey(userId))
+            {
+                _locks.Add(userId, new object());
+            }
             return _locks[userId];
         }
     }
