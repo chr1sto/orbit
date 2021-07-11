@@ -1,0 +1,1458 @@
+2019-11-18 21:39:24.572 +01:00 [INF] Starting up
+2019-11-18 21:39:27.711 +01:00 [FTL] Application start-up failed
+System.AggregateException: Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: Microsoft.Extensions.Hosting.IHostedService Lifetime: Singleton ImplementationType: Orbit.Game.Service.Workers.WebEventWorker': Cannot consume scoped service 'Orbit.Game.Core.Interfaces.IWebEventService' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.) (Error while validating the service descriptor 'ServiceType: Microsoft.Extensions.Hosting.IHostedService Lifetime: Singleton ImplementationType: Orbit.Game.Service.Workers.StatusWorker': Cannot consume scoped service 'Orbit.Game.Core.Interfaces.IServiceStatusService' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.) (Error while validating the service descriptor 'ServiceType: Microsoft.Extensions.Hosting.IHostedService Lifetime: Singleton ImplementationType: Orbit.Game.Service.Workers.TransactionsWorker': Cannot consume scoped service 'Orbit.Game.Core.Interfaces.IProcessTransactionsService' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.) (Error while validating the service descriptor 'ServiceType: Microsoft.Extensions.Hosting.IHostedService Lifetime: Singleton ImplementationType: Orbit.Game.Service.Workers.CharacterWorker': Cannot consume scoped service 'Orbit.Game.Core.Interfaces.IGameCharacterService' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.)
+ ---> System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: Microsoft.Extensions.Hosting.IHostedService Lifetime: Singleton ImplementationType: Orbit.Game.Service.Workers.WebEventWorker': Cannot consume scoped service 'Orbit.Game.Core.Interfaces.IWebEventService' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.
+ ---> System.InvalidOperationException: Cannot consume scoped service 'Orbit.Game.Core.Interfaces.IWebEventService' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitScopeCache(ServiceCallSite scopedCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitConstructor(ConstructorCallSite constructorCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitRootCache(ServiceCallSite singletonCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.ValidateCallSite(ServiceCallSite callSite)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.Microsoft.Extensions.DependencyInjection.ServiceLookup.IServiceProviderEngineCallback.OnCreate(ServiceCallSite callSite)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(IEnumerable`1 serviceDescriptors, ServiceProviderOptions options)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(IEnumerable`1 serviceDescriptors, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection services, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.DefaultServiceProviderFactory.CreateServiceProvider(IServiceCollection containerBuilder)
+   at Microsoft.Extensions.Hosting.Internal.ServiceFactoryAdapter`1.CreateServiceProvider(Object containerBuilder)
+   at Microsoft.Extensions.Hosting.HostBuilder.CreateServiceProvider()
+   at Microsoft.Extensions.Hosting.HostBuilder.Build()
+   at Orbit.Game.Service.Program.Main(String[] args) in F:\Projects\orbit\Orbit.Game.Service\Program.cs:line 31
+ ---> (Inner Exception #1) System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: Microsoft.Extensions.Hosting.IHostedService Lifetime: Singleton ImplementationType: Orbit.Game.Service.Workers.StatusWorker': Cannot consume scoped service 'Orbit.Game.Core.Interfaces.IServiceStatusService' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.
+ ---> System.InvalidOperationException: Cannot consume scoped service 'Orbit.Game.Core.Interfaces.IServiceStatusService' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitScopeCache(ServiceCallSite scopedCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitConstructor(ConstructorCallSite constructorCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitRootCache(ServiceCallSite singletonCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.ValidateCallSite(ServiceCallSite callSite)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.Microsoft.Extensions.DependencyInjection.ServiceLookup.IServiceProviderEngineCallback.OnCreate(ServiceCallSite callSite)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(IEnumerable`1 serviceDescriptors, ServiceProviderOptions options)<---
+
+ ---> (Inner Exception #2) System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: Microsoft.Extensions.Hosting.IHostedService Lifetime: Singleton ImplementationType: Orbit.Game.Service.Workers.TransactionsWorker': Cannot consume scoped service 'Orbit.Game.Core.Interfaces.IProcessTransactionsService' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.
+ ---> System.InvalidOperationException: Cannot consume scoped service 'Orbit.Game.Core.Interfaces.IProcessTransactionsService' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitScopeCache(ServiceCallSite scopedCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitConstructor(ConstructorCallSite constructorCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitRootCache(ServiceCallSite singletonCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.ValidateCallSite(ServiceCallSite callSite)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.Microsoft.Extensions.DependencyInjection.ServiceLookup.IServiceProviderEngineCallback.OnCreate(ServiceCallSite callSite)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(IEnumerable`1 serviceDescriptors, ServiceProviderOptions options)<---
+
+ ---> (Inner Exception #3) System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: Microsoft.Extensions.Hosting.IHostedService Lifetime: Singleton ImplementationType: Orbit.Game.Service.Workers.CharacterWorker': Cannot consume scoped service 'Orbit.Game.Core.Interfaces.IGameCharacterService' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.
+ ---> System.InvalidOperationException: Cannot consume scoped service 'Orbit.Game.Core.Interfaces.IGameCharacterService' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitScopeCache(ServiceCallSite scopedCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitConstructor(ConstructorCallSite constructorCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitRootCache(ServiceCallSite singletonCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.ValidateCallSite(ServiceCallSite callSite)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.Microsoft.Extensions.DependencyInjection.ServiceLookup.IServiceProviderEngineCallback.OnCreate(ServiceCallSite callSite)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(IEnumerable`1 serviceDescriptors, ServiceProviderOptions options)<---
+
+2019-11-18 21:40:20.705 +01:00 [INF] Starting up
+2019-11-18 21:40:23.298 +01:00 [FTL] Application start-up failed
+System.AggregateException: Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: Microsoft.Extensions.Hosting.IHostedService Lifetime: Singleton ImplementationType: Orbit.Game.Service.Workers.WebEventWorker': Cannot consume scoped service 'Orbit.Game.Core.Data.AccountDbContext' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.) (Error while validating the service descriptor 'ServiceType: Microsoft.Extensions.Hosting.IHostedService Lifetime: Singleton ImplementationType: Orbit.Game.Service.Workers.TransactionsWorker': Cannot consume scoped service 'Orbit.Game.Core.Data.CharacterDbContext' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.) (Error while validating the service descriptor 'ServiceType: Microsoft.Extensions.Hosting.IHostedService Lifetime: Singleton ImplementationType: Orbit.Game.Service.Workers.CharacterWorker': Cannot consume scoped service 'Orbit.Game.Core.Data.CharacterDbContext' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.)
+ ---> System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: Microsoft.Extensions.Hosting.IHostedService Lifetime: Singleton ImplementationType: Orbit.Game.Service.Workers.WebEventWorker': Cannot consume scoped service 'Orbit.Game.Core.Data.AccountDbContext' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.
+ ---> System.InvalidOperationException: Cannot consume scoped service 'Orbit.Game.Core.Data.AccountDbContext' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitScopeCache(ServiceCallSite scopedCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitConstructor(ConstructorCallSite constructorCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitDisposeCache(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitConstructor(ConstructorCallSite constructorCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitRootCache(ServiceCallSite singletonCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.ValidateCallSite(ServiceCallSite callSite)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.Microsoft.Extensions.DependencyInjection.ServiceLookup.IServiceProviderEngineCallback.OnCreate(ServiceCallSite callSite)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(IEnumerable`1 serviceDescriptors, ServiceProviderOptions options)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(IEnumerable`1 serviceDescriptors, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection services, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.DefaultServiceProviderFactory.CreateServiceProvider(IServiceCollection containerBuilder)
+   at Microsoft.Extensions.Hosting.Internal.ServiceFactoryAdapter`1.CreateServiceProvider(Object containerBuilder)
+   at Microsoft.Extensions.Hosting.HostBuilder.CreateServiceProvider()
+   at Microsoft.Extensions.Hosting.HostBuilder.Build()
+   at Orbit.Game.Service.Program.Main(String[] args) in F:\Projects\orbit\Orbit.Game.Service\Program.cs:line 31
+ ---> (Inner Exception #1) System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: Microsoft.Extensions.Hosting.IHostedService Lifetime: Singleton ImplementationType: Orbit.Game.Service.Workers.TransactionsWorker': Cannot consume scoped service 'Orbit.Game.Core.Data.CharacterDbContext' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.
+ ---> System.InvalidOperationException: Cannot consume scoped service 'Orbit.Game.Core.Data.CharacterDbContext' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitScopeCache(ServiceCallSite scopedCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitConstructor(ConstructorCallSite constructorCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitDisposeCache(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitConstructor(ConstructorCallSite constructorCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitRootCache(ServiceCallSite singletonCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.ValidateCallSite(ServiceCallSite callSite)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.Microsoft.Extensions.DependencyInjection.ServiceLookup.IServiceProviderEngineCallback.OnCreate(ServiceCallSite callSite)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(IEnumerable`1 serviceDescriptors, ServiceProviderOptions options)<---
+
+ ---> (Inner Exception #2) System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: Microsoft.Extensions.Hosting.IHostedService Lifetime: Singleton ImplementationType: Orbit.Game.Service.Workers.CharacterWorker': Cannot consume scoped service 'Orbit.Game.Core.Data.CharacterDbContext' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.
+ ---> System.InvalidOperationException: Cannot consume scoped service 'Orbit.Game.Core.Data.CharacterDbContext' from singleton 'Microsoft.Extensions.Hosting.IHostedService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitScopeCache(ServiceCallSite scopedCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitConstructor(ConstructorCallSite constructorCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitDisposeCache(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitConstructor(ConstructorCallSite constructorCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.VisitRootCache(ServiceCallSite singletonCallSite, CallSiteValidatorState state)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteValidator.ValidateCallSite(ServiceCallSite callSite)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.Microsoft.Extensions.DependencyInjection.ServiceLookup.IServiceProviderEngineCallback.OnCreate(ServiceCallSite callSite)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(IEnumerable`1 serviceDescriptors, ServiceProviderOptions options)<---
+
+2019-11-18 22:03:26.827 +01:00 [INF] Starting up
+2019-11-18 22:03:28.263 +01:00 [DBG] Hosting starting
+2019-11-18 22:03:29.559 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:03:29.660 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:03:29.790 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:03:29.944 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:03:29.947 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2019-11-18 22:03:29.949 +01:00 [INF] Hosting environment: Development
+2019-11-18 22:03:29.950 +01:00 [INF] Content root path: F:\Projects\orbit\Orbit.Game.Service
+2019-11-18 22:03:29.952 +01:00 [DBG] Hosting started
+2019-11-18 22:03:41.669 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:03:41.724 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:03:41.863 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:03:42.014 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:03:53.825 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:03:53.953 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:03:53.984 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:03:54.086 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:04:05.956 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:04:06.066 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:04:06.094 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:04:06.157 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:04:18.020 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:04:18.202 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:04:18.219 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:04:18.258 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:05:18.443 +01:00 [INF] Starting up
+2019-11-18 22:05:21.558 +01:00 [DBG] Hosting starting
+2019-11-18 22:05:22.668 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:05:22.843 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:05:23.000 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:05:23.189 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:05:23.199 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2019-11-18 22:05:23.203 +01:00 [INF] Hosting environment: Development
+2019-11-18 22:05:23.211 +01:00 [INF] Content root path: F:\Projects\orbit\Orbit.Game.Service
+2019-11-18 22:05:23.214 +01:00 [DBG] Hosting started
+2019-11-18 22:05:34.791 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:05:34.947 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:05:35.158 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:05:35.268 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:05:47.003 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:05:47.113 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:05:47.281 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:05:47.420 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:05:59.220 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:05:59.243 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:05:59.436 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:05:59.509 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:11.353 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:11.448 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:11.691 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:11.728 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:23.454 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:23.559 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:23.845 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:23.892 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:35.544 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:35.653 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:36.330 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:36.330 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:47.658 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:47.757 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:48.564 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:48.688 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:59.784 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:06:59.965 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:00.899 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:00.927 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:12.043 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:12.089 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:13.023 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:13.056 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:24.173 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:24.205 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:25.134 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:25.166 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:36.296 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:36.323 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:37.266 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:37.298 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:48.476 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:48.539 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:49.372 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:07:49.433 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:00.610 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:00.653 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:01.538 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:01.572 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:12.758 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:12.789 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:13.652 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:13.680 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:24.873 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:24.902 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:25.782 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:25.836 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:37.015 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:37.026 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:37.961 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:37.981 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:49.131 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:49.157 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:50.075 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:08:50.106 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:01.243 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:01.276 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:02.189 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:02.222 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:13.367 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:13.396 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:14.304 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:14.349 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:25.464 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:25.492 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:26.451 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:26.481 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:37.571 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:37.601 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:38.568 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:38.610 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:49.685 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:49.721 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:50.720 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:09:50.741 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:01.794 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:01.827 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:02.832 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:02.861 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:13.917 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:13.945 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:14.949 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:14.983 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:29.479 +01:00 [INF] Starting up
+2019-11-18 22:10:31.722 +01:00 [DBG] Hosting starting
+2019-11-18 22:10:32.585 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:32.683 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:32.765 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:32.848 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:32.858 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2019-11-18 22:10:32.860 +01:00 [INF] Hosting environment: Development
+2019-11-18 22:10:32.861 +01:00 [INF] Content root path: F:\Projects\orbit\Orbit.Game.Service
+2019-11-18 22:10:32.863 +01:00 [DBG] Hosting started
+2019-11-18 22:10:44.648 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:44.755 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:44.842 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:44.910 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:56.707 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:56.833 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:56.917 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:10:56.975 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:08.770 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:08.910 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:09.043 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:09.108 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:20.851 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:20.984 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:21.138 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:21.195 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:32.923 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:33.069 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:33.309 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:33.346 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:44.994 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:45.131 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:45.444 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:45.475 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:57.052 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:57.191 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:57.581 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:11:57.615 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:09.132 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:09.298 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:09.712 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:09.734 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:21.199 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:21.362 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:21.823 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:21.853 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:33.274 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:33.420 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:33.941 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:33.967 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:45.343 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:45.498 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:46.144 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:46.176 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:57.416 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:57.599 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:58.298 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:12:58.332 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:13:09.489 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:13:09.679 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:13:10.409 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:13:10.438 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:14:09.547 +01:00 [INF] Starting up
+2019-11-18 22:14:12.413 +01:00 [DBG] Hosting starting
+2019-11-18 22:14:13.240 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:14:13.345 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:14:13.438 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:14:13.547 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:14:13.551 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2019-11-18 22:14:13.553 +01:00 [INF] Hosting environment: Development
+2019-11-18 22:14:13.555 +01:00 [INF] Content root path: F:\Projects\orbit\Orbit.Game.Service
+2019-11-18 22:14:13.567 +01:00 [DBG] Hosting started
+2019-11-18 22:14:25.323 +01:00 [FTL] Unable to poll events:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:14:25.408 +01:00 [FTL] Unable to update service states:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:14:25.505 +01:00 [FTL] Unable to process transactions:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:14:25.638 +01:00 [FTL] Unable to update characters:
+Exception:
+IDX10000: The parameter 'token' cannot be a 'null' or an empty object. (Parameter 'token')
+2019-11-18 22:15:20.402 +01:00 [INF] Starting up
+2019-11-18 22:15:22.046 +01:00 [DBG] Hosting starting
+2019-11-18 22:15:24.063 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2019-11-18 22:15:24.069 +01:00 [INF] Hosting environment: Development
+2019-11-18 22:15:24.075 +01:00 [INF] Content root path: F:\Projects\orbit\Orbit.Game.Service
+2019-11-18 22:15:24.077 +01:00 [DBG] Hosting started
+2019-11-18 22:15:29.656 +01:00 [INF] Found 2 unhandled Events.
+2019-11-18 22:15:29.928 +01:00 [FTL] Unable to update service states:
+Exception:
+Cannot add value because header 'Authorization' does not support multiple values.
+2019-11-18 22:15:30.017 +01:00 [FTL] Unable to process transactions:
+Exception:
+Cannot add value because header 'Authorization' does not support multiple values.
+2019-11-18 22:15:30.179 +01:00 [FTL] Unable to update characters:
+Exception:
+Cannot add value because header 'Authorization' does not support multiple values.
+2019-11-18 22:15:30.692 +01:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2019-11-18 22:15:31.364 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'AccountDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:15:31.452 +01:00 [DBG] Context 'AccountDbContext' started tracking 'Account' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:15:31.464 +01:00 [DBG] Context 'AccountDbContext' started tracking 'AccountDetail' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:15:31.469 +01:00 [DBG] Context 'AccountDbContext' started tracking 'AccountPlayTime' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:15:31.477 +01:00 [DBG] SaveChanges starting for 'AccountDbContext'.
+2019-11-18 22:15:31.481 +01:00 [DBG] DetectChanges starting for 'AccountDbContext'.
+2019-11-18 22:15:31.504 +01:00 [DBG] DetectChanges completed for 'AccountDbContext'.
+2019-11-18 22:15:31.618 +01:00 [DBG] Opening connection to database 'ACCOUNT_DBF' on server 'DESKTOP-31UOVFP'.
+2019-11-18 22:15:42.178 +01:00 [FTL] Unable to update service states:
+Exception:
+Cannot add value because header 'Authorization' does not support multiple values.
+2019-11-18 22:15:42.291 +01:00 [FTL] Unable to process transactions:
+Exception:
+Cannot add value because header 'Authorization' does not support multiple values.
+2019-11-18 22:15:42.433 +01:00 [FTL] Unable to update characters:
+Exception:
+Cannot add value because header 'Authorization' does not support multiple values.
+2019-11-18 22:15:47.565 +01:00 [ERR] An error occurred using the connection to database 'ACCOUNT_DBF' on server 'DESKTOP-31UOVFP'.
+System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+ ---> System.ComponentModel.Win32Exception (53): Der Netzwerkpfad wurde nicht gefunden.
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnection(Boolean errorsExpected)
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:53,State:0,Class:20
+2019-11-18 22:15:47.805 +01:00 [ERR] An exception occurred in the database while saving changes for context type 'Orbit.Game.Core.Data.AccountDbContext'.
+System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+ ---> System.ComponentModel.Win32Exception (53): Der Netzwerkpfad wurde nicht gefunden.
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnection(Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.Open(Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransaction(IsolationLevel isolationLevel)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransaction()
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(DbContext _, ValueTuple`2 parameters)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(IEnumerable`1 commandBatches, IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChanges(IReadOnlyList`1 entries)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(IReadOnlyList`1 entriesToSave)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges(Boolean acceptAllChangesOnSuccess)
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:53,State:0,Class:20
+System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+ ---> System.ComponentModel.Win32Exception (53): Der Netzwerkpfad wurde nicht gefunden.
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnection(Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.Open(Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransaction(IsolationLevel isolationLevel)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransaction()
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(DbContext _, ValueTuple`2 parameters)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(IEnumerable`1 commandBatches, IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChanges(IReadOnlyList`1 entries)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(IReadOnlyList`1 entriesToSave)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges(Boolean acceptAllChangesOnSuccess)
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:53,State:0,Class:20
+2019-11-18 22:15:47.929 +01:00 [DBG] 'AccountDbContext' disposed.
+2019-11-18 22:16:13.510 +01:00 [INF] Starting up
+2019-11-18 22:16:14.990 +01:00 [DBG] Hosting starting
+2019-11-18 22:16:15.971 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2019-11-18 22:16:15.980 +01:00 [INF] Hosting environment: Development
+2019-11-18 22:16:16.002 +01:00 [INF] Content root path: F:\Projects\orbit\Orbit.Game.Service
+2019-11-18 22:16:16.014 +01:00 [DBG] Hosting started
+2019-11-18 22:16:20.722 +01:00 [INF] Found 2 unhandled Events.
+2019-11-18 22:16:20.946 +01:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2019-11-18 22:16:20.946 +01:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2019-11-18 22:16:20.946 +01:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2019-11-18 22:16:21.032 +01:00 [WRN] Found more than one Process with the Name "Discord"
+2019-11-18 22:16:21.610 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:16:21.610 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:16:21.610 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'AccountDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:16:21.623 +01:00 [DBG] 'CharacterDbContext' disposed.
+2019-11-18 22:16:21.705 +01:00 [DBG] Context 'AccountDbContext' started tracking 'Account' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:16:21.705 +01:00 [DBG] Compiling query model: 
+'(from Character <generated>_1 in DbSet<Character>
+select [<generated>_1]).AsNoTracking()'
+2019-11-18 22:16:21.721 +01:00 [DBG] Context 'AccountDbContext' started tracking 'AccountDetail' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:16:21.727 +01:00 [DBG] Context 'AccountDbContext' started tracking 'AccountPlayTime' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:16:21.730 +01:00 [DBG] SaveChanges starting for 'AccountDbContext'.
+2019-11-18 22:16:21.736 +01:00 [DBG] DetectChanges starting for 'AccountDbContext'.
+2019-11-18 22:16:21.745 +01:00 [DBG] Optimized query model: 
+'from Character <generated>_1 in DbSet<Character>
+select [<generated>_1]'
+2019-11-18 22:16:21.762 +01:00 [DBG] DetectChanges completed for 'AccountDbContext'.
+2019-11-18 22:16:21.817 +01:00 [DBG] Opening connection to database 'ACCOUNT_DBF' on server 'DESKTOP-31UOVFP'.
+2019-11-18 22:16:21.926 +01:00 [DBG] (QueryContext queryContext) => IEnumerable<Character> _FastQuery(
+|__ relationalQueryContext: (RelationalQueryContext)queryContext, 
+|__ shaperCommandContext: SelectExpression: 
+|       SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+|       FROM [CHARACTER_TBL] AS [c], 
+|__ materializer: (DbDataReader dataReader | DbContext context) => 
+|   {
+|       instance = new Character()
+|       instance.<IdPlayer>k__BackingField = string dataReader.GetString(0)
+|       instance.<Account>k__BackingField = bool dataReader.IsDBNull(1) ? default(string) : string dataReader.GetString(1)
+|       instance.<Authority>k__BackingField = string dataReader.GetString(2) != null && string dataReader.GetString(2).Length >= 1 ? char string dataReader.GetString(2).get_Chars(0) :  
+|       instance.<BossKills>k__BackingField = bool dataReader.IsDBNull(3) ? default(Nullable<int>) : (Nullable<int>)int dataReader.GetInt32(3)
+|       instance.<Chips>k__BackingField = long dataReader.GetInt64(4)
+|       instance.<Dex>k__BackingField = int dataReader.GetInt32(5)
+|       instance.<Donate>k__BackingField = long dataReader.GetInt64(6)
+|       instance.<Farm>k__BackingField = long dataReader.GetInt64(7)
+|       instance.<GearScore>k__BackingField = int dataReader.GetInt32(8)
+|       instance.<Gold>k__BackingField = int dataReader.GetInt32(9)
+|       instance.<Int>k__BackingField = int dataReader.GetInt32(10)
+|       instance.<IsBlock>k__BackingField = string dataReader.GetString(11) != null && string dataReader.GetString(11).Length >= 1 ? char string dataReader.GetString(11).get_Chars(0) :  
+|       instance.<Job>k__BackingField = int dataReader.GetInt32(12)
+|       instance.<Level>k__BackingField = int dataReader.GetInt32(13)
+|       instance.<Name>k__BackingField = bool dataReader.IsDBNull(14) ? default(string) : string dataReader.GetString(14)
+|       instance.<Perin>k__BackingField = long dataReader.GetInt64(15)
+|       instance.<Sta>k__BackingField = int dataReader.GetInt32(16)
+|       instance.<Str>k__BackingField = int dataReader.GetInt32(17)
+|       instance.<TotalPlayTime>k__BackingField = int dataReader.GetInt32(18)
+|       instance.<Vote>k__BackingField = long dataReader.GetInt64(19)
+|       return instance
+|   }, 
+|__ contextType: Orbit.Game.Core.Data.CharacterDbContext, 
+|__ logger: DiagnosticsLogger<Query>)
+2019-11-18 22:16:21.953 +01:00 [DBG] Opening connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-31UOVFP'.
+2019-11-18 22:16:33.178 +01:00 [WRN] Found more than one Process with the Name "Discord"
+2019-11-18 22:16:33.700 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:16:33.703 +01:00 [DBG] 'CharacterDbContext' disposed.
+2019-11-18 22:16:37.897 +01:00 [ERR] An error occurred using the connection to database 'ACCOUNT_DBF' on server 'DESKTOP-31UOVFP'.
+System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+ ---> System.ComponentModel.Win32Exception (53): Der Netzwerkpfad wurde nicht gefunden.
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnection(Boolean errorsExpected)
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:53,State:0,Class:20
+2019-11-18 22:16:37.897 +01:00 [ERR] An error occurred using the connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-31UOVFP'.
+System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+ ---> System.ComponentModel.Win32Exception (53): Der Netzwerkpfad wurde nicht gefunden.
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnection(Boolean errorsExpected)
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:53,State:0,Class:20
+2019-11-18 22:16:38.078 +01:00 [ERR] An exception occurred in the database while saving changes for context type 'Orbit.Game.Core.Data.AccountDbContext'.
+System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+ ---> System.ComponentModel.Win32Exception (53): Der Netzwerkpfad wurde nicht gefunden.
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnection(Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.Open(Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransaction(IsolationLevel isolationLevel)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransaction()
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(DbContext _, ValueTuple`2 parameters)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(IEnumerable`1 commandBatches, IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChanges(IReadOnlyList`1 entries)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(IReadOnlyList`1 entriesToSave)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges(Boolean acceptAllChangesOnSuccess)
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:53,State:0,Class:20
+System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+ ---> System.ComponentModel.Win32Exception (53): Der Netzwerkpfad wurde nicht gefunden.
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnection(Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.Open(Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransaction(IsolationLevel isolationLevel)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransaction()
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(DbContext _, ValueTuple`2 parameters)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(IEnumerable`1 commandBatches, IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChanges(IReadOnlyList`1 entries)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(IReadOnlyList`1 entriesToSave)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges(Boolean acceptAllChangesOnSuccess)
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:53,State:0,Class:20
+2019-11-18 22:16:38.123 +01:00 [DBG] 'CharacterDbContext' disposed.
+2019-11-18 22:16:38.250 +01:00 [DBG] 'AccountDbContext' disposed.
+2019-11-18 22:17:35.567 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:17:35.663 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'AccountDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:17:35.673 +01:00 [DBG] Context 'AccountDbContext' started tracking 'Account' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:17:35.677 +01:00 [DBG] Opening connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-31UOVFP'.
+2019-11-18 22:17:35.679 +01:00 [DBG] Context 'AccountDbContext' started tracking 'AccountDetail' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:17:43.509 +01:00 [INF] Starting up
+2019-11-18 22:17:44.843 +01:00 [DBG] Hosting starting
+2019-11-18 22:17:45.945 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2019-11-18 22:17:45.950 +01:00 [INF] Hosting environment: Development
+2019-11-18 22:17:45.953 +01:00 [INF] Content root path: F:\Projects\orbit\Orbit.Game.Service
+2019-11-18 22:17:45.961 +01:00 [DBG] Hosting started
+2019-11-18 22:17:50.595 +01:00 [INF] Found 2 unhandled Events.
+2019-11-18 22:17:50.766 +01:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2019-11-18 22:17:50.766 +01:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2019-11-18 22:17:50.767 +01:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2019-11-18 22:17:50.930 +01:00 [WRN] Found more than one Process with the Name "Discord"
+2019-11-18 22:17:51.428 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'AccountDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:17:51.428 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:17:51.428 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:17:51.442 +01:00 [DBG] 'CharacterDbContext' disposed.
+2019-11-18 22:17:51.525 +01:00 [DBG] Context 'AccountDbContext' started tracking 'Account' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:17:51.525 +01:00 [DBG] Compiling query model: 
+'(from Character <generated>_1 in DbSet<Character>
+select [<generated>_1]).AsNoTracking()'
+2019-11-18 22:17:51.540 +01:00 [DBG] Context 'AccountDbContext' started tracking 'AccountDetail' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:17:51.546 +01:00 [DBG] Context 'AccountDbContext' started tracking 'AccountPlayTime' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:17:51.549 +01:00 [DBG] SaveChanges starting for 'AccountDbContext'.
+2019-11-18 22:17:51.557 +01:00 [DBG] DetectChanges starting for 'AccountDbContext'.
+2019-11-18 22:17:51.559 +01:00 [DBG] Optimized query model: 
+'from Character <generated>_1 in DbSet<Character>
+select [<generated>_1]'
+2019-11-18 22:17:51.586 +01:00 [DBG] DetectChanges completed for 'AccountDbContext'.
+2019-11-18 22:17:51.641 +01:00 [DBG] Opening connection to database 'ACCOUNT_DBF' on server 'DESKTOP-31UOVFP'.
+2019-11-18 22:17:51.737 +01:00 [DBG] (QueryContext queryContext) => IEnumerable<Character> _FastQuery(
+|__ relationalQueryContext: (RelationalQueryContext)queryContext, 
+|__ shaperCommandContext: SelectExpression: 
+|       SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+|       FROM [CHARACTER_TBL] AS [c], 
+|__ materializer: (DbDataReader dataReader | DbContext context) => 
+|   {
+|       instance = new Character()
+|       instance.<IdPlayer>k__BackingField = string dataReader.GetString(0)
+|       instance.<Account>k__BackingField = bool dataReader.IsDBNull(1) ? default(string) : string dataReader.GetString(1)
+|       instance.<Authority>k__BackingField = string dataReader.GetString(2) != null && string dataReader.GetString(2).Length >= 1 ? char string dataReader.GetString(2).get_Chars(0) :  
+|       instance.<BossKills>k__BackingField = bool dataReader.IsDBNull(3) ? default(Nullable<int>) : (Nullable<int>)int dataReader.GetInt32(3)
+|       instance.<Chips>k__BackingField = long dataReader.GetInt64(4)
+|       instance.<Dex>k__BackingField = int dataReader.GetInt32(5)
+|       instance.<Donate>k__BackingField = long dataReader.GetInt64(6)
+|       instance.<Farm>k__BackingField = long dataReader.GetInt64(7)
+|       instance.<GearScore>k__BackingField = int dataReader.GetInt32(8)
+|       instance.<Gold>k__BackingField = int dataReader.GetInt32(9)
+|       instance.<Int>k__BackingField = int dataReader.GetInt32(10)
+|       instance.<IsBlock>k__BackingField = string dataReader.GetString(11) != null && string dataReader.GetString(11).Length >= 1 ? char string dataReader.GetString(11).get_Chars(0) :  
+|       instance.<Job>k__BackingField = int dataReader.GetInt32(12)
+|       instance.<Level>k__BackingField = int dataReader.GetInt32(13)
+|       instance.<Name>k__BackingField = bool dataReader.IsDBNull(14) ? default(string) : string dataReader.GetString(14)
+|       instance.<Perin>k__BackingField = long dataReader.GetInt64(15)
+|       instance.<Sta>k__BackingField = int dataReader.GetInt32(16)
+|       instance.<Str>k__BackingField = int dataReader.GetInt32(17)
+|       instance.<TotalPlayTime>k__BackingField = int dataReader.GetInt32(18)
+|       instance.<Vote>k__BackingField = long dataReader.GetInt64(19)
+|       return instance
+|   }, 
+|__ contextType: Orbit.Game.Core.Data.CharacterDbContext, 
+|__ logger: DiagnosticsLogger<Query>)
+2019-11-18 22:17:51.758 +01:00 [DBG] Opening connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-31UOVFP'.
+2019-11-18 22:18:03.056 +01:00 [WRN] Found more than one Process with the Name "Discord"
+2019-11-18 22:18:03.531 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:18:03.533 +01:00 [DBG] 'CharacterDbContext' disposed.
+2019-11-18 22:18:08.484 +01:00 [ERR] An error occurred using the connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-31UOVFP'.
+System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+ ---> System.ComponentModel.Win32Exception (53): Der Netzwerkpfad wurde nicht gefunden.
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnection(Boolean errorsExpected)
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:53,State:0,Class:20
+2019-11-18 22:18:08.484 +01:00 [ERR] An error occurred using the connection to database 'ACCOUNT_DBF' on server 'DESKTOP-31UOVFP'.
+System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+ ---> System.ComponentModel.Win32Exception (53): Der Netzwerkpfad wurde nicht gefunden.
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnection(Boolean errorsExpected)
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:53,State:0,Class:20
+2019-11-18 22:18:08.589 +01:00 [DBG] 'CharacterDbContext' disposed.
+2019-11-18 22:18:29.231 +01:00 [INF] Starting up
+2019-11-18 22:18:30.594 +01:00 [DBG] Hosting starting
+2019-11-18 22:18:31.795 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2019-11-18 22:18:31.804 +01:00 [INF] Hosting environment: Development
+2019-11-18 22:18:31.814 +01:00 [INF] Content root path: F:\Projects\orbit\Orbit.Game.Service
+2019-11-18 22:18:31.816 +01:00 [DBG] Hosting started
+2019-11-18 22:18:36.302 +01:00 [INF] Found 2 unhandled Events.
+2019-11-18 22:18:36.462 +01:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2019-11-18 22:18:36.464 +01:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2019-11-18 22:18:36.464 +01:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2019-11-18 22:18:36.639 +01:00 [WRN] Found more than one Process with the Name "Discord"
+2019-11-18 22:18:37.133 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'AccountDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:18:37.133 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:18:37.133 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:18:37.147 +01:00 [DBG] 'CharacterDbContext' disposed.
+2019-11-18 22:18:37.239 +01:00 [DBG] Context 'AccountDbContext' started tracking 'Account' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:18:37.239 +01:00 [DBG] Compiling query model: 
+'(from Character <generated>_1 in DbSet<Character>
+select [<generated>_1]).AsNoTracking()'
+2019-11-18 22:18:37.252 +01:00 [DBG] Context 'AccountDbContext' started tracking 'AccountDetail' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:18:37.259 +01:00 [DBG] Context 'AccountDbContext' started tracking 'AccountPlayTime' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:18:37.261 +01:00 [DBG] SaveChanges starting for 'AccountDbContext'.
+2019-11-18 22:18:37.268 +01:00 [DBG] DetectChanges starting for 'AccountDbContext'.
+2019-11-18 22:18:37.269 +01:00 [DBG] Optimized query model: 
+'from Character <generated>_1 in DbSet<Character>
+select [<generated>_1]'
+2019-11-18 22:18:37.294 +01:00 [DBG] DetectChanges completed for 'AccountDbContext'.
+2019-11-18 22:18:37.348 +01:00 [DBG] Opening connection to database 'ACCOUNT_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:18:37.452 +01:00 [DBG] (QueryContext queryContext) => IEnumerable<Character> _FastQuery(
+|__ relationalQueryContext: (RelationalQueryContext)queryContext, 
+|__ shaperCommandContext: SelectExpression: 
+|       SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+|       FROM [CHARACTER_TBL] AS [c], 
+|__ materializer: (DbDataReader dataReader | DbContext context) => 
+|   {
+|       instance = new Character()
+|       instance.<IdPlayer>k__BackingField = string dataReader.GetString(0)
+|       instance.<Account>k__BackingField = bool dataReader.IsDBNull(1) ? default(string) : string dataReader.GetString(1)
+|       instance.<Authority>k__BackingField = string dataReader.GetString(2) != null && string dataReader.GetString(2).Length >= 1 ? char string dataReader.GetString(2).get_Chars(0) :  
+|       instance.<BossKills>k__BackingField = bool dataReader.IsDBNull(3) ? default(Nullable<int>) : (Nullable<int>)int dataReader.GetInt32(3)
+|       instance.<Chips>k__BackingField = long dataReader.GetInt64(4)
+|       instance.<Dex>k__BackingField = int dataReader.GetInt32(5)
+|       instance.<Donate>k__BackingField = long dataReader.GetInt64(6)
+|       instance.<Farm>k__BackingField = long dataReader.GetInt64(7)
+|       instance.<GearScore>k__BackingField = int dataReader.GetInt32(8)
+|       instance.<Gold>k__BackingField = int dataReader.GetInt32(9)
+|       instance.<Int>k__BackingField = int dataReader.GetInt32(10)
+|       instance.<IsBlock>k__BackingField = string dataReader.GetString(11) != null && string dataReader.GetString(11).Length >= 1 ? char string dataReader.GetString(11).get_Chars(0) :  
+|       instance.<Job>k__BackingField = int dataReader.GetInt32(12)
+|       instance.<Level>k__BackingField = int dataReader.GetInt32(13)
+|       instance.<Name>k__BackingField = bool dataReader.IsDBNull(14) ? default(string) : string dataReader.GetString(14)
+|       instance.<Perin>k__BackingField = long dataReader.GetInt64(15)
+|       instance.<Sta>k__BackingField = int dataReader.GetInt32(16)
+|       instance.<Str>k__BackingField = int dataReader.GetInt32(17)
+|       instance.<TotalPlayTime>k__BackingField = int dataReader.GetInt32(18)
+|       instance.<Vote>k__BackingField = long dataReader.GetInt64(19)
+|       return instance
+|   }, 
+|__ contextType: Orbit.Game.Core.Data.CharacterDbContext, 
+|__ logger: DiagnosticsLogger<Query>)
+2019-11-18 22:18:37.477 +01:00 [DBG] Opening connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:18:37.539 +01:00 [DBG] Opened connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:18:37.539 +01:00 [DBG] Opened connection to database 'ACCOUNT_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:18:37.558 +01:00 [DBG] Beginning transaction with isolation level 'ReadCommitted'.
+2019-11-18 22:18:37.560 +01:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+2019-11-18 22:18:37.735 +01:00 [DBG] Executing update commands individually as the number of batchable commands (3) is smaller than the minimum batch size (4).
+2019-11-18 22:18:37.736 +01:00 [ERR] Failed executing DbCommand (177ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+System.Data.SqlClient.SqlException (0x80131904): Invalid column name 'm_nBossKills'.
+Invalid column name 'm_nChips'.
+Invalid column name 'm_nDonate'.
+Invalid column name 'm_nFarm'.
+Invalid column name 'm_nGearScore'.
+Invalid column name 'm_nPerin'.
+Invalid column name 'm_nVote'.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite, String method)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.Execute(IRelationalConnection connection, DbCommandMethod executeMethod, IReadOnlyDictionary`2 parameterValues)
+ClientConnectionId:f24f1f80-4cd2-4e58-a6e1-883556d746fe
+Error Number:207,State:1,Class:16
+2019-11-18 22:18:37.788 +01:00 [DBG] Executing DbCommand [Parameters=[@p0='?' (Size = 32) (DbType = AnsiString), @p1='?' (DbType = Int32), @p2='?' (Size = 32) (DbType = AnsiString), @p3='?' (Size = 32) (DbType = AnsiString), @p4='?' (Size = 1) (DbType = AnsiString), @p5='?' (Size = 1) (DbType = AnsiString), @p6='?' (Size = 32) (DbType = AnsiString), @p7='?' (Size = 32) (DbType = AnsiString), @p8='?' (Size = 1) (DbType = AnsiString), @p9='?' (Size = 1) (DbType = AnsiString), @p10='?' (Size = 32) (DbType = AnsiString), @p11='?' (Size = 36)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [ACCOUNT_TBL] ([account], [cash], [id_no1], [id_no2], [isuse], [member], [OldPassword], [password], [realname], [reload], [TempPassword], [userId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11);
+2019-11-18 22:18:37.829 +01:00 [DBG] Closing connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:18:37.841 +01:00 [DBG] Closed connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:18:37.883 +01:00 [DBG] 'CharacterDbContext' disposed.
+2019-11-18 22:23:46.667 +01:00 [INF] Starting up
+2019-11-18 22:23:47.986 +01:00 [DBG] Hosting starting
+2019-11-18 22:23:49.106 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2019-11-18 22:23:49.125 +01:00 [INF] Hosting environment: Development
+2019-11-18 22:23:49.165 +01:00 [INF] Content root path: F:\Projects\orbit\Orbit.Game.Service
+2019-11-18 22:23:49.167 +01:00 [DBG] Hosting started
+2019-11-18 22:23:54.212 +01:00 [INF] Found 2 unhandled Events.
+2019-11-18 22:23:54.447 +01:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2019-11-18 22:23:54.447 +01:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2019-11-18 22:23:54.447 +01:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2019-11-18 22:23:54.599 +01:00 [WRN] Found more than one Process with the Name "Discord"
+2019-11-18 22:23:55.127 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:23:55.127 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:23:55.127 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'AccountDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:23:55.140 +01:00 [DBG] 'CharacterDbContext' disposed.
+2019-11-18 22:23:55.227 +01:00 [DBG] Context 'AccountDbContext' started tracking 'Account' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:23:55.225 +01:00 [DBG] Compiling query model: 
+'(from Character <generated>_1 in DbSet<Character>
+select [<generated>_1]).AsNoTracking()'
+2019-11-18 22:23:55.241 +01:00 [DBG] Context 'AccountDbContext' started tracking 'AccountDetail' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:23:55.247 +01:00 [DBG] Context 'AccountDbContext' started tracking 'AccountPlayTime' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:23:55.249 +01:00 [DBG] SaveChanges starting for 'AccountDbContext'.
+2019-11-18 22:23:55.256 +01:00 [DBG] Optimized query model: 
+'from Character <generated>_1 in DbSet<Character>
+select [<generated>_1]'
+2019-11-18 22:23:55.256 +01:00 [DBG] DetectChanges starting for 'AccountDbContext'.
+2019-11-18 22:23:55.286 +01:00 [DBG] DetectChanges completed for 'AccountDbContext'.
+2019-11-18 22:23:55.337 +01:00 [DBG] Opening connection to database 'ACCOUNT_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:23:55.426 +01:00 [DBG] (QueryContext queryContext) => IEnumerable<Character> _FastQuery(
+|__ relationalQueryContext: (RelationalQueryContext)queryContext, 
+|__ shaperCommandContext: SelectExpression: 
+|       SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+|       FROM [CHARACTER_TBL] AS [c], 
+|__ materializer: (DbDataReader dataReader | DbContext context) => 
+|   {
+|       instance = new Character()
+|       instance.<IdPlayer>k__BackingField = string dataReader.GetString(0)
+|       instance.<Account>k__BackingField = bool dataReader.IsDBNull(1) ? default(string) : string dataReader.GetString(1)
+|       instance.<Authority>k__BackingField = string dataReader.GetString(2) != null && string dataReader.GetString(2).Length >= 1 ? char string dataReader.GetString(2).get_Chars(0) :  
+|       instance.<BossKills>k__BackingField = bool dataReader.IsDBNull(3) ? default(Nullable<int>) : (Nullable<int>)int dataReader.GetInt32(3)
+|       instance.<Chips>k__BackingField = long dataReader.GetInt64(4)
+|       instance.<Dex>k__BackingField = int dataReader.GetInt32(5)
+|       instance.<Donate>k__BackingField = long dataReader.GetInt64(6)
+|       instance.<Farm>k__BackingField = long dataReader.GetInt64(7)
+|       instance.<GearScore>k__BackingField = int dataReader.GetInt32(8)
+|       instance.<Gold>k__BackingField = int dataReader.GetInt32(9)
+|       instance.<Int>k__BackingField = int dataReader.GetInt32(10)
+|       instance.<IsBlock>k__BackingField = string dataReader.GetString(11) != null && string dataReader.GetString(11).Length >= 1 ? char string dataReader.GetString(11).get_Chars(0) :  
+|       instance.<Job>k__BackingField = int dataReader.GetInt32(12)
+|       instance.<Level>k__BackingField = int dataReader.GetInt32(13)
+|       instance.<Name>k__BackingField = bool dataReader.IsDBNull(14) ? default(string) : string dataReader.GetString(14)
+|       instance.<Perin>k__BackingField = long dataReader.GetInt64(15)
+|       instance.<Sta>k__BackingField = int dataReader.GetInt32(16)
+|       instance.<Str>k__BackingField = int dataReader.GetInt32(17)
+|       instance.<TotalPlayTime>k__BackingField = int dataReader.GetInt32(18)
+|       instance.<Vote>k__BackingField = long dataReader.GetInt64(19)
+|       return instance
+|   }, 
+|__ contextType: Orbit.Game.Core.Data.CharacterDbContext, 
+|__ logger: DiagnosticsLogger<Query>)
+2019-11-18 22:23:55.446 +01:00 [DBG] Opening connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:23:55.496 +01:00 [DBG] Opened connection to database 'ACCOUNT_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:23:55.496 +01:00 [DBG] Opened connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:23:55.511 +01:00 [DBG] Beginning transaction with isolation level 'ReadCommitted'.
+2019-11-18 22:23:55.516 +01:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+2019-11-18 22:23:55.571 +01:00 [DBG] Executing update commands individually as the number of batchable commands (3) is smaller than the minimum batch size (4).
+2019-11-18 22:23:55.574 +01:00 [INF] Executed DbCommand (58ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+2019-11-18 22:23:55.600 +01:00 [DBG] Executing DbCommand [Parameters=[@p0='?' (Size = 32) (DbType = AnsiString), @p1='?' (DbType = Int32), @p2='?' (Size = 32) (DbType = AnsiString), @p3='?' (Size = 32) (DbType = AnsiString), @p4='?' (Size = 1) (DbType = AnsiString), @p5='?' (Size = 1) (DbType = AnsiString), @p6='?' (Size = 32) (DbType = AnsiString), @p7='?' (Size = 32) (DbType = AnsiString), @p8='?' (Size = 1) (DbType = AnsiString), @p9='?' (Size = 1) (DbType = AnsiString), @p10='?' (Size = 32) (DbType = AnsiString), @p11='?' (Size = 36)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [ACCOUNT_TBL] ([account], [cash], [id_no1], [id_no2], [isuse], [member], [OldPassword], [password], [realname], [reload], [TempPassword], [userId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11);
+2019-11-18 22:23:55.605 +01:00 [DBG] A data reader was disposed.
+2019-11-18 22:23:55.609 +01:00 [DBG] Closing connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:23:55.620 +01:00 [DBG] Closed connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:23:55.640 +01:00 [DBG] UPDATING 1505 CHARACTERS
+2019-11-18 22:23:55.653 +01:00 [INF] Executed DbCommand (60ms) [Parameters=[@p0='?' (Size = 32) (DbType = AnsiString), @p1='?' (DbType = Int32), @p2='?' (Size = 32) (DbType = AnsiString), @p3='?' (Size = 32) (DbType = AnsiString), @p4='?' (Size = 1) (DbType = AnsiString), @p5='?' (Size = 1) (DbType = AnsiString), @p6='?' (Size = 32) (DbType = AnsiString), @p7='?' (Size = 32) (DbType = AnsiString), @p8='?' (Size = 1) (DbType = AnsiString), @p9='?' (Size = 1) (DbType = AnsiString), @p10='?' (Size = 32) (DbType = AnsiString), @p11='?' (Size = 36)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [ACCOUNT_TBL] ([account], [cash], [id_no1], [id_no2], [isuse], [member], [OldPassword], [password], [realname], [reload], [TempPassword], [userId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11);
+2019-11-18 22:23:55.660 +01:00 [DBG] A data reader was disposed.
+2019-11-18 22:23:55.663 +01:00 [DBG] Executing DbCommand [Parameters=[@p0='?' (Size = 32) (DbType = AnsiString), @p1='?' (Size = 8) (DbType = AnsiString), @p2='?' (Size = 100) (DbType = AnsiString), @p3='?' (Size = 8) (DbType = AnsiString), @p4='?' (Size = 4) (DbType = AnsiString), @p5='?' (Size = 1) (DbType = AnsiString), @p6='?' (Size = 1) (DbType = AnsiString), @p7='?' (DbType = DateTime), @p8='?' (DbType = DateTime), @p9='?' (Size = 1) (DbType = AnsiString), @p10='?' (Size = 8) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [ACCOUNT_TBL_DETAIL] ([account], [BlockTime], [email], [EndTime], [gamecode], [isuse], [m_chLoginAuthority], [regdate], [secession], [tester], [WebTime])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+2019-11-18 22:23:55.678 +01:00 [INF] Executed DbCommand (15ms) [Parameters=[@p0='?' (Size = 32) (DbType = AnsiString), @p1='?' (Size = 8) (DbType = AnsiString), @p2='?' (Size = 100) (DbType = AnsiString), @p3='?' (Size = 8) (DbType = AnsiString), @p4='?' (Size = 4) (DbType = AnsiString), @p5='?' (Size = 1) (DbType = AnsiString), @p6='?' (Size = 1) (DbType = AnsiString), @p7='?' (DbType = DateTime), @p8='?' (DbType = DateTime), @p9='?' (Size = 1) (DbType = AnsiString), @p10='?' (Size = 8) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [ACCOUNT_TBL_DETAIL] ([account], [BlockTime], [email], [EndTime], [gamecode], [isuse], [m_chLoginAuthority], [regdate], [secession], [tester], [WebTime])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+2019-11-18 22:23:55.687 +01:00 [DBG] A data reader was disposed.
+2019-11-18 22:23:55.689 +01:00 [DBG] Executing DbCommand [Parameters=[@p0='?' (Size = 32) (DbType = AnsiString), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [AccountPlay] ([Account], [PlayDate], [PlayTime])
+VALUES (@p0, @p1, @p2);
+2019-11-18 22:23:55.699 +01:00 [INF] Executed DbCommand (10ms) [Parameters=[@p0='?' (Size = 32) (DbType = AnsiString), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [AccountPlay] ([Account], [PlayDate], [PlayTime])
+VALUES (@p0, @p1, @p2);
+2019-11-18 22:23:55.703 +01:00 [DBG] A data reader was disposed.
+2019-11-18 22:23:55.711 +01:00 [DBG] Committing transaction.
+2019-11-18 22:23:55.712 +01:00 [DBG] Closing connection to database 'ACCOUNT_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:23:55.714 +01:00 [DBG] Closed connection to database 'ACCOUNT_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:23:55.719 +01:00 [DBG] Disposing transaction.
+2019-11-18 22:23:55.737 +01:00 [DBG] An 'Account' entity tracked by 'AccountDbContext' changed from '"Added"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:23:55.743 +01:00 [DBG] An 'AccountDetail' entity tracked by 'AccountDbContext' changed from '"Added"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:23:55.749 +01:00 [DBG] An 'AccountPlayTime' entity tracked by 'AccountDbContext' changed from '"Added"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:23:55.761 +01:00 [DBG] SaveChanges completed for 'AccountDbContext' with 3 entities written to the database.
+2019-11-18 22:23:55.763 +01:00 [DBG] 'AccountDbContext' disposed.
+2019-11-18 22:23:55.831 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'AccountDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:23:55.833 +01:00 [DBG] Context 'AccountDbContext' started tracking 'Account' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:23:55.837 +01:00 [DBG] Context 'AccountDbContext' started tracking 'AccountDetail' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:23:55.838 +01:00 [DBG] Context 'AccountDbContext' started tracking 'AccountPlayTime' entity. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:23:55.840 +01:00 [DBG] SaveChanges starting for 'AccountDbContext'.
+2019-11-18 22:23:55.844 +01:00 [DBG] DetectChanges starting for 'AccountDbContext'.
+2019-11-18 22:23:55.845 +01:00 [DBG] DetectChanges completed for 'AccountDbContext'.
+2019-11-18 22:23:55.848 +01:00 [DBG] Opening connection to database 'ACCOUNT_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:23:55.852 +01:00 [DBG] Opened connection to database 'ACCOUNT_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:23:55.857 +01:00 [DBG] Beginning transaction with isolation level 'ReadCommitted'.
+2019-11-18 22:23:55.858 +01:00 [DBG] Executing update commands individually as the number of batchable commands (3) is smaller than the minimum batch size (4).
+2019-11-18 22:23:55.860 +01:00 [DBG] Executing DbCommand [Parameters=[@p0='?' (Size = 32) (DbType = AnsiString), @p1='?' (DbType = Int32), @p2='?' (Size = 32) (DbType = AnsiString), @p3='?' (Size = 32) (DbType = AnsiString), @p4='?' (Size = 1) (DbType = AnsiString), @p5='?' (Size = 1) (DbType = AnsiString), @p6='?' (Size = 32) (DbType = AnsiString), @p7='?' (Size = 32) (DbType = AnsiString), @p8='?' (Size = 1) (DbType = AnsiString), @p9='?' (Size = 1) (DbType = AnsiString), @p10='?' (Size = 32) (DbType = AnsiString), @p11='?' (Size = 36)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [ACCOUNT_TBL] ([account], [cash], [id_no1], [id_no2], [isuse], [member], [OldPassword], [password], [realname], [reload], [TempPassword], [userId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11);
+2019-11-18 22:23:55.867 +01:00 [INF] Executed DbCommand (7ms) [Parameters=[@p0='?' (Size = 32) (DbType = AnsiString), @p1='?' (DbType = Int32), @p2='?' (Size = 32) (DbType = AnsiString), @p3='?' (Size = 32) (DbType = AnsiString), @p4='?' (Size = 1) (DbType = AnsiString), @p5='?' (Size = 1) (DbType = AnsiString), @p6='?' (Size = 32) (DbType = AnsiString), @p7='?' (Size = 32) (DbType = AnsiString), @p8='?' (Size = 1) (DbType = AnsiString), @p9='?' (Size = 1) (DbType = AnsiString), @p10='?' (Size = 32) (DbType = AnsiString), @p11='?' (Size = 36)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [ACCOUNT_TBL] ([account], [cash], [id_no1], [id_no2], [isuse], [member], [OldPassword], [password], [realname], [reload], [TempPassword], [userId])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11);
+2019-11-18 22:23:55.872 +01:00 [DBG] A data reader was disposed.
+2019-11-18 22:23:55.873 +01:00 [DBG] Executing DbCommand [Parameters=[@p0='?' (Size = 32) (DbType = AnsiString), @p1='?' (Size = 8) (DbType = AnsiString), @p2='?' (Size = 100) (DbType = AnsiString), @p3='?' (Size = 8) (DbType = AnsiString), @p4='?' (Size = 4) (DbType = AnsiString), @p5='?' (Size = 1) (DbType = AnsiString), @p6='?' (Size = 1) (DbType = AnsiString), @p7='?' (DbType = DateTime), @p8='?' (DbType = DateTime), @p9='?' (Size = 1) (DbType = AnsiString), @p10='?' (Size = 8) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [ACCOUNT_TBL_DETAIL] ([account], [BlockTime], [email], [EndTime], [gamecode], [isuse], [m_chLoginAuthority], [regdate], [secession], [tester], [WebTime])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+2019-11-18 22:23:55.880 +01:00 [INF] Executed DbCommand (7ms) [Parameters=[@p0='?' (Size = 32) (DbType = AnsiString), @p1='?' (Size = 8) (DbType = AnsiString), @p2='?' (Size = 100) (DbType = AnsiString), @p3='?' (Size = 8) (DbType = AnsiString), @p4='?' (Size = 4) (DbType = AnsiString), @p5='?' (Size = 1) (DbType = AnsiString), @p6='?' (Size = 1) (DbType = AnsiString), @p7='?' (DbType = DateTime), @p8='?' (DbType = DateTime), @p9='?' (Size = 1) (DbType = AnsiString), @p10='?' (Size = 8) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [ACCOUNT_TBL_DETAIL] ([account], [BlockTime], [email], [EndTime], [gamecode], [isuse], [m_chLoginAuthority], [regdate], [secession], [tester], [WebTime])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+2019-11-18 22:23:55.888 +01:00 [DBG] A data reader was disposed.
+2019-11-18 22:23:55.889 +01:00 [DBG] Executing DbCommand [Parameters=[@p0='?' (Size = 32) (DbType = AnsiString), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [AccountPlay] ([Account], [PlayDate], [PlayTime])
+VALUES (@p0, @p1, @p2);
+2019-11-18 22:23:55.893 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?' (Size = 32) (DbType = AnsiString), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [AccountPlay] ([Account], [PlayDate], [PlayTime])
+VALUES (@p0, @p1, @p2);
+2019-11-18 22:23:55.896 +01:00 [DBG] A data reader was disposed.
+2019-11-18 22:23:55.902 +01:00 [DBG] Committing transaction.
+2019-11-18 22:23:55.903 +01:00 [DBG] Closing connection to database 'ACCOUNT_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:23:55.905 +01:00 [DBG] Closed connection to database 'ACCOUNT_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:23:55.907 +01:00 [DBG] Disposing transaction.
+2019-11-18 22:23:55.909 +01:00 [DBG] An 'Account' entity tracked by 'AccountDbContext' changed from '"Added"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:23:55.914 +01:00 [DBG] An 'AccountDetail' entity tracked by 'AccountDbContext' changed from '"Added"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:23:55.916 +01:00 [DBG] An 'AccountPlayTime' entity tracked by 'AccountDbContext' changed from '"Added"' to '"Unchanged"'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see key values.
+2019-11-18 22:23:55.919 +01:00 [DBG] SaveChanges completed for 'AccountDbContext' with 3 entities written to the database.
+2019-11-18 22:23:55.923 +01:00 [DBG] 'AccountDbContext' disposed.
+2019-11-18 22:24:06.704 +01:00 [WRN] Found more than one Process with the Name "Discord"
+2019-11-18 22:24:07.170 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:24:07.173 +01:00 [DBG] 'CharacterDbContext' disposed.
+2019-11-18 22:24:07.735 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:24:07.740 +01:00 [DBG] Opening connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:07.742 +01:00 [DBG] Opened connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:07.744 +01:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+2019-11-18 22:24:07.751 +01:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+2019-11-18 22:24:07.774 +01:00 [DBG] A data reader was disposed.
+2019-11-18 22:24:07.776 +01:00 [DBG] Closing connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:07.780 +01:00 [DBG] Closed connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:07.782 +01:00 [DBG] UPDATING 1505 CHARACTERS
+2019-11-18 22:24:07.950 +01:00 [INF] Found 0 unhandled Events.
+2019-11-18 22:24:18.751 +01:00 [WRN] Found more than one Process with the Name "Discord"
+2019-11-18 22:24:19.193 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:24:19.196 +01:00 [DBG] 'CharacterDbContext' disposed.
+2019-11-18 22:24:19.851 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:24:19.866 +01:00 [DBG] Opening connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:19.871 +01:00 [DBG] Opened connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:19.873 +01:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+2019-11-18 22:24:19.881 +01:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+2019-11-18 22:24:19.897 +01:00 [DBG] A data reader was disposed.
+2019-11-18 22:24:19.899 +01:00 [DBG] Closing connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:19.900 +01:00 [DBG] Closed connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:19.904 +01:00 [DBG] UPDATING 1505 CHARACTERS
+2019-11-18 22:24:19.998 +01:00 [INF] Found 0 unhandled Events.
+2019-11-18 22:24:30.818 +01:00 [WRN] Found more than one Process with the Name "Discord"
+2019-11-18 22:24:31.227 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:24:31.230 +01:00 [DBG] 'CharacterDbContext' disposed.
+2019-11-18 22:24:31.974 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:24:31.978 +01:00 [DBG] Opening connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:31.980 +01:00 [DBG] Opened connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:31.981 +01:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+2019-11-18 22:24:31.984 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+2019-11-18 22:24:32.004 +01:00 [DBG] A data reader was disposed.
+2019-11-18 22:24:32.006 +01:00 [DBG] Closing connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:32.013 +01:00 [DBG] Closed connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:32.019 +01:00 [DBG] UPDATING 1505 CHARACTERS
+2019-11-18 22:24:32.040 +01:00 [INF] Found 0 unhandled Events.
+2019-11-18 22:24:42.934 +01:00 [WRN] Found more than one Process with the Name "Discord"
+2019-11-18 22:24:43.298 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:24:43.319 +01:00 [DBG] 'CharacterDbContext' disposed.
+2019-11-18 22:24:44.102 +01:00 [INF] Found 0 unhandled Events.
+2019-11-18 22:24:44.119 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:24:44.127 +01:00 [DBG] Opening connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:44.130 +01:00 [DBG] Opened connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:44.133 +01:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+2019-11-18 22:24:44.154 +01:00 [INF] Executed DbCommand (21ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+2019-11-18 22:24:44.178 +01:00 [DBG] A data reader was disposed.
+2019-11-18 22:24:44.180 +01:00 [DBG] Closing connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:44.195 +01:00 [DBG] Closed connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:44.205 +01:00 [DBG] UPDATING 1505 CHARACTERS
+2019-11-18 22:24:55.119 +01:00 [WRN] Found more than one Process with the Name "Discord"
+2019-11-18 22:24:55.346 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:24:55.368 +01:00 [DBG] 'CharacterDbContext' disposed.
+2019-11-18 22:24:56.200 +01:00 [INF] Found 0 unhandled Events.
+2019-11-18 22:24:56.316 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:24:56.322 +01:00 [DBG] Opening connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:56.328 +01:00 [DBG] Opened connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:56.338 +01:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+2019-11-18 22:24:56.354 +01:00 [INF] Executed DbCommand (16ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+2019-11-18 22:24:56.374 +01:00 [DBG] A data reader was disposed.
+2019-11-18 22:24:56.375 +01:00 [DBG] Closing connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:56.377 +01:00 [DBG] Closed connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:24:56.381 +01:00 [DBG] UPDATING 1505 CHARACTERS
+2019-11-18 22:25:07.430 +01:00 [WRN] Found more than one Process with the Name "Discord"
+2019-11-18 22:25:08.469 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:25:08.473 +01:00 [DBG] Opening connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:25:08.476 +01:00 [DBG] Opened connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:25:08.477 +01:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+2019-11-18 22:25:08.491 +01:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+2019-11-18 22:25:08.524 +01:00 [DBG] A data reader was disposed.
+2019-11-18 22:25:08.528 +01:00 [DBG] Closing connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:25:08.530 +01:00 [DBG] Closed connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:25:08.533 +01:00 [DBG] UPDATING 1505 CHARACTERS
+2019-11-18 22:25:13.853 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:25:13.891 +01:00 [DBG] 'CharacterDbContext' disposed.
+2019-11-18 22:25:13.906 +01:00 [INF] Found 0 unhandled Events.
+2019-11-18 22:25:20.591 +01:00 [INF] Entity Framework Core 2.2.4-servicing-10062 initialized 'CharacterDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+2019-11-18 22:25:20.666 +01:00 [DBG] Opening connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:25:20.670 +01:00 [DBG] Opened connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:25:20.687 +01:00 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+2019-11-18 22:25:20.701 +01:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[m_idPlayer], [c].[account], [c].[m_chAuthority], [c].[m_nBossKills], [c].[m_nChips], [c].[m_nDex], [c].[m_nDonate], [c].[m_nFarm], [c].[m_nGearScore], [c].[m_dwGold], [c].[m_nInt], [c].[isblock], [c].[m_nJob], [c].[m_nLevel], [c].[m_szName], [c].[m_nPerin], [c].[m_nSta], [c].[m_nStr], [c].[TotalPlayTime], [c].[m_nVote]
+FROM [CHARACTER_TBL] AS [c]
+2019-11-18 22:25:20.719 +01:00 [DBG] A data reader was disposed.
+2019-11-18 22:25:20.720 +01:00 [DBG] Closing connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:25:20.722 +01:00 [DBG] Closed connection to database 'CHARACTER_01_DBF' on server 'DESKTOP-9AMF8HD'.
+2019-11-18 22:25:20.726 +01:00 [DBG] UPDATING 1505 CHARACTERS
